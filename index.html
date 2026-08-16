@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resoul｜在想念很重的時候，願你被溫柔陪伴</title>
+<meta name="description" content="失去毛孩的那一刻，主人需要的不只是流程。Resoul 陪你先承接失落，再慢慢整理下一步，為毛孩留下溫柔而體面的紀念。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Parisienne&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#faf6ef;
+  --cream:#f2e9dc;
+  --cream-2:#efe4d4;
+  --card:#fdfaf4;
+  --gold:#b89a6e;
+  --gold-deep:#9c7f52;
+  --ink:#3b2f27;
+  --ink-soft:#6f6156;
+  --ink-faint:#9a8d80;
+  --line:#e6dccb;
+  --white:#ffffff;
+  --shadow:0 14px 40px -22px rgba(70,52,34,.35);
+  --radius:14px;
+  --maxw:520px;
+  --serif:'Noto Serif TC',"Songti TC","Source Han Serif TC",serif;
+  --sans:'Noto Sans TC',-apple-system,BlinkMacSystemFont,"PingFang TC","Microsoft JhengHei",sans-serif;
+  --script:'Parisienne','Noto Serif TC',cursive;
+  --slogan:'Cormorant Garamond','Noto Serif TC',serif;
+  --paw:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='%23b89a6e'%3E%3Cellipse cx='26' cy='34' rx='8.5' ry='12'/%3E%3Cellipse cx='45' cy='24' rx='8.5' ry='13'/%3E%3Cellipse cx='63' cy='26' rx='8.5' ry='12.5'/%3E%3Cellipse cx='79' cy='39' rx='8' ry='11'/%3E%3Cpath d='M52 48C36 48 27 60 30 72 33 84 45 88 52 88 59 88 71 84 74 72 77 60 68 48 52 48Z'/%3E%3C/svg%3E");
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  font-family:var(--sans);
+  color:var(--ink);
+  background:var(--bg);
+  line-height:1.75;
+  font-weight:400;
+  letter-spacing:.01em;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+img{max-width:100%;display:block;}
+a{color:inherit;text-decoration:none;}
+h1,h2,h3{font-family:var(--serif);font-weight:600;line-height:1.5;margin:0;letter-spacing:.02em;}
+p{margin:0;}
+.wrap{width:100%;max-width:var(--maxw);margin:0 auto;padding:0 24px;}
+
+/* ---------- Header ---------- */
+.site-header{
+  position:sticky;top:0;z-index:50;
+  background:rgba(250,246,239,.92);
+  backdrop-filter:saturate(120%) blur(10px);
+  border-bottom:1px solid var(--line);
+}
+.header-inner{
+  max-width:var(--maxw);margin:0 auto;
+  display:flex;flex-direction:column;gap:7px;
+  padding:9px 24px 8px;
+}
+.brand{display:flex;flex-direction:column;align-items:center;gap:2px;}
+.brand img{height:34px;width:auto;}
+.brand-slogan{font-family:var(--slogan);font-style:italic;font-weight:500;font-size:.72rem;letter-spacing:.02em;color:var(--ink-soft);white-space:nowrap;}
+.nav{
+  display:flex;gap:22px;overflow-x:auto;
+  scrollbar-width:none;-ms-overflow-style:none;
+  padding-bottom:2px;justify-content:flex-start;
+  -webkit-overflow-scrolling:touch;
+}
+.nav::-webkit-scrollbar{display:none;}
+.nav a{
+  flex:0 0 auto;font-size:.86rem;color:var(--ink-soft);
+  letter-spacing:.06em;padding:2px 0;font-weight:500;
+  border-bottom:1.5px solid transparent;transition:color .2s,border-color .2s;
+}
+.nav a:hover,.nav a:focus{color:var(--gold-deep);border-color:var(--gold);}
+
+/* ---------- Buttons / CTA ---------- */
+.cta{
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  background:var(--ink);color:#f6efe3;
+  font-family:var(--sans);font-size:1rem;font-weight:500;letter-spacing:.05em;
+  padding:15px 30px;border-radius:999px;
+  border:1px solid var(--ink);
+  transition:transform .2s ease,background .25s ease,box-shadow .25s ease;
+  box-shadow:0 12px 28px -16px rgba(59,47,39,.7);
+}
+.cta:hover,.cta:focus{background:#4a3a2d;transform:translateY(-1px);}
+.cta .arw{font-size:.95em;opacity:.8;}
+.cta.light{background:transparent;color:var(--ink);border-color:var(--gold);box-shadow:none;}
+.cta.light:hover{background:rgba(184,154,110,.12);}
+.cta-note{margin-top:12px;font-size:.74rem;color:var(--ink-faint);letter-spacing:.04em;}
+
+/* ---------- Section rhythm ---------- */
+section{padding:64px 0;}
+.eyebrow{
+  font-size:.72rem;letter-spacing:.34em;text-transform:uppercase;
+  color:var(--gold-deep);font-weight:600;margin-bottom:18px;
+}
+.eyebrow.hero-slogan{font-family:var(--slogan);font-style:italic;font-weight:500;text-transform:none;letter-spacing:.02em;font-size:1.16rem;color:var(--gold-deep);}
+.divider{height:1px;background:var(--line);border:0;margin:0;width:100%;max-width:var(--maxw);margin-inline:auto;}
+
+/* ---------- Paw-print decorations ---------- */
+.hero,.support,.products,.faq,.closing-body{position:relative;overflow:hidden;}
+.hero::after,.support::before,.products::after,.faq::before,.closing-body::before{
+  content:"";position:absolute;background:var(--paw) center/contain no-repeat;pointer-events:none;z-index:0;}
+.hero::after{top:58px;right:-16px;width:82px;height:82px;opacity:.06;transform:rotate(20deg);}
+.support::before{bottom:22px;left:-18px;width:98px;height:98px;opacity:.05;transform:rotate(-16deg);}
+.products::after{top:38px;right:-14px;width:78px;height:78px;opacity:.05;transform:rotate(24deg);}
+.faq::before{top:26px;right:-10px;width:66px;height:66px;opacity:.05;transform:rotate(-18deg);}
+.closing-body::before{top:20px;left:50%;width:50px;height:50px;margin-left:-25px;opacity:.16;}
+.hero .wrap,.support .wrap,.products .wrap,.faq .wrap,.closing-body>*{position:relative;z-index:1;}
+.lead{color:var(--ink-soft);font-size:1.02rem;}
+
+/* ---------- Hero ---------- */
+.hero{padding:44px 0 56px;text-align:center;}
+.hero h1{font-size:2rem;line-height:1.6;letter-spacing:.02em;}
+.hero .sub{margin:22px 0 30px;color:var(--ink-soft);font-size:1.04rem;line-height:1.85;}
+.hero-figure{
+  margin:38px auto 0;border-radius:20px;overflow:hidden;
+  box-shadow:var(--shadow);position:relative;
+}
+.hero-figure img{width:100%;aspect-ratio:16/9;object-fit:cover;object-position:center 58%;}
+.hero-figure figcaption{
+  position:absolute;left:0;right:0;bottom:0;
+  padding:26px 22px 18px;text-align:left;
+  background:linear-gradient(to top,rgba(40,30,22,.6),transparent);
+  color:#f4ede1;font-family:var(--serif);font-size:.94rem;letter-spacing:.06em;
+}
+
+/* ---------- Support (3 steps) ---------- */
+.support{background:var(--cream);}
+.support h2{font-size:1.5rem;line-height:1.65;}
+.steps{margin-top:34px;display:flex;flex-direction:column;gap:20px;}
+.step{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:24px 22px;box-shadow:0 8px 26px -22px rgba(70,52,34,.5);
+}
+.step .num{
+  font-family:var(--serif);font-size:1.5rem;color:var(--gold);
+  font-weight:600;letter-spacing:.08em;
+}
+.step h3{font-size:1.12rem;margin:6px 0 10px;}
+.step p{color:var(--ink-soft);font-size:.96rem;}
+
+/* ---------- AI Chat ---------- */
+.listen h2{font-size:1.5rem;}
+.listen .howto{margin:16px 0 6px;color:var(--ink-soft);font-size:.96rem;}
+.chat{
+  margin-top:26px;background:var(--card);border:1px solid var(--line);
+  border-radius:20px;overflow:hidden;box-shadow:var(--shadow);
+}
+.chat-head{
+  display:flex;align-items:center;gap:12px;
+  padding:16px 20px;border-bottom:1px solid var(--line);background:#fbf6ee;
+}
+.chat-head .dot{width:38px;height:38px;border-radius:50%;flex:0 0 auto;
+  background:radial-gradient(circle at 32% 30%,#d9c19a,#a9885a);
+  display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.1rem;}
+.chat-head .who{font-family:var(--serif);font-weight:600;font-size:1rem;}
+.chat-head .st{font-size:.72rem;color:var(--ink-faint);letter-spacing:.05em;}
+.chat-body{padding:18px 16px;max-height:460px;overflow-y:auto;display:flex;flex-direction:column;gap:14px;background:#fdfbf6;}
+.msg{max-width:88%;font-size:.93rem;line-height:1.7;border-radius:16px;padding:13px 15px;}
+.msg.bot{align-self:flex-start;background:#f1e7d7;color:var(--ink);border-bottom-left-radius:5px;}
+.msg.user{align-self:flex-end;background:var(--ink);color:#f4ece0;border-bottom-right-radius:5px;}
+.msg strong{font-weight:600;}
+.msg .blk{margin:9px 0 2px;font-weight:600;color:var(--gold-deep);font-size:.9rem;display:flex;gap:6px;align-items:center;}
+.msg .blk:first-child{margin-top:0;}
+.msg .disc{margin-top:12px;padding-top:10px;border-top:1px dashed #cdbfa8;font-size:.78rem;color:var(--ink-faint);line-height:1.6;}
+.msg.note{align-self:stretch;max-width:100%;background:#f7f0e4;border:1px solid var(--line);color:var(--ink-soft);font-size:.82rem;line-height:1.7;}
+.msg.note .notehead{font-family:var(--serif);font-weight:600;color:var(--ink);margin-bottom:6px;}
+.msg.note .noteitem{margin:3px 0;}
+.msg .hot{margin:5px 0;font-weight:600;color:var(--ink);}
+.typing{display:inline-flex;gap:5px;align-items:center;padding:2px 0;}
+.typing i{width:7px;height:7px;border-radius:50%;background:var(--gold);display:inline-block;opacity:.4;animation:typing 1.2s infinite ease-in-out;}
+.typing i:nth-child(2){animation-delay:.2s;}
+.typing i:nth-child(3){animation-delay:.4s;}
+@keyframes typing{0%,60%,100%{opacity:.35;transform:translateY(0);}30%{opacity:1;transform:translateY(-3px);}}
+.tpl{white-space:pre-wrap;font-family:var(--sans);background:#f6efe1;border:1px solid var(--line);
+  border-radius:10px;padding:12px 14px;font-size:.86rem;color:var(--ink-soft);margin-top:12px;line-height:1.9;}
+.chips{display:flex;gap:9px;flex-wrap:wrap;padding:14px 16px 4px;background:#fdfbf6;}
+.chip{
+  flex:0 0 auto;font-size:.82rem;color:var(--ink-soft);
+  background:#f3ead9;border:1px solid var(--line);border-radius:999px;
+  padding:8px 14px;cursor:pointer;transition:background .2s,color .2s,border-color .2s;
+  font-family:var(--sans);line-height:1.4;
+}
+.chip:hover{background:var(--gold);color:#fff;border-color:var(--gold);}
+.chat-input{display:flex;gap:10px;align-items:flex-end;padding:12px 16px 16px;background:#fdfbf6;border-top:1px solid var(--line);}
+.chat-input textarea{
+  flex:1;resize:none;border:1px solid var(--line);border-radius:14px;
+  padding:11px 13px;font-family:var(--sans);font-size:.92rem;color:var(--ink);
+  background:#fff;line-height:1.6;max-height:120px;min-height:46px;
+}
+.chat-input textarea:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(184,154,110,.15);}
+.send{
+  flex:0 0 auto;width:46px;height:46px;border-radius:50%;border:none;cursor:pointer;
+  background:var(--ink);color:#f4ece0;font-size:1.15rem;display:flex;align-items:center;justify-content:center;
+  transition:background .2s,transform .15s;
+}
+.send:hover{background:#4a3a2d;transform:translateY(-1px);}
+.scope{
+  margin-top:20px;background:#f7f0e4;border:1px solid var(--line);border-radius:12px;
+  padding:16px 18px;font-size:.82rem;color:var(--ink-soft);line-height:1.75;
+}
+.scope b{color:var(--ink);font-weight:600;display:block;margin-bottom:6px;font-family:var(--serif);}
+.scope ol{margin:0;padding-left:1.2em;}
+.scope li{margin:4px 0;}
+
+/* ---------- Listen opener card ---------- */
+.listen-card{margin-top:26px;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:24px 22px;box-shadow:var(--shadow);}
+.lc-welcome{color:var(--ink-soft);font-size:.96rem;line-height:1.85;}
+.lc-hint{margin-top:12px;font-size:.78rem;color:var(--ink-faint);letter-spacing:.03em;}
+.listen-open{
+  margin-top:16px;width:100%;display:flex;align-items:center;justify-content:center;gap:10px;
+  background:var(--ink);color:#f4ece0;border:none;border-radius:14px;cursor:pointer;
+  font-family:var(--sans);font-size:.98rem;font-weight:500;letter-spacing:.04em;padding:14px 18px;
+  transition:background .2s,transform .15s;
+}
+.listen-open:hover{background:#4a3a2d;transform:translateY(-1px);}
+.listen-open .pw{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(circle at 32% 30%,#d9c19a,#a9885a);font-size:1rem;}
+
+/* ---------- Floating chat widget ---------- */
+.fab{
+  position:fixed;left:16px;bottom:16px;z-index:95;
+  display:flex;align-items:center;gap:9px;
+  background:var(--ink);color:#f4ece0;border:none;border-radius:999px;
+  padding:11px 18px 11px 11px;cursor:pointer;font-family:var(--sans);font-size:.9rem;font-weight:500;letter-spacing:.04em;
+  box-shadow:0 16px 34px -14px rgba(59,47,39,.7);
+  transition:transform .22s ease,opacity .22s ease;
+}
+.fab:hover{transform:translateY(-2px);}
+.fab .pw{width:34px;height:34px;border-radius:50%;flex:0 0 auto;
+  background:radial-gradient(circle at 32% 30%,#d9c19a,#a9885a);
+  display:flex;align-items:center;justify-content:center;font-size:1.05rem;}
+.fab.hide{transform:scale(.4);opacity:0;pointer-events:none;}
+.widget{
+  position:fixed;left:16px;bottom:16px;z-index:96;
+  width:min(374px,calc(100vw - 24px));height:min(76vh,588px);
+  background:var(--card);border:1px solid var(--line);border-radius:20px;overflow:hidden;
+  display:flex;flex-direction:column;
+  box-shadow:0 34px 70px -22px rgba(50,36,24,.6);
+  opacity:0;transform:translateY(18px) scale(.98);pointer-events:none;
+  transition:opacity .25s ease,transform .25s ease;
+}
+.widget.open{opacity:1;transform:none;pointer-events:auto;}
+.widget .chat-head{position:relative;}
+.w-close{position:absolute;right:12px;top:50%;transform:translateY(-50%);
+  width:30px;height:30px;border-radius:50%;border:none;cursor:pointer;background:#efe4d2;color:var(--ink-soft);
+  font-size:1.1rem;line-height:1;display:flex;align-items:center;justify-content:center;transition:background .2s;}
+.w-close:hover{background:#e4d6bf;}
+.widget .chat-body{flex:1;max-height:none;}
+
+/* ---------- Mood accordion ---------- */
+.faq2{margin-top:26px;border-top:1px solid var(--line);}
+.faq2-item{border-bottom:1px solid var(--line);transition:border-color .2s,margin .25s ease;}
+.faq2-q{
+  width:100%;display:flex;align-items:center;gap:16px;text-align:left;cursor:pointer;
+  background:none;border:none;padding:22px 6px;
+  font-family:var(--serif);font-size:1.04rem;font-weight:600;color:var(--ink);line-height:1.6;
+}
+.faq2-ic{flex:0 0 auto;width:20px;text-align:center;color:var(--gold);font-size:1.3rem;font-weight:400;line-height:1;transition:color .2s;}
+.faq2-qt{flex:1;}
+.faq2-a{max-height:0;overflow:hidden;transition:max-height .3s ease;color:var(--ink-soft);font-size:.96rem;line-height:1.9;}
+.faq2-a p{padding:0 6px 22px 42px;margin:0;}
+/* open state: item becomes a soft rounded card */
+.faq2-item.open{
+  border:1px solid var(--line);border-radius:16px;margin:12px 0;background:var(--card);
+  box-shadow:0 14px 34px -24px rgba(70,52,34,.55);
+}
+.faq2-item.open .faq2-ic{color:var(--gold-deep);}
+.faq2-item.open .faq2-a{max-height:360px;}
+/* themed groups */
+.mood-groups{margin-top:14px;}
+.mood-group{margin-top:30px;}
+.mood-group:first-child{margin-top:22px;}
+.mg-title{display:flex;align-items:center;gap:11px;font-size:1.04rem;color:var(--gold-deep);font-weight:600;letter-spacing:.02em;line-height:1.5;}
+.mg-ic{flex:0 0 auto;width:34px;height:34px;border-radius:50%;background:#f1e7d7;display:flex;align-items:center;justify-content:center;font-size:1.02rem;}
+.mood-group .faq2{margin-top:10px;}
+
+/* ---------- Products ---------- */
+.products{background:var(--cream);}
+.products h2{font-size:1.5rem;}
+.media{margin:26px auto 0;border-radius:18px;overflow:hidden;box-shadow:var(--shadow);}
+.media video{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;background:#e9ddca;}
+.media img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;background:#e9ddca;}
+.pcards{margin-top:24px;display:flex;flex-direction:column;gap:18px;}
+.pcard{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;box-shadow:0 8px 26px -22px rgba(70,52,34,.5);}
+.pcard img{width:100%;aspect-ratio:16/9;object-fit:cover;}
+.pcard .pc-body{padding:20px 20px 22px;}
+.pcard h3{font-size:1.14rem;margin-bottom:9px;}
+.pcard p{color:var(--ink-soft);font-size:.95rem;}
+
+/* ---------- FAQ ---------- */
+.faq h2{font-size:1.5rem;}
+.faq-list{margin-top:26px;border-top:1px solid var(--line);}
+.faq-item{border-bottom:1px solid var(--line);}
+.faq-q{
+  width:100%;text-align:left;background:none;border:none;cursor:pointer;
+  font-family:var(--serif);font-size:1.04rem;color:var(--ink);font-weight:600;
+  padding:20px 34px 20px 0;position:relative;line-height:1.6;
+}
+.faq-q::after{content:"＋";position:absolute;right:2px;top:19px;color:var(--gold);font-size:1.1rem;transition:transform .25s;}
+.faq-item.open .faq-q::after{content:"－";}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease;color:var(--ink-soft);font-size:.96rem;}
+.faq-item.open .faq-a{max-height:280px;}
+.faq-a p{padding:0 0 22px;}
+
+/* ---------- Official entry ---------- */
+.official{background:var(--cream);text-align:center;}
+.official h2{font-size:1.4rem;line-height:1.6;}
+.official .link{
+  display:inline-block;margin:18px 0 26px;font-size:.98rem;color:var(--gold-deep);
+  border-bottom:1px solid var(--gold);padding-bottom:2px;word-break:break-all;
+}
+
+/* ---------- Footer / final CTA ---------- */
+.closing{padding:0;}
+.closing-figure{position:relative;}
+.closing-figure img{width:100%;aspect-ratio:16/9;object-fit:cover;object-position:center 45%;}
+.closing-body{text-align:center;padding:56px 24px 64px;background:#33281f;color:#f1e8da;}
+.closing-body h2{color:#f7efe1;font-size:1.5rem;line-height:1.7;}
+.closing-body p{margin:20px auto 32px;max-width:420px;color:#d8cab8;font-size:1rem;line-height:1.9;}
+.footer{background:#2f251e;color:#b6a690;text-align:center;padding:30px 24px;font-size:.8rem;line-height:1.9;}
+.footer .fbrand-img{height:44px;width:auto;display:block;margin:0 auto 8px;filter:brightness(0) invert(.9);opacity:.92;}
+.footer .fslogan{font-family:var(--slogan);font-style:italic;font-weight:500;font-size:1rem;letter-spacing:.02em;color:#cdbea6;}
+.footer a{color:#cbb892;border-bottom:1px solid rgba(203,184,146,.4);}
+
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease;}
+.reveal.in{opacity:1;transform:none;}
+
+/* ---------- Larger screens ---------- */
+@media(min-width:560px){
+  .header-inner{flex-direction:row;justify-content:space-between;align-items:center;padding:14px 28px;}
+  .brand{justify-content:flex-start;}
+  .nav{justify-content:flex-end;overflow:visible;}
+  .hero h1{font-size:2.35rem;}
+  .steps{flex-direction:row;}
+  .step{flex:1;}
+  .pcards{flex-direction:row;flex-wrap:wrap;}
+  .pcard{flex:1 1 calc(50% - 9px);}
+}
+@media(min-width:820px){
+  :root{--maxw:760px;}
+  .hero h1{font-size:2.6rem;}
+  .pcard{flex:1;}
+}
+
+/* ===== User controls (theme + sound) ===== */
+.uctrl{position:fixed;right:14px;bottom:16px;z-index:70;display:flex;flex-direction:column;gap:9px;}
+.uc-btn{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--ink-soft);
+  cursor:pointer;font-size:1.02rem;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 8px 20px -10px rgba(70,52,34,.5);transition:background .2s,color .2s,transform .15s;}
+.uc-btn:hover{transform:translateY(-2px);}
+.uc-btn.active{background:var(--gold);color:#fff;border-color:var(--gold);}
+
+/* ===== Dark theme ===== */
+:root[data-theme="dark"]{
+  --bg:#1f1914;--cream:#271f18;--cream-2:#2c231b;--card:#2b231c;
+  --gold:#c9ac80;--gold-deep:#dcc298;--ink:#efe6d8;--ink-soft:#c6b6a2;--ink-faint:#9a8b78;
+  --line:#40352b;--white:#2b231c;
+  --paw:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='%23c9ac80'%3E%3Cellipse cx='26' cy='34' rx='8.5' ry='12'/%3E%3Cellipse cx='45' cy='24' rx='8.5' ry='13'/%3E%3Cellipse cx='63' cy='26' rx='8.5' ry='12.5'/%3E%3Cellipse cx='79' cy='39' rx='8' ry='11'/%3E%3Cpath d='M52 48C36 48 27 60 30 72 33 84 45 88 52 88 59 88 71 84 74 72 77 60 68 48 52 48Z'/%3E%3C/svg%3E");
+}
+:root[data-theme="dark"] body{background:var(--bg);}
+:root[data-theme="dark"] .site-header{background:rgba(31,25,20,.92);}
+:root[data-theme="dark"] .brand img{filter:brightness(0) invert(.86);}
+:root[data-theme="dark"] .chat-head{background:#241d17;}
+:root[data-theme="dark"] .chat-body,
+:root[data-theme="dark"] .chips,
+:root[data-theme="dark"] .chat-input{background:#231c16;}
+:root[data-theme="dark"] .msg.bot{background:#33291f;color:var(--ink);}
+:root[data-theme="dark"] .msg.note,
+:root[data-theme="dark"] .tpl{background:#2e251d;color:var(--ink-soft);}
+:root[data-theme="dark"] .chip{background:#2f261d;}
+:root[data-theme="dark"] .chat-input textarea{background:#1b1510;color:var(--ink);}
+:root[data-theme="dark"] .mg-ic{background:#33291f;}
+:root[data-theme="dark"] .w-close{background:#3a2f24;color:var(--ink-soft);}
+:root[data-theme="dark"] .cta{background:var(--gold-deep);color:#211a13;border-color:var(--gold-deep);}
+:root[data-theme="dark"] .cta.light{background:transparent;color:var(--ink);border-color:var(--gold);}
+:root[data-theme="dark"] .msg.user,
+:root[data-theme="dark"] .send,
+:root[data-theme="dark"] .fab,
+:root[data-theme="dark"] .soft-btn{background:var(--gold-deep);color:#211a13;}
+:root[data-theme="dark"] .media video,
+:root[data-theme="dark"] .media img{background:#2b231c;}
+
+/* ===== Support-extra subheading ===== */
+.sub-intro{background:var(--cream);text-align:center;padding:48px 0 0;}
+.sub-title{font-family:var(--serif);font-size:1.34rem;color:var(--ink);line-height:1.5;}
+.sub-desc{margin-top:12px;color:var(--ink-soft);font-size:1rem;line-height:1.8;}
+.sub-intro + .candles{padding-top:22px;}
+
+/* ===== Candle wall ===== */
+.candles{background:var(--cream);text-align:center;}
+.candle-form{max-width:400px;margin:24px auto 0;display:flex;flex-direction:column;gap:10px;}
+.candle-form input,.candle-form textarea,.mem-editor input,.mem-editor textarea{
+  border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-family:var(--sans);
+  font-size:.94rem;color:var(--ink);background:var(--card);resize:none;width:100%;}
+.candle-form input:focus,.candle-form textarea:focus,.mem-editor input:focus,.mem-editor textarea:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(184,154,110,.14);}
+.soft-btn{align-self:center;background:var(--ink);color:#f4ece0;border:none;border-radius:999px;padding:13px 26px;
+  font-family:var(--sans);font-size:.96rem;font-weight:500;letter-spacing:.04em;cursor:pointer;transition:background .2s,transform .15s;}
+.soft-btn:hover{transform:translateY(-1px);}
+.candle-wall{margin-top:34px;display:grid;grid-template-columns:repeat(2,1fr);gap:15px;}
+@media(min-width:520px){.candle-wall{grid-template-columns:repeat(3,1fr);}}
+.candle{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 12px 15px;
+  display:flex;flex-direction:column;align-items:center;gap:8px;box-shadow:0 8px 26px -22px rgba(70,52,34,.5);animation:candleIn .5s ease;}
+@keyframes candleIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+.flame{width:16px;height:28px;position:relative;flex:0 0 auto;}
+.flame::before{content:"";position:absolute;left:50%;bottom:7px;width:12px;height:19px;transform:translateX(-50%);
+  background:radial-gradient(ellipse at 50% 80%,#fff3c4 0%,#ffcf6b 42%,#ff9d3c 72%,rgba(255,120,40,0) 100%);
+  border-radius:50% 50% 45% 45%;transform-origin:50% 90%;animation:flicker 1.6s ease-in-out infinite;}
+.flame::after{content:"";position:absolute;left:50%;bottom:0;width:6px;height:9px;transform:translateX(-50%);background:#d8c7a3;border-radius:2px;}
+@keyframes flicker{0%,100%{transform:translateX(-50%) scale(1) rotate(-1deg);opacity:.94;}50%{transform:translateX(-50%) scale(1.08,1.13) rotate(1.5deg);opacity:1;}}
+.candle .c-name{font-family:var(--serif);font-weight:600;font-size:.9rem;color:var(--ink);}
+.candle .c-msg{font-size:.8rem;color:var(--ink-soft);line-height:1.6;word-break:break-word;}
+
+/* ===== Memory card ===== */
+.memory{text-align:center;}
+.mem-editor{max-width:400px;margin:24px auto 0;display:flex;flex-direction:column;gap:10px;}
+.mem-upload{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px dashed var(--gold);
+  border-radius:12px;padding:13px;color:var(--gold-deep);cursor:pointer;font-size:.92rem;background:var(--card);}
+.mem-card{max-width:320px;margin:28px auto 0;background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:var(--shadow);text-align:left;}
+.mem-photo{width:100%;aspect-ratio:1/1;background:#efe4d2 center/cover no-repeat;display:flex;align-items:center;justify-content:center;font-size:2.6rem;color:var(--gold);}
+:root[data-theme="dark"] .mem-photo{background-color:#33291f;}
+.mem-card figcaption{padding:20px 20px 22px;text-align:center;}
+.mem-cname{font-family:var(--serif);font-weight:600;font-size:1.24rem;color:var(--ink);}
+.mem-cdates{font-size:.82rem;color:var(--ink-faint);letter-spacing:.06em;margin-top:3px;}
+.mem-cwords{margin:12px 0;color:var(--ink-soft);font-size:.92rem;line-height:1.8;white-space:pre-wrap;word-break:break-word;}
+.mem-cbrand{font-family:var(--slogan);font-style:italic;font-size:.92rem;color:var(--gold-deep);}
+.mem-card .cta,.mem-card .soft-btn{margin-top:18px;}
+#memDownload{margin-top:20px;}
+
+/* ===== Resources ===== */
+.resources .res-groups{margin-top:24px;display:flex;flex-direction:column;gap:24px;}
+.res-group h3{display:flex;align-items:center;gap:11px;font-size:1.04rem;color:var(--gold-deep);font-weight:600;}
+.res-group .r-ic{width:33px;height:33px;border-radius:50%;background:#f1e7d7;display:flex;align-items:center;justify-content:center;font-size:.98rem;flex:0 0 auto;}
+:root[data-theme="dark"] .res-group .r-ic{background:#33291f;}
+.res-list{margin-top:11px;display:flex;flex-direction:column;gap:9px;}
+.res-item{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:13px 15px;font-size:.9rem;line-height:1.65;color:var(--ink-soft);}
+.res-item .r-name{font-weight:600;color:var(--ink);display:block;}
+.res-item a{color:var(--gold-deep);border-bottom:1px solid var(--gold);word-break:break-word;}
+.res-note{margin-top:22px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:15px 17px;font-size:.82rem;color:var(--ink-soft);line-height:1.75;}
+</style>
+</head>
+<body>
+
+<!-- ============ USER CONTROLS ============ -->
+<div class="uctrl">
+  <button id="soundBtn" class="uc-btn" type="button" aria-label="輕柔背景音開關" title="輕柔背景音">♪</button>
+  <button id="themeBtn" class="uc-btn" type="button" aria-label="深色模式開關" title="深色模式">☾</button>
+</div>
+
+<!-- ============ HEADER ============ -->
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="#top" aria-label="Resoul 首頁">
+      <img src="images/resoul-wordmark.png" alt="Resoul 品牌標誌，線條勾勒的腳印中藏著一顆心，配優雅手寫字體 Resoul">
+      <span class="brand-slogan">Your last greatest love to show</span>
+    </a>
+    <nav class="nav" aria-label="主要導覽">
+      <a href="#support">情緒支持</a>
+      <a href="#" data-open-chat>AI 對話</a>
+      <a href="#products">紀念產品</a>
+      <a href="#resources">支援資源</a>
+      <a href="#closing">了解更多</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="wrap">
+      <p class="eyebrow hero-slogan reveal">Your last greatest love to show</p>
+      <h1 class="reveal">當家裡忽然安靜下來，<br>你，還好嗎？</h1>
+      <p class="sub reveal">
+        牠曾經佔據你每一個平凡的日常。<br>
+        在想念很重、也不知從何說起的時候，<br>
+        願你先被理解，再慢慢找到往前走的方向。
+      </p>
+      <a class="cta reveal" href="https://resoul.hk/zh/" target="_blank" rel="noopener">
+        查看Resoul官方資料 <span class="arw">→</span>
+      </a>
+      <figure class="hero-figure reveal">
+        <img src="images/resoul-empathy.png" alt="主人靜靜坐在床邊，一手拿著毛孩的照片，一手握著牠的項圈">
+        <figcaption>牠留下的，不只是一張照片、一條項圈，還有滿滿的想念。</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ============ EMOTIONAL SUPPORT ============ -->
+  <section class="support" id="support">
+    <div class="wrap">
+      <p class="eyebrow reveal">情緒支持</p>
+      <h2 class="reveal">失去毛孩的那一刻，<br>主人需要的不只是流程。</h2>
+      <div class="steps">
+        <div class="step reveal">
+          <div class="num">01</div>
+          <h3>先承接失落</h3>
+          <p>難過、慌亂、捨不得，都是因為你很愛牠。這些感受不需要被急著解決，先讓自己好好停一停。</p>
+        </div>
+        <div class="step reveal">
+          <div class="num">02</div>
+          <h3>再整理下一步</h3>
+          <p>當心情稍為安定，才慢慢想接下來的安排。一件一件來，你不必在最亂的時候做完所有決定。</p>
+        </div>
+        <div class="step reveal">
+          <div class="num">03</div>
+          <h3>最後留下紀念</h3>
+          <p>把想念好好安放，為牠在家中、在心裡留一個溫柔的位置，讓這份愛可以繼續陪著你。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ============ SUPPORT EXTRA: subheading ============ -->
+  <section class="sub-intro">
+    <div class="wrap">
+      <h3 class="sub-title reveal">陪自己走過的溫柔方式</h3>
+      <p class="sub-desc reveal">除了被聆聽，你也可以喺呢度，為毛孩點一盞燭光、做一張回憶卡，畀想念一個安放嘅位置。</p>
+    </div>
+  </section>
+
+  <!-- ============ CANDLE WALL ============ -->
+  <section class="candles" id="candles">
+    <div class="wrap">
+      <p class="eyebrow reveal">點一盞燭光</p>
+      <h2 class="reveal">為毛孩，點一盞燭光。</h2>
+      <p class="lead reveal" style="margin-top:14px;">寫低一句想同佢講嘅說話，亮起一盞屬於你哋嘅燭光。</p>
+      <div class="candle-form reveal">
+        <input id="candleName" maxlength="20" placeholder="毛孩的名字（可留空）">
+        <textarea id="candleMsg" maxlength="80" rows="2" placeholder="想同牠說的一句話…"></textarea>
+        <button id="candleLight" class="soft-btn" type="button">🕯️ 點一盞燭光</button>
+      </div>
+      <div class="candle-wall" id="candleWall"></div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ============ MEMORY CARD ============ -->
+  <section class="memory" id="memory">
+    <div class="wrap">
+      <p class="eyebrow reveal">毛孩回憶卡</p>
+      <h2 class="reveal">為牠，做一張回憶卡。</h2>
+      <p class="lead reveal" style="margin-top:14px;">上載一張相，寫低名字同幾句回憶，即時生成一張溫柔嘅紀念卡。相片只會喺你嘅裝置上處理，唔會上傳。</p>
+      <div class="mem-editor reveal">
+        <label class="mem-upload">＋ 上載相片<input type="file" id="memPhoto" accept="image/*" hidden></label>
+        <input id="memName" maxlength="20" placeholder="毛孩的名字">
+        <input id="memDates" maxlength="24" placeholder="陪伴的年月（例如 2015 – 2024）">
+        <textarea id="memWords" maxlength="120" rows="3" placeholder="想記住的幾句回憶…"></textarea>
+      </div>
+      <figure class="mem-card reveal" id="memCard">
+        <div class="mem-photo" id="memPhotoBox" aria-hidden="true">🐾</div>
+        <figcaption>
+          <div class="mem-cname" id="memCName">牠的名字</div>
+          <div class="mem-cdates" id="memCDates"></div>
+          <p class="mem-cwords" id="memCWords">在這裡寫下最想記住的回憶…</p>
+          <div class="mem-cbrand">Resoul · 願想念被溫柔安放</div>
+        </figcaption>
+      </figure>
+      <button id="memDownload" class="soft-btn" type="button">儲存這張回憶卡</button>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ============ PRODUCTS ============ -->
+  <section class="products" id="products">
+    <div class="wrap">
+      <p class="eyebrow reveal">紀念產品</p>
+      <h2 class="reveal">讓這份愛，<br>在日常裡有一個位置。</h2>
+
+      <div class="media reveal">
+        <video src="images/resoul-memorial.mp4" poster="images/resoul-memorial-poster.jpg"
+               muted loop playsinline controls preload="metadata"
+               aria-label="紀念寵物產品的製作與生活情境短片"></video>
+      </div>
+
+      <div class="pcards">
+        <article class="pcard reveal">
+          <img src="images/resoul-jewelry.jpg" alt="以毛孩紋印製成的純銀心形與圓形頸鏈飾物">
+          <div class="pc-body">
+            <h3>把想念留在身邊</h3>
+            <p>將牠的紋印或掌印化作可以隨身佩戴的飾物，在忙碌的日子裡，仍能輕輕碰到那份熟悉。</p>
+          </div>
+        </article>
+        <article class="pcard reveal">
+          <img src="images/resoul-craft.png" alt="兩位工匠在燈下細心雕刻木牌與打磨銀飾">
+          <div class="pc-body">
+            <h3>讓紀念被細心製作</h3>
+            <p>每一件都由人手慢慢雕琢，把牠的樣子與名字，用時間和心意好好地保存下來。</p>
+          </div>
+        </article>
+        <article class="pcard reveal">
+          <img src="images/resoul-lifestyle.png" alt="陽光下的木製紀念盒與照片，旁邊放著鮮花與茶">
+          <div class="pc-body">
+            <h3>為家中留一個位置</h3>
+            <p>一個安放照片與飾物的角落，讓牠仍然是家的一部分，陪你度過每一個安靜的早晨。</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ============ FAQ ============ -->
+  <section class="faq">
+    <div class="wrap">
+      <p class="eyebrow reveal">常見心情</p>
+      <h2 class="reveal">你此刻的心情，<br>也許就在這裡。</h2>
+      <div class="mood-groups reveal">
+
+        <div class="mood-group">
+          <h3 class="mg-title"><span class="mg-ic" aria-hidden="true">🌫️</span> 剛面對失去，不知所措</h3>
+          <div class="faq2">
+            <div class="faq2-item">
+              <button class="faq2-q" type="button" aria-expanded="false">
+                <span class="faq2-ic" aria-hidden="true">＋</span>
+                <span class="faq2-qt">我現在很混亂，可以先做甚麼？</span>
+              </button>
+              <div class="faq2-a"><p>可以先停下來，讓自己呼吸一下，寫低此刻最掛念的一句話，再慢慢整理告別與紀念安排。你不需要一次過想清楚所有事。</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mood-group">
+          <h3 class="mg-title"><span class="mg-ic" aria-hidden="true">🌧️</span> 自責、麻木與難過</h3>
+          <div class="faq2">
+            <div class="faq2-item">
+              <button class="faq2-q" type="button" aria-expanded="false">
+                <span class="faq2-ic" aria-hidden="true">＋</span>
+                <span class="faq2-qt">我一直忍不住流淚，是不是很沒用？</span>
+              </button>
+              <div class="faq2-a"><p>眼淚是想念的一種語言，並不代表你軟弱。哭得出來，其實是給自己一個釋放的出口，慢慢來，不用急著好起來。</p></div>
+            </div>
+            <div class="faq2-item">
+              <button class="faq2-q" type="button" aria-expanded="false">
+                <span class="faq2-ic" aria-hidden="true">＋</span>
+                <span class="faq2-qt">我總覺得是我的錯，如果當時再早一點……</span>
+              </button>
+              <div class="faq2-a"><p>好多主人都會想「如果我當時……」。但你已經在當時的情況下，做了你認為最好的決定。毛孩不會怪你，牠只會記得你怎樣愛牠。</p></div>
+            </div>
+            <div class="faq2-item">
+              <button class="faq2-q" type="button" aria-expanded="false">
+                <span class="faq2-ic" aria-hidden="true">＋</span>
+                <span class="faq2-qt">我好像沒甚麼感覺，是不是很無情？</span>
+              </button>
+              <div class="faq2-a"><p>麻木也是哀傷的一部分，有時心會先替你按下暫停。給自己多一點時間，感覺會慢慢回來，你並沒有做錯甚麼。</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mood-group">
+          <h3 class="mg-title"><span class="mg-ic" aria-hidden="true">🕯️</span> 想念與紀念</h3>
+          <div class="faq2">
+            <div class="faq2-item">
+              <button class="faq2-q" type="button" aria-expanded="false">
+                <span class="faq2-ic" aria-hidden="true">＋</span>
+                <span class="faq2-qt">我很掛念牠的氣味和習慣。</span>
+              </button>
+              <div class="faq2-a"><p>這些細微的記憶，正正說明你們有多親近。可以保留一兩件牠的物件，需要時輕輕拿出來，讓想念有一個安放的位置。</p></div>
+            </div>
+            <div class="faq2-item">
+              <button class="faq2-q" type="button" aria-expanded="false">
+                <span class="faq2-ic" aria-hidden="true">＋</span>
+                <span class="faq2-qt">紀念日或看見牠的東西，就特別難受。</span>
+              </button>
+              <div class="faq2-a"><p>這些時刻特別重，是很正常的。你可以為自己預備一個溫柔的方式去記住牠，例如點一支蠟燭、寫下幾句話，慢慢陪自己走過。</p></div>
+            </div>
+            <div class="faq2-item">
+              <button class="faq2-q" type="button" aria-expanded="false">
+                <span class="faq2-ic" aria-hidden="true">＋</span>
+                <span class="faq2-qt">紀念產品在這裡扮演甚麼角色？</span>
+              </button>
+              <div class="faq2-a"><p>它讓主人在日常中保留一個溫柔的位置，安放照片、飾物與那些仍然重要的回憶，讓想念有地方可以停靠。</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mood-group">
+          <h3 class="mg-title"><span class="mg-ic" aria-hidden="true">🌱</span> 慢慢向前，尋找支持</h3>
+          <div class="faq2">
+            <div class="faq2-item">
+              <button class="faq2-q" type="button" aria-expanded="false">
+                <span class="faq2-ic" aria-hidden="true">＋</span>
+                <span class="faq2-qt">我應該再養一隻嗎？</span>
+              </button>
+              <div class="faq2-a"><p>這個決定沒有時間表，也沒有對錯。等你準備好再慢慢考慮；新的陪伴不會取代牠，只是另一段故事的開始。</p></div>
+            </div>
+            <div class="faq2-item">
+              <button class="faq2-q" type="button" aria-expanded="false">
+                <span class="faq2-ic" aria-hidden="true">＋</span>
+                <span class="faq2-qt">我可以怎樣跟小朋友解釋？</span>
+              </button>
+              <div class="faq2-a"><p>可以用簡單、誠實的說話，容許他們難過和發問。一起記住毛孩開心的時刻，會幫大家慢慢接受這件事。</p></div>
+            </div>
+            <div class="faq2-item">
+              <button class="faq2-q" type="button" aria-expanded="false">
+                <span class="faq2-ic" aria-hidden="true">＋</span>
+                <span class="faq2-qt">這種難過持續了很久，我需要找專業幫助嗎？</span>
+              </button>
+              <div class="faq2-a"><p>尋求專業幫助不代表你「有問題」，而是願意好好照顧自己；就像我們會帶毛孩看獸醫，我們自己有時也需要專業支援。如果難過持續很久、影響到日常生活，可以聯絡香港心理衞生會（2871 2356）或撒瑪利亞會 24 小時熱線（2389 2222）。</p></div>
+            </div>
+            <div class="faq2-item">
+              <button class="faq2-q" type="button" aria-expanded="false">
+                <span class="faq2-ic" aria-hidden="true">＋</span>
+                <span class="faq2-qt">AI 對話可以做甚麼？</span>
+              </button>
+              <div class="faq2-a"><p>它可以陪你整理失落、想念與下一步方向，讓沉重的心情先有一個被承接的位置。它不是醫療或心理診斷，若情緒持續低落，仍建議尋求專業協助。</p></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ============ RESOURCES ============ -->
+  <section class="resources" id="resources">
+    <div class="wrap">
+      <p class="eyebrow reveal">支援資源</p>
+      <h2 class="reveal">當你需要，<br>這裡有人可以幫你。</h2>
+      <div class="res-groups reveal">
+        <div class="res-group">
+          <h3><span class="r-ic" aria-hidden="true">🤍</span> 專業情緒支援</h3>
+          <div class="res-list">
+            <div class="res-item"><span class="r-name">香港心理衞生會</span>提供情緒輔導服務 · 熱線 <a href="tel:28712356">2871 2356</a></div>
+            <div class="res-item"><span class="r-name">全邁進心理服務</span>註冊臨床心理學家 · <a href="tel:21776168">2177 6168</a> · omg-centre.com</div>
+          </div>
+        </div>
+        <div class="res-group">
+          <h3><span class="r-ic" aria-hidden="true">📞</span> 危機／24 小時支援</h3>
+          <div class="res-list">
+            <div class="res-item"><span class="r-name">撒瑪利亞防止自殺會</span>24 小時情緒支援 · <a href="tel:23892222">2389 2222</a></div>
+            <div class="res-item"><span class="r-name">醫院管理局精神健康專線</span><a href="tel:24667350">2466 7350</a></div>
+            <div class="res-item"><span class="r-name">東華三院芷若園</span>熱線 <a href="tel:18281">18281</a></div>
+          </div>
+        </div>
+        <div class="res-group">
+          <h3><span class="r-ic" aria-hidden="true">🐾</span> 獸醫支援</h3>
+          <div class="res-list">
+            <div class="res-item"><span class="r-name">SPCA 香港愛護動物協會</span>動物拯救熱線 <a href="tel:27111000">2711 1000</a></div>
+            <div class="res-item"><span class="r-name">動物醫療中心</span>旺角 24 小時 · <a href="tel:26561128">2656 1128</a></div>
+            <div class="res-item"><span class="r-name">全港 24 小時緊急獸醫名單</span>PPSG 整理 · ppsg.com.hk</div>
+          </div>
+        </div>
+        <div class="res-group">
+          <h3><span class="r-ic" aria-hidden="true">🕯️</span> 紀念服務工作室</h3>
+          <div class="res-list">
+            <div class="res-item"><span class="r-name">Zu Zu 本地手作</span>寵物骨灰陶瓷訂製</div>
+            <div class="res-item"><span class="r-name">慢遊陶記工作室</span>陶瓷紀念品</div>
+            <div class="res-item"><span class="r-name">寵物紀念寶石</span>毛髮／骨灰凝成寶石</div>
+            <div class="res-item"><span class="r-name">客製化羊毛氈</span>A.Crafting.Space</div>
+          </div>
+        </div>
+        <div class="res-group">
+          <h3><span class="r-ic" aria-hidden="true">🌿</span> 社群支持</h3>
+          <div class="res-list">
+            <div class="res-item"><span class="r-name">香港動物權益協會</span>合辦寵物法會</div>
+            <div class="res-item"><span class="r-name">《寵愛一生》生命教育活動</span>宏恩基督教學院</div>
+            <div class="res-item"><span class="r-name">Facebook 寵物善終支援群組</span>同路人互相陪伴</div>
+          </div>
+        </div>
+      </div>
+      <p class="res-note reveal">以上為情緒支持與轉介資源整理。若你或身邊嘅人出現持續或嚴重情緒困擾，請即刻聯絡上述專業熱線求助。緊急情況請致電 999。</p>
+    </div>
+  </section>
+
+  <!-- ============ CLOSING / FINAL CTA ============ -->
+  <section class="closing" id="closing">
+    <figure class="closing-figure">
+      <img src="images/resoul-brand.png" alt="Resoul 紀念禮盒、心形銀飾與木製紀念盒的品牌陳列">
+    </figure>
+    <div class="closing-body">
+      <h2 class="reveal">你不需要一個人<br>承受這段告別。</h2>
+      <p class="reveal">在想念很重的時候，願你能慢慢找到被陪伴的感覺，也為毛孩留下溫柔而體面的紀念。</p>
+      <a class="cta light reveal" href="https://resoul.hk/zh/" target="_blank" rel="noopener"
+         style="color:#f4ece0;border-color:rgba(244,236,224,.5);">
+        查看Resoul官方資料 <span class="arw">→</span>
+      </a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <img class="fbrand-img" src="images/resoul-wordmark.png" alt="Resoul">
+    <div class="fslogan">Your last greatest love to show</div>
+  </footer>
+
+</main>
+
+<!-- ============ FLOATING CHAT WIDGET ============ -->
+<button class="fab" id="fab" type="button" aria-label="開啟情緒傾聽對話">
+  <span class="pw" aria-hidden="true">🐾</span>
+  <span>情緒傾聽</span>
+</button>
+
+<div class="widget" id="widget" role="dialog" aria-modal="false" aria-label="情緒傾聽對話">
+  <div class="chat-head">
+    <div class="dot" aria-hidden="true">🐾</div>
+    <div>
+      <div class="who">情緒傾聽</div>
+      <div class="st">溫柔陪你，慢慢說</div>
+    </div>
+    <button class="w-close" id="wClose" type="button" aria-label="收起對話">×</button>
+  </div>
+  <div class="chat-body" id="widgetBody" aria-live="polite"></div>
+  <div class="chips" id="widgetChips">
+    <button class="chip" data-fill="template">📋 填入建議格式</button>
+    <button class="chip" data-fill="example">💬 貼上匿名範例</button>
+    <button class="chip" data-send="我現在很混亂，唔知可以做啲咩。">我現在很混亂</button>
+    <button class="chip" data-send="我很掛住牠，覺得好孤單。">我很掛念牠</button>
+  </div>
+  <div class="chat-input">
+    <textarea id="widgetText" rows="1" placeholder="用匿名方式，說說最近和寵物有關的困擾…"></textarea>
+    <button class="send" id="widgetSend" aria-label="送出">➤</button>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var body = document.getElementById('widgetBody');
+  var text = document.getElementById('widgetText');
+  var sendBtn = document.getElementById('widgetSend');
+  var widget = document.getElementById('widget');
+  var fab = document.getElementById('fab');
+
+  // ★ 情緒傾聽 Gemini 後端：部署 worker/ 之後，把 Worker 網址貼喺這裡即啟用真 AI。
+  //   留空 = 用內置規則引擎。設定步驟見 GEMINI_SETUP.md
+  var GRIEF_API = "";
+  var history = [];
+
+  var TEMPLATE = "寵物類型：\n最近發生的事：\n我現在的感受：\n我最想得到的幫助：";
+  var EXAMPLE = "寵物類型：貓\n最近發生的事：牠最近食慾變差，我已經預約了獸醫，但還是很擔心。\n我現在的感受：焦慮、自責，覺得自己可能沒有早點發現問題。\n我最想得到的幫助：想先冷靜下來，知道現在可以做甚麼。";
+
+  function el(tag, cls, html){ var e=document.createElement(tag); if(cls)e.className=cls; if(html!=null)e.innerHTML=html; return e; }
+  function scrollDown(){ body.scrollTop = body.scrollHeight; }
+  function esc(s){ return s.replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c];}); }
+
+  function addUser(t){
+    var m = el('div','msg user', esc(t).replace(/\n/g,'<br>'));
+    body.appendChild(m); scrollDown();
+  }
+  function addBotHTML(html){
+    var m = el('div','msg bot', html);
+    body.appendChild(m); scrollDown();
+  }
+  function addNote(head, items){
+    var lis = items.map(function(i){return '<div class="noteitem">・'+i+'</div>';}).join('');
+    var m = el('div','msg note', '<div class="notehead">'+head+'</div>'+lis);
+    body.appendChild(m); scrollDown();
+  }
+
+  // Welcome message — 依對話手冊「開場與建立關係」語氣
+  addBotHTML(
+    '你好，我係 Resoul 嘅支援夥伴。而家你身邊有冇一個比較安靜、舒服嘅地方？我哋可以慢慢傾。你唔需要急住講好多，我會喺度陪你。'
+  );
+  addNote('傾之前，想你知：', [
+    '我唔會提供寵物疾病診斷、用藥或治療建議，唔可以取代獸醫。',
+    '我唔會提供心理診斷或治療，唔可以取代心理健康專業人士。',
+    '請唔好輸入真實姓名、電話、地址、付款資料或完整病歷等可識別身份嘅內容。'
+  ]);
+
+  // ---- 關鍵字偵測（依手冊特殊情況）----
+  function detectCrisis(t){ return /想死|唔想活|唔想再.*(活|喺)|冇意思|冇晒意思|撐唔住|頂唔住|傷害自己|自殺|想跟(佢|牠|你)去|想跟佢走|活唔落去|結束生命|结束生命|唔想生存/.test(t); }
+  function detectSelfBlame(t){ return /自責|後悔|責怪|係咪我|係我|我嘅錯|我錯|如果當時|如果我|如果早|怪自己|對唔住佢|對不起牠/.test(t); }
+  function detectNumb(t){ return /麻木|冇感覺|冇晒感覺|喊唔出|喊唔到|冇眼淚|唔識喊|空洞|好空|冇反應/.test(t); }
+  function detectHealth(t){ return /病|病重|重病|唔食|冇胃口|食慾|嘔|抽筋|呼吸|流血|虛弱|癌|腫瘤|獸醫|睇醫生|開刀|手術/.test(t); }
+  function detectLoss(t){ return /走(咗|了)|離世|過身|過咗身|離開|去世|唔喺|冇咗|離去|安樂死|火化|走佬|過世|離我而去/.test(t); }
+
+  // ---- 危機處理（最優先，依手冊情況 C）----
+  function crisisResponse(){
+    addBotHTML(
+      '<div class="blk">🤍 我喺度陪你</div>'
+      + '我聽到你而家好辛苦，多謝你願意講出嚟。你並唔孤單，我會喺度陪你。'
+      + '<div class="blk">📞 請即刻搵人幫手</div>'
+      + '如果你有啲想法會傷害自己，請即刻聯絡以下 24 小時專線，佢哋有專業人士可以即刻幫到你：'
+      + '<div class="hot">・撒瑪利亞會（24 小時）：2389 2222</div>'
+      + '<div class="hot">・醫院管理局精神健康專線：2466 7350</div>'
+      + '<div class="hot">・東華三院芷若園：18281</div>'
+      + '如果情況緊急、有即時危險，請即刻致電 999。'
+      + '<div class="disc">我只係情緒陪伴用途，唔可以取代專業或緊急支援。你嘅安全好重要，請即刻搵上面嘅專線傾一傾。</div>'
+    );
+  }
+
+  // Block 1 — 接住感受 ＋ 正常化哀傷（依手冊）
+  function feelingReflect(t){
+    var head;
+    if(detectSelfBlame(t))
+      head='好多主人都會諗「如果我當時……」。但你已經喺當時嘅情況下，做咗你認為最好嘅決定。毛孩唔會怪你，佢只會記得你點樣愛佢。';
+    else if(detectNumb(t))
+      head='「喊唔出」或者「冇感覺」，都係哀傷嘅一種反應。你唔需要逼自己有感覺，當你準備好，感受會自然浮現。';
+    else if(detectLoss(t))
+      head='佢嘅離開，一定喺你心裡面留低好大嘅空。聽落你真係好掛住佢，你嘅眼淚，係因為你好愛佢。';
+    else if(detectHealth(t))
+      head='睇住佢身體唔舒服，你會擔心、會心痛，都係因為你好愛佢。你已經好努力咁陪住佢。';
+    else
+      head='多謝你願意講出嚟。無論而家係傷心、混亂，定係講唔出嘅沉重，你都唔係一個人。';
+    return head + '<br><span style="color:var(--ink-faint)">哀傷冇標準時間表，有人會喊、有人會麻木、有人會發嬲，全部都係正常。慢慢嚟，已經係最好。</span>';
+  }
+
+  // Block 2 — 整理情況（如有格式就解析）
+  function situationSummary(t){
+    var type = (t.match(/寵物類型[：:]\s*(.+)/)||[])[1];
+    var evt  = (t.match(/最近發生的事[：:]\s*(.+)/)||[])[1];
+    var feel = (t.match(/我現在的感受[：:]\s*(.+)/)||[])[1];
+    var help = (t.match(/我最想得到的幫助[：:]\s*(.+)/)||[])[1];
+    if(type||evt||feel||help){
+      var parts=[];
+      if(type) parts.push('你隻' + esc(type.trim()));
+      if(evt)  parts.push('最近' + esc(evt.trim()));
+      if(feel) parts.push('心情上係' + esc(feel.trim()));
+      var line = parts.join('，');
+      var tail = help ? '你而家最想要嘅，係' + esc(help.trim()) + '。' : '';
+      return '如果我理解啱：' + line + '。' + tail + '我哋可以就由呢度，一小步一小步咁整理。';
+    }
+    var clip = t.trim();
+    if(clip.length>46) clip = clip.slice(0,46)+'…';
+    return '我聽到你而家面對緊嘅係：「' + esc(clip) + '」。呢件事而家佔咗你唔少心力，我哋先擺喺眼前，慢慢睇清楚。';
+  }
+
+  // Block 3 — 探索支持系統 ＋ 低風險行動（非指令式）
+  function nextSteps(t){
+    var items = [
+      '如果得，先畀自己抖一抖，飲啖暖水，等身體慢返落嚟。',
+      '身邊有冇一個你信得過嘅人，可以同佢講下呢段感受？例如家人、朋友，或者同樣養過寵物嘅人。',
+      '睇返啲相、寫低想同佢講嘅一句話，都可以畀想念一個出口。'
+    ];
+    if(detectHealth(t)) items.push('如果係關於佢嘅身體狀況，可以先問下獸醫，畀專業幫你分擔決定（例如 SPCA 動物拯救熱線 2711 1000）。');
+    return items.map(function(i){return '<div style="margin:5px 0;">・'+i+'</div>';}).join('');
+  }
+
+  // 轉介選項（依手冊，溫和）
+  function referralNote(){
+    return '<div class="disc">如果呢種難受持續咗好耐、影響到日常生活，搵專業傾下唔代表你「有問題」，而係願意好好照顧自己。可以聯絡 <b>香港心理衞生會 2871 2356</b>，或 <b>撒瑪利亞會（24 小時）2389 2222</b>。</div>';
+  }
+
+  function respond(t){
+    if(detectCrisis(t)){ crisisResponse(); return; }
+    var html =
+      '<div class="blk">🤍 接住你此刻嘅感受</div>' + feelingReflect(t) +
+      '<div class="blk">🧭 我聽到嘅情況</div>' + situationSummary(t) +
+      '<div class="blk">🌿 或者可以慢慢咁試</div>' + nextSteps(t) +
+      referralNote() +
+      '<div class="disc">以上由 AI 生成，只作情緒陪伴同初步整理，唔可以取代獸醫或心理健康專業人士，請按實際情況人手核對。</div>';
+    addBotHTML(html);
+  }
+
+  function needsClarify(t){
+    var clean = t.replace(/\s/g,'');
+    return clean.length < 6;
+  }
+  function clarify(){
+    addBotHTML(
+      '想更貼近你嘅情況，可以再多同我講少少嗎？'
+      + '<div style="margin-top:8px;">1. 你而家最強烈嘅感受係咩？例如傷心、自責、失落、焦慮，定係無助？</div>'
+      + '<div style="margin-top:4px;">2. 呢件事大約發生咗幾耐？係啱啱先發生，定係持續咗一段時間？</div>'
+      + '<div style="margin-top:4px;">3. 你而家最需要嘅係情緒支持、整理下一步，定係判斷應唔應該搵專業協助？</div>'
+    );
+  }
+
+  function addTyping(){
+    var m = el('div','msg bot','<span class="typing"><i></i><i></i><i></i></span>');
+    body.appendChild(m); scrollDown(); return m;
+  }
+
+  // 呼叫 Gemini 後端；失敗或空回應自動回落規則引擎
+  function callLLM(t){
+    var typing = addTyping();
+    fetch(GRIEF_API, {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ messages: history })
+    })
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      typing.remove();
+      var reply = (d && d.reply || '').trim();
+      if(!reply){ respond(t); return; }
+      history.push({role:'model', text:reply});
+      addBotHTML(
+        esc(reply).replace(/\n/g,'<br>')
+        + '<div class="disc">以上由 AI 生成，只作情緒陪伴用途，唔可以取代獸醫或心理健康專業人士。</div>'
+      );
+    })
+    .catch(function(){ typing.remove(); respond(t); });
+  }
+
+  function submit(){
+    var t = text.value.trim();
+    if(!t) return;
+    addUser(t);
+    text.value=''; autoGrow();
+    history.push({role:'user', text:t});
+    // 危機情況：即時保底，唔經 API
+    if(detectCrisis(t)){ setTimeout(crisisResponse, 250); return; }
+    if(GRIEF_API){ callLLM(t); return; }
+    setTimeout(function(){
+      if(needsClarify(t)) clarify();
+      else respond(t);
+    }, 260);
+  }
+
+  sendBtn.addEventListener('click', submit);
+  text.addEventListener('keydown', function(e){
+    if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); submit(); }
+  });
+
+  function autoGrow(){ text.style.height='auto'; text.style.height=Math.min(text.scrollHeight,120)+'px'; }
+  text.addEventListener('input', autoGrow);
+
+  document.getElementById('widgetChips').addEventListener('click', function(e){
+    var b = e.target.closest('.chip'); if(!b) return;
+    if(b.dataset.fill==='template'){ text.value=TEMPLATE; text.focus(); autoGrow(); }
+    else if(b.dataset.fill==='example'){ text.value=EXAMPLE; text.focus(); autoGrow(); }
+    else if(b.dataset.send){ text.value=b.dataset.send; submit(); }
+  });
+
+  // Open / close floating widget
+  function openWidget(){ widget.classList.add('open'); fab.classList.add('hide'); setTimeout(function(){ text.focus(); },260); }
+  function closeWidget(){ widget.classList.remove('open'); fab.classList.remove('hide'); }
+  fab.addEventListener('click', openWidget);
+  document.getElementById('wClose').addEventListener('click', closeWidget);
+  var openBtn = document.getElementById('openListen');
+  if(openBtn) openBtn.addEventListener('click', openWidget);
+  document.querySelectorAll('[data-open-chat]').forEach(function(a){
+    a.addEventListener('click', function(e){ e.preventDefault(); openWidget(); });
+  });
+
+  // Mood accordion
+  document.querySelectorAll('.faq2-q').forEach(function(q){
+    q.addEventListener('click', function(){
+      var item = q.parentElement;
+      var open = item.classList.toggle('open');
+      q.setAttribute('aria-expanded', open ? 'true' : 'false');
+      var ic = q.querySelector('.faq2-ic');
+      if(ic) ic.textContent = open ? '×' : '＋';
+    });
+  });
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape'){ closeWidget(); } });
+
+  // Reveal on scroll
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target);} });
+  },{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(function(n){ io.observe(n); });
+})();
+</script>
+<script>
+(function(){
+  "use strict";
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  var root=document.documentElement;
+
+  /* ---- Theme toggle ---- */
+  var themeBtn=document.getElementById('themeBtn');
+  try{var st=localStorage.getItem('resoul-theme'); if(st) root.setAttribute('data-theme',st);}catch(e){}
+  function updTheme(){var d=root.getAttribute('data-theme')==='dark'; themeBtn.textContent=d?'☀':'☾'; themeBtn.classList.toggle('active',d);}
+  updTheme();
+  themeBtn.addEventListener('click',function(){
+    var d=root.getAttribute('data-theme')==='dark';
+    root.setAttribute('data-theme', d?'light':'dark');
+    try{localStorage.setItem('resoul-theme', d?'light':'dark');}catch(e){}
+    updTheme();
+  });
+
+  /* ---- Soft background music (audio file) ---- */
+  var soundBtn=document.getElementById('soundBtn'), ambient=null, on=false, fadeTimer=null, TARGET_VOL=0.4;
+  function ensureAudio(){
+    if(ambient) return ambient;
+    ambient=new Audio('images/resoul-ambient.mp3');
+    ambient.loop=true; ambient.preload='none'; ambient.volume=0;
+    return ambient;
+  }
+  function fadeTo(vol, done){
+    if(fadeTimer) clearInterval(fadeTimer);
+    var a=ambient; if(!a) return;
+    fadeTimer=setInterval(function(){
+      var d=vol-a.volume;
+      if(Math.abs(d)<0.03){ a.volume=Math.max(0,Math.min(1,vol)); clearInterval(fadeTimer); fadeTimer=null; if(done) done(); }
+      else { a.volume=Math.max(0,Math.min(1,a.volume+d*0.18)); }
+    }, 60);
+  }
+  soundBtn.addEventListener('click',function(){
+    on=!on;
+    if(on){
+      var a=ensureAudio();
+      a.play().then(function(){ soundBtn.classList.add('active'); fadeTo(TARGET_VOL); })
+              .catch(function(){ on=false; soundBtn.classList.remove('active'); });
+    } else {
+      fadeTo(0, function(){ if(ambient) ambient.pause(); });
+      soundBtn.classList.remove('active');
+    }
+  });
+
+  /* ---- Candle wall (localStorage) ---- */
+  var wall=document.getElementById('candleWall');
+  var seed=[
+    {n:'Bailey',m:'多謝你陪咗我十年，我好掛住你。'},
+    {n:'',m:'願你喺嗰邊無病無痛，繼續開心咁玩。'},
+    {n:'Miku',m:'你永遠係我最乖嘅寶貝。'}
+  ];
+  function loadC(){try{return JSON.parse(localStorage.getItem('resoul-candles')||'[]');}catch(e){return [];}}
+  function saveC(a){try{localStorage.setItem('resoul-candles',JSON.stringify(a.slice(0,60)));}catch(e){}}
+  function candleEl(c){var d=document.createElement('div');d.className='candle';
+    d.innerHTML='<div class="flame" aria-hidden="true"></div>'+(c.n?'<div class="c-name">'+esc(c.n)+'</div>':'')+'<div class="c-msg">'+esc(c.m)+'</div>';return d;}
+  function renderWall(){ if(!wall)return; wall.innerHTML=''; loadC().concat(seed).forEach(function(c){wall.appendChild(candleEl(c));}); }
+  var lightBtn=document.getElementById('candleLight');
+  if(lightBtn){
+    lightBtn.addEventListener('click',function(){
+      var msgEl=document.getElementById('candleMsg'), nameEl=document.getElementById('candleName');
+      var m=msgEl.value.trim(); if(!m) return;
+      var arr=loadC(); arr.unshift({n:nameEl.value.trim(), m:m}); saveC(arr);
+      msgEl.value=''; nameEl.value=''; renderWall();
+    });
+    renderWall();
+  }
+
+  /* ---- Memory card (live preview + canvas download) ---- */
+  var mName=document.getElementById('memName');
+  if(mName){
+    var mDates=document.getElementById('memDates'), mWords=document.getElementById('memWords'), mPhoto=document.getElementById('memPhoto');
+    var cName=document.getElementById('memCName'), cDates=document.getElementById('memCDates'), cWords=document.getElementById('memCWords'), photoBox=document.getElementById('memPhotoBox');
+    var photoURL=null;
+    function bindMem(){
+      cName.textContent=mName.value.trim()||'牠的名字';
+      cDates.textContent=mDates.value.trim();
+      cWords.textContent=mWords.value.trim()||'在這裡寫下最想記住的回憶…';
+    }
+    [mName,mDates,mWords].forEach(function(el){el.addEventListener('input',bindMem);});
+    mPhoto.addEventListener('change',function(e){
+      var f=e.target.files&&e.target.files[0]; if(!f) return;
+      var r=new FileReader(); r.onload=function(ev){ photoURL=ev.target.result; photoBox.style.backgroundImage='url("'+photoURL+'")'; photoBox.textContent=''; }; r.readAsDataURL(f);
+    });
+    function wrapC(ctx,text,x,y,maxW,lh,maxLines){
+      var line='',lines=[];
+      for(var i=0;i<text.length;i++){var t=line+text[i]; if(ctx.measureText(t).width>maxW&&line){lines.push(line);line=text[i];}else line=t;}
+      if(line)lines.push(line);
+      if(maxLines&&lines.length>maxLines){lines=lines.slice(0,maxLines); lines[maxLines-1]+='…';}
+      lines.forEach(function(ln,i){ctx.fillText(ln,x,y+i*lh);});
+    }
+    document.getElementById('memDownload').addEventListener('click',function(){
+      var W=680,H=880,c=document.createElement('canvas');c.width=W;c.height=H;var ctx=c.getContext('2d');
+      var dark=root.getAttribute('data-theme')==='dark';
+      ctx.fillStyle=dark?'#2b231c':'#fdfaf4';ctx.fillRect(0,0,W,H);
+      function draw(){
+        var cy=580; ctx.textAlign='center';
+        ctx.fillStyle=dark?'#efe6d8':'#3b2f27';ctx.font='600 46px "Noto Serif TC",serif';
+        ctx.fillText(cName.textContent,W/2,cy);
+        if(cDates.textContent){ctx.fillStyle=dark?'#9a8b78':'#9a8d80';ctx.font='24px "Noto Sans TC",sans-serif';ctx.fillText(cDates.textContent,W/2,cy+36);}
+        ctx.fillStyle=dark?'#c6b6a2':'#6f6156';ctx.font='27px "Noto Sans TC",sans-serif';
+        wrapC(ctx,cWords.textContent,W/2,cy+92,560,40,4);
+        ctx.fillStyle=dark?'#dcc298':'#9c7f52';ctx.font='italic 27px "Cormorant Garamond",serif';
+        ctx.fillText('Resoul · 願想念被溫柔安放',W/2,H-40);
+        var a=document.createElement('a');a.download='resoul-memory-card.png';a.href=c.toDataURL('image/png');document.body.appendChild(a);a.click();a.remove();
+      }
+      if(photoURL){var im=new Image();im.onload=function(){
+        var iw=im.width,ih=im.height,tw=W,th=520,sc=Math.max(tw/iw,th/ih),dw=iw*sc,dh=ih*sc;
+        ctx.save();ctx.beginPath();ctx.rect(0,0,tw,th);ctx.clip();ctx.drawImage(im,(tw-dw)/2,(th-dh)/2,dw,dh);ctx.restore();draw();
+      };im.onerror=draw;im.src=photoURL;}
+      else{ctx.fillStyle=dark?'#33291f':'#efe4d2';ctx.fillRect(0,0,W,520);ctx.fillStyle=dark?'#c9ac80':'#b89a6e';ctx.font='150px serif';ctx.textAlign='center';ctx.fillText('🐾',W/2,370);draw();}
+    });
+  }
+})();
+</script>
+</body>
+</html>

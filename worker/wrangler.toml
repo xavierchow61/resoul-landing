@@ -1,0 +1,6 @@
+name = "resoul-grief-chat"
+main = "grief-chat.js"
+compatibility_date = "2024-11-01"
+
+# API key 唔好寫喺呢度。用 secret：
+#   wrangler secret put GEMINI_API_KEY
