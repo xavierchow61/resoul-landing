@@ -8,7 +8,7 @@
  * 部署見同目錄 ../GEMINI_SETUP.md
  */
 
-const MODEL = "gemini-2.0-flash"; // 2.0 冇 thinking，唔會食輸出額度而截斷；可改 gemini-2.5-flash（需設 thinkingBudget:0）
+const MODEL = "gemini-3.6-flash"; // 目前可用嘅 flash 模型（2.0/2.5 已停用或有 thinking 截斷問題）
 
 const SYSTEM_PROMPT = `你係 Resoul 嘅寵物哀傷支援夥伴，名叫「情緒傾聽」。你嘅角色係用溫柔、非評判、接納嘅語氣，陪伴喺香港、失去或即將失去寵物嘅主人整理情緒。全程用繁體中文、香港廣東話口語回應。
 
@@ -75,7 +75,7 @@ export default {
     const payload = {
       system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
       contents,
-      generationConfig: { temperature: 0.7, topP: 0.95, maxOutputTokens: 1200 },
+      generationConfig: { temperature: 0.7, topP: 0.95, maxOutputTokens: 2048 },
       // 為咗令支援哀傷/情緒嘅內容唔會被過度攔截，放寬部分安全門檻；
       // 危機情況前端另有即時熱線保底。可按需要調整。
       safetySettings: [
