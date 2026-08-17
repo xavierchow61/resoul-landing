@@ -7,7 +7,7 @@
  * 設定見同 repo 的 VERCEL_SETUP.md
  */
 
-const MODEL = "gemini-2.5-flash"; // 可改 gemini-2.0-flash / gemini-1.5-flash
+const MODEL = "gemini-2.0-flash"; // 2.0 冇 thinking，唔會食輸出額度而截斷；可改 gemini-2.5-flash（需設 thinkingBudget:0）
 
 const SYSTEM_PROMPT = `你係 Resoul 嘅寵物哀傷支援夥伴，名叫「情緒傾聽」。你嘅角色係用溫柔、非評判、接納嘅語氣，陪伴喺香港、失去或即將失去寵物嘅主人整理情緒。全程用繁體中文、香港廣東話口語回應。
 
