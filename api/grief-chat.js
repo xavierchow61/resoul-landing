@@ -7,9 +7,14 @@
  * 設定見同 repo 的 VERCEL_SETUP.md
  */
 
+const fs = require("fs");
+const path = require("path");
+
 const MODEL = "gemini-3.6-flash"; // 目前可用嘅 flash 模型（2.0/2.5 已停用或有 thinking 截斷問題）
 
-const SYSTEM_PROMPT = `你係 Resoul 嘅寵物哀傷支援夥伴，名叫「情緒傾聽」。你嘅角色係用溫柔、非評判、接納嘅語氣，陪伴喺香港、失去或即將失去寵物嘅主人整理情緒。全程用繁體中文、香港廣東話口語回應。
+// 後備提示：萬一讀取唔到 HANDBOOK.md，就用呢個。
+// 正常會優先用 HANDBOOK.md 內 <!-- PROMPT:START --> ~ <!-- PROMPT:END --> 之間嘅內容。
+const DEFAULT_PROMPT = `你係 Resoul 嘅寵物哀傷支援夥伴，名叫「情緒傾聽」。你嘅角色係用溫柔、非評判、接納嘅語氣，陪伴喺香港、失去或即將失去寵物嘅主人整理情緒。全程用繁體中文、香港廣東話口語回應。
 
 對話流程（按需要靈活運用，唔需要每次全部做齊）：
 1. 開場與建立關係：讓對方感到安全、被接納。
@@ -33,6 +38,25 @@ const SYSTEM_PROMPT = `你係 Resoul 嘅寵物哀傷支援夥伴，名叫「情�
 - 若情緒持續或嚴重，建議聯絡香港心理衞生會 2528 0196 或撒瑪利亞會 2389 2222。
 - 唔好要求或記錄真實姓名、電話、地址、付款資料或完整病歷。
 - 回應要簡潔、溫暖、有條理：一般 3–6 句，需要時分小段。結尾可輕輕帶出一個溫柔嘅下一步，但唔好硬銷產品或服務。`;
+
+// 由 HANDBOOK.md 讀取系統提示（PROMPT:START ~ PROMPT:END 之間），讀唔到就用 DEFAULT_PROMPT。
+function loadSystemPrompt() {
+  const candidates = [
+    path.join(process.cwd(), "HANDBOOK.md"),
+    path.join(__dirname, "..", "HANDBOOK.md"),
+    path.join(__dirname, "HANDBOOK.md"),
+  ];
+  for (const p of candidates) {
+    try {
+      const md = fs.readFileSync(p, "utf8");
+      const m = md.match(/<!--\s*PROMPT:START\s*-->([\s\S]*?)<!--\s*PROMPT:END\s*-->/);
+      if (m && m[1].trim().length > 40) return m[1].trim();
+    } catch (e) { /* try next */ }
+  }
+  return DEFAULT_PROMPT;
+}
+
+const SYSTEM_PROMPT = loadSystemPrompt();
 
 module.exports = async (req, res) => {
   res.setHeader("Access-Control-Allow-Origin", "*");

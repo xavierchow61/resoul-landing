@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "api/grief-chat.js": {
+      "includeFiles": "HANDBOOK.md"
+    }
+  }
+}
