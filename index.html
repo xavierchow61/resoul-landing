@@ -894,9 +894,9 @@ section{padding:64px 0;}
   var widget = document.getElementById('widget');
   var fab = document.getElementById('fab');
 
-  // ★ 情緒傾聽 Gemini 後端：部署 worker/ 之後，把 Worker 網址貼喺這裡即啟用真 AI。
-  //   留空 = 用內置規則引擎。設定步驟見 GEMINI_SETUP.md
-  var GRIEF_API = "";
+  // ★ 情緒傾聽 Gemini 後端。部署到 Vercel 後，/api/grief-chat 會自動生效（同網域）。
+  //   本機或未部署時會 404 → 自動回落內置規則引擎。設定見 VERCEL_SETUP.md
+  var GRIEF_API = "/api/grief-chat";
   var history = [];
 
   var TEMPLATE = "寵物類型：\n最近發生的事：\n我現在的感受：\n我最想得到的幫助：";
