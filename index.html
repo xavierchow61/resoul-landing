@@ -181,7 +181,8 @@ section{padding:64px 0;}
 @keyframes typing{0%,60%,100%{opacity:.35;transform:translateY(0);}30%{opacity:1;transform:translateY(-3px);}}
 .tpl{white-space:pre-wrap;font-family:var(--sans);background:#f6efe1;border:1px solid var(--line);
   border-radius:10px;padding:12px 14px;font-size:.86rem;color:var(--ink-soft);margin-top:12px;line-height:1.9;}
-.chips{display:flex;gap:9px;flex-wrap:wrap;padding:14px 16px 4px;background:#fdfbf6;}
+.chips{display:flex;gap:9px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding:12px 16px 4px;background:#fdfbf6;}
+.chips::-webkit-scrollbar{display:none;}
 .chip{
   flex:0 0 auto;font-size:.82rem;color:var(--ink-soft);
   background:#f3ead9;border:1px solid var(--line);border-radius:999px;
@@ -226,7 +227,7 @@ section{padding:64px 0;}
 
 /* ---------- Floating chat widget ---------- */
 .fab{
-  position:fixed;left:16px;bottom:16px;z-index:95;
+  position:fixed;right:16px;bottom:16px;z-index:95;
   display:flex;align-items:center;gap:9px;
   background:var(--ink);color:#f4ece0;border:none;border-radius:999px;
   padding:11px 18px 11px 11px;cursor:pointer;font-family:var(--sans);font-size:.9rem;font-weight:500;letter-spacing:.04em;
@@ -239,8 +240,8 @@ section{padding:64px 0;}
   display:flex;align-items:center;justify-content:center;font-size:1.05rem;}
 .fab.hide{transform:scale(.4);opacity:0;pointer-events:none;}
 .widget{
-  position:fixed;left:16px;bottom:16px;z-index:96;
-  width:min(374px,calc(100vw - 24px));height:min(76vh,588px);
+  position:fixed;right:16px;bottom:16px;z-index:96;
+  width:min(380px,calc(100vw - 24px));height:min(84vh,680px);
   background:var(--card);border:1px solid var(--line);border-radius:20px;overflow:hidden;
   display:flex;flex-direction:column;
   box-shadow:0 34px 70px -22px rgba(50,36,24,.6);
@@ -351,7 +352,7 @@ section{padding:64px 0;}
 }
 
 /* ===== User controls (theme + sound) ===== */
-.uctrl{position:fixed;right:14px;bottom:16px;z-index:70;display:flex;flex-direction:column;gap:9px;}
+.uctrl{position:fixed;left:14px;bottom:16px;z-index:70;display:flex;flex-direction:column;gap:9px;}
 .uc-btn{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--ink-soft);
   cursor:pointer;font-size:1.02rem;display:flex;align-items:center;justify-content:center;
   box-shadow:0 8px 20px -10px rgba(70,52,34,.5);transition:background .2s,color .2s,transform .15s;}
@@ -903,7 +904,10 @@ section{padding:64px 0;}
   var EXAMPLE = "寵物類型：貓\n最近發生的事：牠最近食慾變差，我已經預約了獸醫，但還是很擔心。\n我現在的感受：焦慮、自責，覺得自己可能沒有早點發現問題。\n我最想得到的幫助：想先冷靜下來，知道現在可以做甚麼。";
 
   function el(tag, cls, html){ var e=document.createElement(tag); if(cls)e.className=cls; if(html!=null)e.innerHTML=html; return e; }
-  function scrollDown(){ body.scrollTop = body.scrollHeight; }
+  function scrollDown(){
+    body.scrollTop = body.scrollHeight;
+    requestAnimationFrame(function(){ body.scrollTop = body.scrollHeight; });
+  }
   function esc(s){ return s.replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c];}); }
 
   function addUser(t){

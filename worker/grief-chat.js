@@ -75,7 +75,7 @@ export default {
     const payload = {
       system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
       contents,
-      generationConfig: { temperature: 0.7, topP: 0.95, maxOutputTokens: 800 },
+      generationConfig: { temperature: 0.7, topP: 0.95, maxOutputTokens: 1200 },
       // 為咗令支援哀傷/情緒嘅內容唔會被過度攔截，放寬部分安全門檻；
       // 危機情況前端另有即時熱線保底。可按需要調整。
       safetySettings: [

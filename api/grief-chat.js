@@ -65,7 +65,7 @@ module.exports = async (req, res) => {
   const payload = {
     system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
     contents,
-    generationConfig: { temperature: 0.7, topP: 0.95, maxOutputTokens: 800 },
+    generationConfig: { temperature: 0.7, topP: 0.95, maxOutputTokens: 1200 },
     safetySettings: [
       { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_ONLY_HIGH" },
       { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_ONLY_HIGH" },
