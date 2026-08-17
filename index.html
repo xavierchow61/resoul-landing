@@ -439,17 +439,72 @@ section{padding:64px 0;}
 .res-group h3{display:flex;align-items:center;gap:11px;font-size:1.04rem;color:var(--gold-deep);font-weight:600;}
 .res-group .r-ic{width:33px;height:33px;border-radius:50%;background:#f1e7d7;display:flex;align-items:center;justify-content:center;font-size:.98rem;flex:0 0 auto;}
 :root[data-theme="dark"] .res-group .r-ic{background:#33291f;}
-.res-list{margin-top:11px;display:flex;flex-direction:column;gap:9px;}
-.res-item{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:13px 15px;font-size:.9rem;line-height:1.65;color:var(--ink-soft);}
-.res-item .r-name{font-weight:600;color:var(--ink);display:block;}
-.res-item a{color:var(--gold-deep);border-bottom:1px solid var(--gold);word-break:break-word;}
+.res-list{margin-top:12px;display:grid;grid-template-columns:1fr;gap:12px;}
+@media(min-width:520px){.res-list{grid-template-columns:1fr 1fr;}}
+.res-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 16px;
+  box-shadow:0 8px 26px -22px rgba(70,52,34,.5);}
+.rc-name{font-family:var(--serif);font-weight:600;color:var(--ink);font-size:1rem;margin-bottom:9px;line-height:1.5;}
+.rc-row{display:flex;gap:10px;font-size:.86rem;line-height:1.75;color:var(--ink-soft);}
+.rc-label{flex:0 0 34px;color:var(--ink-faint);}
+.rc-row a{color:var(--gold-deep);border-bottom:1px solid var(--line);word-break:break-all;}
 .res-note{margin-top:22px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:15px 17px;font-size:.82rem;color:var(--ink-soft);line-height:1.75;}
+.res-note a{color:var(--gold-deep);border-bottom:1px solid var(--gold);}
+
+/* ===== Hero functional line ===== */
+.hero-func{margin:2px 0 26px;color:var(--gold-deep);font-size:.98rem;line-height:1.75;}
+
+/* ===== Entry / triage ===== */
+.entry{text-align:center;padding:52px 0;}
+.entry-q{font-family:var(--serif);font-size:1.3rem;color:var(--ink);line-height:1.5;}
+.entry-open{margin:16px auto 0;display:inline-flex;align-items:center;gap:8px;background:var(--card);
+  border:1px solid var(--gold);color:var(--gold-deep);border-radius:999px;padding:13px 24px;
+  font-family:var(--sans);font-size:.98rem;font-weight:500;cursor:pointer;transition:background .2s,transform .15s;}
+.entry-open:hover{background:rgba(184,154,110,.12);transform:translateY(-1px);}
+.entry-open .arw{opacity:.7;}
+.triage-label{margin-top:30px;color:var(--ink-faint);font-size:.9rem;}
+.triage{margin-top:14px;display:flex;flex-wrap:wrap;gap:10px;justify-content:center;}
+.triage button,.triage a{background:var(--cream);border:1px solid var(--line);border-radius:999px;
+  padding:10px 18px;font-size:.9rem;color:var(--ink-soft);font-family:var(--sans);cursor:pointer;
+  transition:background .2s,color .2s,border-color .2s;}
+.triage button:hover,.triage a:hover{background:var(--gold);color:#fff;border-color:var(--gold);}
+
+/* ===== Closing CTA lead ===== */
+.closing-cta-lead{margin:22px auto 20px;color:#cdbca6;font-size:.96rem;letter-spacing:.02em;}
+
+/* ===== Chat fixed safety bar ===== */
+.chat-safety{padding:9px 16px;background:#f5eee1;border-top:1px solid var(--line);color:var(--ink-faint);
+  font-size:.74rem;text-align:center;letter-spacing:.02em;}
+:root[data-theme="dark"] .chat-safety{background:#241d17;}
+
+/* ===== Quiet mode / reduced motion ===== */
+:root[data-quiet="on"] .reveal{opacity:1 !important;transform:none !important;transition:none !important;}
+:root[data-quiet="on"] .flame::before{animation:none !important;}
+:root[data-quiet="on"] .candle{animation:none !important;}
+:root[data-quiet="on"] .typing i{animation:none !important;opacity:.5;}
+:root[data-quiet="on"] .widget{transition:opacity .22s ease !important;transform:none !important;}
+:root[data-quiet="on"] .fab{transition:opacity .2s ease !important;}
+:root[data-quiet="on"] .hero::after,
+:root[data-quiet="on"] .support::before,
+:root[data-quiet="on"] .products::after,
+:root[data-quiet="on"] .faq::before,
+:root[data-quiet="on"] .closing-body::before{display:none !important;}
+:root[data-quiet="on"] .uc-btn:hover,
+:root[data-quiet="on"] .cta:hover,
+:root[data-quiet="on"] .soft-btn:hover,
+:root[data-quiet="on"] .mood-card:hover{transform:none !important;}
+@media (prefers-reduced-motion: reduce){
+  .reveal{opacity:1 !important;transform:none !important;transition:none !important;}
+  .flame::before,.candle,.typing i{animation:none !important;}
+  .widget{transition:opacity .22s ease !important;transform:none !important;}
+  html{scroll-behavior:auto !important;}
+}
 </style>
 </head>
 <body>
 
 <!-- ============ USER CONTROLS ============ -->
 <div class="uctrl">
+  <button id="quietBtn" class="uc-btn" type="button" aria-label="安靜模式（減少動畫）" title="安靜模式">靜</button>
   <button id="soundBtn" class="uc-btn" type="button" aria-label="輕柔背景音開關" title="輕柔背景音">♪</button>
   <button id="themeBtn" class="uc-btn" type="button" aria-label="深色模式開關" title="深色模式">☾</button>
 </div>
@@ -483,6 +538,7 @@ section{padding:64px 0;}
         在想念很重、也不知從何說起的時候，<br>
         願你先被理解，再慢慢找到往前走的方向。
       </p>
+      <p class="hero-func reveal">你可以先和 AI 說說此刻的心情，或為毛孩留下一張回憶卡。</p>
       <a class="cta reveal" href="https://resoul.hk/zh/" target="_blank" rel="noopener">
         查看Resoul官方資料 <span class="arw">→</span>
       </a>
@@ -490,6 +546,22 @@ section{padding:64px 0;}
         <img src="images/resoul-empathy.png" alt="主人靜靜坐在床邊，一手拿著毛孩的照片，一手握著牠的項圈">
         <figcaption>牠留下的，不只是一張照片、一條項圈，還有滿滿的想念。</figcaption>
       </figure>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ============ ENTRY / TRIAGE ============ -->
+  <section class="entry">
+    <div class="wrap">
+      <p class="entry-q reveal">現在想說一句話嗎？</p>
+      <button class="entry-open reveal" type="button" data-open-chat>和「情緒傾聽」說說此刻的心情 <span class="arw">→</span></button>
+      <p class="triage-label reveal">或者，我現在需要——</p>
+      <div class="triage reveal">
+        <button type="button" data-open-chat>我只是很想牠</button>
+        <a href="#support">我需要整理告別安排</a>
+        <a href="#candles">我想留下紀念</a>
+      </div>
     </div>
   </section>
 
@@ -526,7 +598,7 @@ section{padding:64px 0;}
   <section class="sub-intro">
     <div class="wrap">
       <h3 class="sub-title reveal">陪自己走過的溫柔方式</h3>
-      <p class="sub-desc reveal">除了被聆聽，你也可以喺呢度，為毛孩點一盞燭光、做一張回憶卡，畀想念一個安放嘅位置。</p>
+      <p class="sub-desc reveal">除了被聆聽，你也可以在這裡，為毛孩點一盞燭光、做一張回憶卡，為想念留一個安放的位置。</p>
     </div>
   </section>
 
@@ -535,10 +607,10 @@ section{padding:64px 0;}
     <div class="wrap">
       <p class="eyebrow reveal">點一盞燭光</p>
       <h2 class="reveal">為毛孩，點一盞燭光。</h2>
-      <p class="lead reveal" style="margin-top:14px;">寫低一句想同佢講嘅說話，亮起一盞屬於你哋嘅燭光。</p>
+      <p class="lead reveal" style="margin-top:14px;">寫下一句想對牠說的話，亮起一盞屬於你們的燭光。</p>
       <div class="candle-form reveal">
         <input id="candleName" maxlength="20" placeholder="毛孩的名字（可留空）">
-        <textarea id="candleMsg" maxlength="80" rows="2" placeholder="想同牠說的一句話…"></textarea>
+        <textarea id="candleMsg" maxlength="80" rows="2" placeholder="想對牠說的一句話…"></textarea>
         <button id="candleLight" class="soft-btn" type="button">🕯️ 點一盞燭光</button>
       </div>
       <div class="candle-wall" id="candleWall"></div>
@@ -552,7 +624,7 @@ section{padding:64px 0;}
     <div class="wrap">
       <p class="eyebrow reveal">毛孩回憶卡</p>
       <h2 class="reveal">為牠，做一張回憶卡。</h2>
-      <p class="lead reveal" style="margin-top:14px;">上載一張相，寫低名字同幾句回憶，即時生成一張溫柔嘅紀念卡。相片只會喺你嘅裝置上處理，唔會上傳。</p>
+      <p class="lead reveal" style="margin-top:14px;">上載一張相片，寫下名字與幾句回憶，即時生成一張溫柔的紀念卡。相片只會在你的裝置上處理，不會上傳。</p>
       <div class="mem-editor reveal">
         <label class="mem-upload">＋ 上載相片<input type="file" id="memPhoto" accept="image/*" hidden></label>
         <input id="memName" maxlength="20" placeholder="毛孩的名字">
@@ -579,6 +651,7 @@ section{padding:64px 0;}
     <div class="wrap">
       <p class="eyebrow reveal">紀念產品</p>
       <h2 class="reveal">讓這份愛，<br>在日常裡有一個位置。</h2>
+      <p class="lead reveal" style="margin-top:14px;">當說再見很難，有些人會選擇用一件小物，把愛留在日常。</p>
 
       <div class="media reveal">
         <video src="images/resoul-memorial.mp4" poster="images/resoul-memorial-poster.jpg"
@@ -649,7 +722,7 @@ section{padding:64px 0;}
                 <span class="faq2-ic" aria-hidden="true">＋</span>
                 <span class="faq2-qt">我總覺得是我的錯，如果當時再早一點……</span>
               </button>
-              <div class="faq2-a"><p>好多主人都會想「如果我當時……」。但你已經在當時的情況下，做了你認為最好的決定。毛孩不會怪你，牠只會記得你怎樣愛牠。</p></div>
+              <div class="faq2-a"><p>很多主人都會這樣想。也許可以先記得，你當時是在有限資訊下盡力作決定；這份心疼，正說明你有多在乎牠。</p></div>
             </div>
             <div class="faq2-item">
               <button class="faq2-q" type="button" aria-expanded="false">
@@ -731,51 +804,32 @@ section{padding:64px 0;}
   <!-- ============ RESOURCES ============ -->
   <section class="resources" id="resources">
     <div class="wrap">
-      <p class="eyebrow reveal">支援資源</p>
-      <h2 class="reveal">當你需要，<br>這裡有人可以幫你。</h2>
-      <div class="res-groups reveal">
-        <div class="res-group">
-          <h3><span class="r-ic" aria-hidden="true">🤍</span> 專業情緒支援</h3>
-          <div class="res-list">
-            <div class="res-item"><span class="r-name">香港心理衞生會</span>提供情緒輔導服務 · 熱線 <a href="tel:28712356">2871 2356</a></div>
-            <div class="res-item"><span class="r-name">全邁進心理服務</span>註冊臨床心理學家 · <a href="tel:21776168">2177 6168</a> · omg-centre.com</div>
-          </div>
+      <p class="eyebrow reveal">如果你覺得撐不住</p>
+      <h2 class="reveal">你不必自己一個人扛。</h2>
+      <p class="lead reveal" style="margin-top:14px;">哀傷有時會很重。如果這種難受持續影響到生活，找人傾訴或尋求專業支援，都是好好照顧自己的方式。以下是一些你可以聯絡的地方。</p>
+      <div class="res-list reveal">
+        <div class="res-card">
+          <div class="rc-name">香港心理衞生會</div>
+          <div class="rc-row"><span class="rc-label">電話</span><a href="tel:28712356">2871 2356</a></div>
+          <div class="rc-row"><span class="rc-label">網址</span><a href="https://www.mhahk.org.hk" target="_blank" rel="noopener">mhahk.org.hk</a></div>
         </div>
-        <div class="res-group">
-          <h3><span class="r-ic" aria-hidden="true">📞</span> 危機／24 小時支援</h3>
-          <div class="res-list">
-            <div class="res-item"><span class="r-name">撒瑪利亞防止自殺會</span>24 小時情緒支援 · <a href="tel:23892222">2389 2222</a></div>
-            <div class="res-item"><span class="r-name">醫院管理局精神健康專線</span><a href="tel:24667350">2466 7350</a></div>
-            <div class="res-item"><span class="r-name">東華三院芷若園</span>熱線 <a href="tel:18281">18281</a></div>
-          </div>
+        <div class="res-card">
+          <div class="rc-name">撒瑪利亞防止自殺會（24 小時）</div>
+          <div class="rc-row"><span class="rc-label">電話</span><a href="tel:23892222">2389 2222</a></div>
+          <div class="rc-row"><span class="rc-label">網址</span><a href="https://www.sbhk.org.hk" target="_blank" rel="noopener">sbhk.org.hk</a></div>
         </div>
-        <div class="res-group">
-          <h3><span class="r-ic" aria-hidden="true">🐾</span> 獸醫支援</h3>
-          <div class="res-list">
-            <div class="res-item"><span class="r-name">SPCA 香港愛護動物協會</span>動物拯救熱線 <a href="tel:27111000">2711 1000</a></div>
-            <div class="res-item"><span class="r-name">動物醫療中心</span>旺角 24 小時 · <a href="tel:26561128">2656 1128</a></div>
-            <div class="res-item"><span class="r-name">全港 24 小時緊急獸醫名單</span>PPSG 整理 · ppsg.com.hk</div>
-          </div>
+        <div class="res-card">
+          <div class="rc-name">全邁進心理服務</div>
+          <div class="rc-row"><span class="rc-label">電話</span><a href="tel:21776168">2177 6168</a></div>
+          <div class="rc-row"><span class="rc-label">網址</span><a href="https://www.omg-centre.com" target="_blank" rel="noopener">omg-centre.com</a></div>
         </div>
-        <div class="res-group">
-          <h3><span class="r-ic" aria-hidden="true">🕯️</span> 紀念服務工作室</h3>
-          <div class="res-list">
-            <div class="res-item"><span class="r-name">Zu Zu 本地手作</span>寵物骨灰陶瓷訂製</div>
-            <div class="res-item"><span class="r-name">慢遊陶記工作室</span>陶瓷紀念品</div>
-            <div class="res-item"><span class="r-name">寵物紀念寶石</span>毛髮／骨灰凝成寶石</div>
-            <div class="res-item"><span class="r-name">客製化羊毛氈</span>A.Crafting.Space</div>
-          </div>
-        </div>
-        <div class="res-group">
-          <h3><span class="r-ic" aria-hidden="true">🌿</span> 社群支持</h3>
-          <div class="res-list">
-            <div class="res-item"><span class="r-name">香港動物權益協會</span>合辦寵物法會</div>
-            <div class="res-item"><span class="r-name">《寵愛一生》生命教育活動</span>宏恩基督教學院</div>
-            <div class="res-item"><span class="r-name">Facebook 寵物善終支援群組</span>同路人互相陪伴</div>
-          </div>
+        <div class="res-card">
+          <div class="rc-name">SPCA 香港愛護動物協會</div>
+          <div class="rc-row"><span class="rc-label">電話</span><a href="tel:27111000">2711 1000</a></div>
+          <div class="rc-row"><span class="rc-label">網址</span><a href="https://www.spca.org.hk" target="_blank" rel="noopener">spca.org.hk</a></div>
         </div>
       </div>
-      <p class="res-note reveal">以上為情緒支持與轉介資源整理。若你或身邊嘅人出現持續或嚴重情緒困擾，請即刻聯絡上述專業熱線求助。緊急情況請致電 999。</p>
+      <p class="res-note reveal">若情況緊急、或有傷害自己的念頭，請即時致電撒瑪利亞會 24 小時熱線 <a href="tel:23892222">2389 2222</a>，或緊急致電 999。</p>
     </div>
   </section>
 
@@ -787,6 +841,7 @@ section{padding:64px 0;}
     <div class="closing-body">
       <h2 class="reveal">你不需要一個人<br>承受這段告別。</h2>
       <p class="reveal">在想念很重的時候，願你能慢慢找到被陪伴的感覺，也為毛孩留下溫柔而體面的紀念。</p>
+      <p class="closing-cta-lead reveal">當你準備好，再慢慢了解下一步。</p>
       <a class="cta light reveal" href="https://resoul.hk/zh/" target="_blank" rel="noopener"
          style="color:#f4ece0;border-color:rgba(244,236,224,.5);">
         查看Resoul官方資料 <span class="arw">→</span>
@@ -827,6 +882,7 @@ section{padding:64px 0;}
     <textarea id="widgetText" rows="1" placeholder="用匿名方式，說說最近和寵物有關的困擾…"></textarea>
     <button class="send" id="widgetSend" aria-label="送出">➤</button>
   </div>
+  <div class="chat-safety">如果情緒持續影響生活，請尋求專業支援。</div>
 </div>
 
 <script>
@@ -900,7 +956,7 @@ section{padding:64px 0;}
   function feelingReflect(t){
     var head;
     if(detectSelfBlame(t))
-      head='好多主人都會諗「如果我當時……」。但你已經喺當時嘅情況下，做咗你認為最好嘅決定。毛孩唔會怪你，佢只會記得你點樣愛佢。';
+      head='好多主人都會咁諗。或者可以先記得，你當時係喺有限資訊下盡咗力去決定；呢份心疼，正正說明你有幾在乎佢。';
     else if(detectNumb(t))
       head='「喊唔出」或者「冇感覺」，都係哀傷嘅一種反應。你唔需要逼自己有感覺，當你準備好，感受會自然浮現。';
     else if(detectLoss(t))
@@ -1076,6 +1132,18 @@ section{padding:64px 0;}
     updTheme();
   });
 
+  /* ---- Quiet mode (reduce motion) ---- */
+  var quietBtn=document.getElementById('quietBtn');
+  try{ if(localStorage.getItem('resoul-quiet')==='on') root.setAttribute('data-quiet','on'); }catch(e){}
+  function updQuiet(){ quietBtn.classList.toggle('active', root.getAttribute('data-quiet')==='on'); }
+  updQuiet();
+  quietBtn.addEventListener('click',function(){
+    var q=root.getAttribute('data-quiet')==='on';
+    if(q) root.removeAttribute('data-quiet'); else root.setAttribute('data-quiet','on');
+    try{localStorage.setItem('resoul-quiet', q?'off':'on');}catch(e){}
+    updQuiet();
+  });
+
   /* ---- Soft background music (audio file) ---- */
   var soundBtn=document.getElementById('soundBtn'), ambient=null, on=false, fadeTimer=null, TARGET_VOL=0.4;
   function ensureAudio(){
@@ -1108,9 +1176,9 @@ section{padding:64px 0;}
   /* ---- Candle wall (localStorage) ---- */
   var wall=document.getElementById('candleWall');
   var seed=[
-    {n:'Bailey',m:'多謝你陪咗我十年，我好掛住你。'},
-    {n:'',m:'願你喺嗰邊無病無痛，繼續開心咁玩。'},
-    {n:'Miku',m:'你永遠係我最乖嘅寶貝。'}
+    {n:'Bailey',m:'謝謝你陪伴了我十年，我很想念你。'},
+    {n:'',m:'願你在那邊無病無痛，繼續快樂地玩耍。'},
+    {n:'Miku',m:'你永遠是我最乖的寶貝。'}
   ];
   function loadC(){try{return JSON.parse(localStorage.getItem('resoul-candles')||'[]');}catch(e){return [];}}
   function saveC(a){try{localStorage.setItem('resoul-candles',JSON.stringify(a.slice(0,60)));}catch(e){}}
