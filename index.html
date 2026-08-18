@@ -145,6 +145,15 @@ section{padding:64px 0;}
 }
 .step h3{font-size:1.12rem;margin:6px 0 10px;}
 .step p{color:var(--ink-soft);font-size:.96rem;}
+/* journey path styling */
+.steps.journey .step{position:relative;}
+.steps.journey .num{width:46px;height:46px;border-radius:50%;border:1.5px solid var(--gold);background:var(--card);
+  display:inline-flex;align-items:center;justify-content:center;font-size:1.02rem;margin-bottom:8px;letter-spacing:.02em;}
+.steps.journey .step:not(:last-child)::after{content:"↓";position:absolute;bottom:-19px;left:50%;transform:translateX(-50%);
+  color:var(--gold);font-size:1.1rem;line-height:1;opacity:.6;pointer-events:none;}
+@media(min-width:560px){
+  .steps.journey .step:not(:last-child)::after{content:"→";bottom:auto;top:40px;left:auto;right:-13px;transform:none;}
+}
 
 /* ---------- AI Chat ---------- */
 .listen h2{font-size:1.5rem;}
@@ -508,12 +517,57 @@ section{padding:64px 0;}
   .widget{transition:opacity .22s ease !important;transform:none !important;}
   html{scroll-behavior:auto !important;}
 }
+
+/* ===== Companionship note ===== */
+.companion-note{margin-top:12px;font-family:var(--slogan);font-style:italic;font-size:1rem;color:var(--gold-deep);line-height:1.7;}
+
+/* ===== About section ===== */
+.about{text-align:center;}
+.about-values{margin-top:26px;display:flex;flex-direction:column;gap:16px;text-align:left;}
+@media(min-width:640px){.about-values{flex-direction:row;}}
+.av{flex:1;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px 20px;display:flex;gap:13px;box-shadow:0 8px 26px -22px rgba(70,52,34,.5);}
+.av-ic{flex:0 0 auto;width:40px;height:40px;border-radius:50%;background:#f1e7d7;display:flex;align-items:center;justify-content:center;font-size:1.15rem;}
+:root[data-theme="dark"] .av-ic{background:#33291f;}
+.av b{font-family:var(--serif);color:var(--ink);font-size:1.02rem;}
+.av p{margin-top:5px;color:var(--ink-soft);font-size:.9rem;line-height:1.65;}
+
+/* ===== Crisis support button + popup ===== */
+.uc-support{color:var(--gold-deep);font-size:1.15rem;}
+.uc-support:hover{background:var(--gold);color:#fff;border-color:var(--gold);}
+.support-modal{position:fixed;inset:0;z-index:120;display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;pointer-events:none;transition:opacity .25s ease;}
+.support-modal.open{opacity:1;pointer-events:auto;}
+.sm-backdrop{position:absolute;inset:0;background:rgba(45,34,25,.5);backdrop-filter:blur(2px);}
+.sm-card{position:relative;z-index:1;width:100%;max-width:400px;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:30px 24px 26px;box-shadow:0 40px 80px -24px rgba(45,34,25,.6);transform:translateY(14px) scale(.97);transition:transform .28s ease;}
+.support-modal.open .sm-card{transform:none;}
+.sm-close{position:absolute;right:14px;top:14px;width:32px;height:32px;border-radius:50%;border:none;cursor:pointer;background:#efe4d2;color:var(--ink-soft);font-size:1.2rem;line-height:1;display:flex;align-items:center;justify-content:center;}
+:root[data-theme="dark"] .sm-close{background:#3a2f24;}
+.sm-title{font-family:var(--serif);font-size:1.2rem;color:var(--ink);}
+.sm-lead{margin:10px 0 16px;color:var(--ink-soft);font-size:.9rem;line-height:1.7;}
+.sm-list{display:flex;flex-direction:column;gap:9px;}
+.sm-list a{display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--cream);border:1px solid var(--line);border-radius:12px;padding:12px 15px;color:var(--ink);}
+.sm-list a b{font-family:var(--serif);font-size:.94rem;font-weight:600;}
+.sm-list a span{color:var(--gold-deep);font-weight:600;letter-spacing:.03em;}
+.sm-list a.sm-emerg span{color:#c0563e;}
+
+/* ===== Back to top ===== */
+.to-top{position:fixed;right:18px;bottom:78px;z-index:60;width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--ink-soft);font-size:1.15rem;cursor:pointer;box-shadow:0 8px 20px -10px rgba(70,52,34,.5);opacity:0;transform:translateY(8px);pointer-events:none;transition:opacity .25s,transform .25s,background .2s;}
+.to-top.show{opacity:1;transform:none;pointer-events:auto;}
+.to-top:hover{background:var(--gold);color:#fff;border-color:var(--gold);}
+
+/* ===== Mood filter ===== */
+.mood-filter{margin-top:20px;display:flex;gap:9px;flex-wrap:wrap;justify-content:center;}
+.mf-chip{flex:0 0 auto;font-size:.85rem;color:var(--ink-soft);background:var(--card);border:1px solid var(--line);border-radius:999px;padding:8px 15px;cursor:pointer;font-family:var(--sans);transition:background .2s,color .2s,border-color .2s;}
+.mf-chip:hover{border-color:var(--gold);}
+.mf-chip.active{background:var(--gold);color:#fff;border-color:var(--gold);}
+:root[data-theme="dark"] .mf-chip.active{background:var(--gold-deep);color:#211a13;}
+.mood-group.hidden{display:none;}
 </style>
 </head>
 <body>
 
 <!-- ============ USER CONTROLS ============ -->
 <div class="uctrl">
+  <button id="supportBtn" class="uc-btn uc-support" type="button" aria-label="即時支援熱線" title="即時支援">♡</button>
   <button id="quietBtn" class="uc-btn" type="button" aria-label="安靜模式（減少動畫）" title="安靜模式">靜</button>
   <button id="soundBtn" class="uc-btn" type="button" aria-label="輕柔背景音開關" title="輕柔背景音">♪</button>
   <button id="themeBtn" class="uc-btn" type="button" aria-label="深色模式開關" title="深色模式">☾</button>
@@ -548,10 +602,7 @@ section{padding:64px 0;}
         在想念很重、也不知從何說起的時候，<br>
         願你先被理解，再慢慢找到往前走的方向。
       </p>
-      <p class="hero-func reveal">你可以先和 AI 說說此刻的心情，或為毛孩留下一張回憶卡。</p>
-      <a class="cta reveal" href="https://resoul.hk/zh/" target="_blank" rel="noopener">
-        查看Resoul官方資料 <span class="arw">→</span>
-      </a>
+      <p class="hero-func reveal">你可以先和 AI 說說此刻的心情，或為毛孩留下一張回憶卡。<br>不急著做任何決定，先讓自己被陪著。</p>
       <figure class="hero-figure reveal">
         <img src="images/resoul-empathy.png" alt="主人靜靜坐在床邊，一手拿著毛孩的照片，一手握著牠的項圈">
         <figcaption>牠留下的，不只是一張照片、一條項圈，還有滿滿的想念。</figcaption>
@@ -582,7 +633,8 @@ section{padding:64px 0;}
     <div class="wrap">
       <p class="eyebrow reveal">情緒支持</p>
       <h2 class="reveal">失去毛孩的那一刻，<br>主人需要的不只是流程。</h2>
-      <div class="steps">
+      <p class="lead reveal" style="margin-top:14px;">一步一步嚟就好，你不需要一次過想清楚所有事。</p>
+      <div class="steps journey">
         <div class="step reveal">
           <div class="num">01</div>
           <h3>先承接失落</h3>
@@ -618,6 +670,7 @@ section{padding:64px 0;}
       <p class="eyebrow reveal">點一盞燭光</p>
       <h2 class="reveal">為毛孩，點一盞燭光。</h2>
       <p class="lead reveal" style="margin-top:14px;">寫下一句想對牠說的話，亮起一盞屬於你們的燭光。</p>
+      <p class="companion-note reveal">你並不孤單——每一盞燭光，都是一位和你一樣深愛毛孩的人，靜靜點亮的。</p>
       <button class="tool-toggle reveal" type="button" aria-expanded="false" data-target="candleBody">🕯️ 點一盞燭光</button>
       <div class="tool-body" id="candleBody">
         <div class="candle-form">
@@ -708,9 +761,16 @@ section{padding:64px 0;}
     <div class="wrap">
       <p class="eyebrow reveal">常見心情</p>
       <h2 class="reveal">你此刻的心情，<br>也許就在這裡。</h2>
+      <div class="mood-filter reveal" role="tablist" aria-label="心情篩選">
+        <button class="mf-chip active" type="button" data-g="all">全部</button>
+        <button class="mf-chip" type="button" data-g="1">剛面對失去</button>
+        <button class="mf-chip" type="button" data-g="2">自責、麻木</button>
+        <button class="mf-chip" type="button" data-g="3">想念與紀念</button>
+        <button class="mf-chip" type="button" data-g="4">慢慢向前</button>
+      </div>
       <div class="mood-groups reveal">
 
-        <div class="mood-group">
+        <div class="mood-group" data-g="1">
           <h3 class="mg-title"><span class="mg-ic" aria-hidden="true">🌫️</span> 剛面對失去，不知所措</h3>
           <div class="faq2">
             <div class="faq2-item">
@@ -723,7 +783,7 @@ section{padding:64px 0;}
           </div>
         </div>
 
-        <div class="mood-group">
+        <div class="mood-group" data-g="2">
           <h3 class="mg-title"><span class="mg-ic" aria-hidden="true">🌧️</span> 自責、麻木與難過</h3>
           <div class="faq2">
             <div class="faq2-item">
@@ -750,7 +810,7 @@ section{padding:64px 0;}
           </div>
         </div>
 
-        <div class="mood-group">
+        <div class="mood-group" data-g="3">
           <h3 class="mg-title"><span class="mg-ic" aria-hidden="true">🕯️</span> 想念與紀念</h3>
           <div class="faq2">
             <div class="faq2-item">
@@ -777,7 +837,7 @@ section{padding:64px 0;}
           </div>
         </div>
 
-        <div class="mood-group">
+        <div class="mood-group" data-g="4">
           <h3 class="mg-title"><span class="mg-ic" aria-hidden="true">🌱</span> 慢慢向前，尋找支持</h3>
           <div class="faq2">
             <div class="faq2-item">
@@ -849,6 +909,22 @@ section{padding:64px 0;}
     </div>
   </section>
 
+  <hr class="divider">
+
+  <!-- ============ ABOUT ============ -->
+  <section class="about" id="about">
+    <div class="wrap">
+      <p class="eyebrow reveal">關於 Resoul</p>
+      <h2 class="reveal">在你最脆弱的時候，<br>由懂得的人陪著。</h2>
+      <p class="lead reveal" style="margin-top:14px;">Resoul 是香港的寵物善終品牌。我們的團隊由具備獸醫護理背景的人員與資深善終顧問組成，明白這份失去有多痛，也明白牠對你有多重要。</p>
+      <div class="about-values reveal">
+        <div class="av"><span class="av-ic" aria-hidden="true">🕊️</span><div><b>最高的尊嚴</b><p>恆溫專車、遺體潔淨、海景告別室，如接送家人般溫柔護送。</p></div></div>
+        <div class="av"><span class="av-ic" aria-hidden="true">🔥</span><div><b>一爐一寵</b><p>堅持獨立火化、一對一編號追蹤，骨灰 100% 屬於你的毛孩。</p></div></div>
+        <div class="av"><span class="av-ic" aria-hidden="true">🤍</span><div><b>同理陪伴</b><p>不催促、不硬銷，只提供一個安靜、被理解的空間。</p></div></div>
+      </div>
+    </div>
+  </section>
+
   <!-- ============ CLOSING / FINAL CTA ============ -->
   <section class="closing" id="closing">
     <figure class="closing-figure">
@@ -901,6 +977,25 @@ section{padding:64px 0;}
   <div class="chat-safety">如果情緒持續影響生活，請尋求專業支援。</div>
 </div>
 
+<!-- ============ BACK TO TOP ============ -->
+<button id="toTop" class="to-top" type="button" aria-label="返回頁首">↑</button>
+
+<!-- ============ CRISIS SUPPORT POPUP ============ -->
+<div class="support-modal" id="supportModal" aria-hidden="true">
+  <div class="sm-backdrop" data-sclose></div>
+  <div class="sm-card" role="dialog" aria-modal="true" aria-labelledby="smTitle">
+    <button class="sm-close" data-sclose type="button" aria-label="關閉">×</button>
+    <h3 id="smTitle" class="sm-title">如果你需要即時支援</h3>
+    <p class="sm-lead">你並不孤單。如果情緒好難受，或者有傷害自己的念頭，請即刻聯絡以下 24 小時專線：</p>
+    <div class="sm-list">
+      <a href="tel:23892222"><b>撒瑪利亞會（24 小時）</b><span>2389 2222</span></a>
+      <a href="tel:24667350"><b>醫院管理局精神健康專線</b><span>2466 7350</span></a>
+      <a href="tel:18281"><b>東華三院芷若園</b><span>18281</span></a>
+      <a href="tel:999" class="sm-emerg"><b>緊急情況</b><span>999</span></a>
+    </div>
+  </div>
+</div>
+
 <script>
 (function(){
   "use strict";
@@ -939,9 +1034,14 @@ section{padding:64px 0;}
     body.appendChild(m); scrollDown();
   }
 
-  // Welcome message — 依對話手冊「開場與建立關係」語氣
+  // Welcome message — 依對話手冊「開場與建立關係」語氣，按時間個人化
+  var _h = new Date().getHours();
+  var _greet = (_h>=0 && _h<5) ? '而家夜深咯，如果瞓唔著、心裡面好亂，我喺度陪你。'
+             : (_h<12) ? '早晨。無論你昨晚點過，今日我都喺度陪你。'
+             : (_h<18) ? '午安。喺呢個時候停低一陣，同我傾兩句都好。'
+             : '夜晚喇。忙咗一日，如果心裡面仲掛住啲嘢，可以慢慢同我講。';
   addBotHTML(
-    '你好，我係 Resoul 嘅支援夥伴。而家你身邊有冇一個比較安靜、舒服嘅地方？我哋可以慢慢傾。你唔需要急住講好多，我會喺度陪你。'
+    _greet + '<br><br>你好，我係 Resoul 嘅「情緒傾聽」。你唔需要急住講好多，我會喺度陪你。'
   );
   addNote('傾之前，想你知：', [
     '我唔會提供寵物疾病診斷、用藥或治療建議，唔可以取代獸醫。',
@@ -1173,6 +1273,35 @@ section{padding:64px 0;}
       if(open) t.scrollIntoView({block:'nearest',behavior:'smooth'});
     });
   });
+
+  /* ---- Crisis support popup ---- */
+  var supportModal=document.getElementById('supportModal');
+  var supportBtn=document.getElementById('supportBtn');
+  function closeSupport(){ supportModal.classList.remove('open'); supportModal.setAttribute('aria-hidden','true'); }
+  if(supportBtn) supportBtn.addEventListener('click',function(){ supportModal.classList.add('open'); supportModal.setAttribute('aria-hidden','false'); });
+  supportModal.querySelectorAll('[data-sclose]').forEach(function(x){ x.addEventListener('click', closeSupport); });
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeSupport(); });
+
+  /* ---- Back to top ---- */
+  var toTop=document.getElementById('toTop');
+  function onScroll(){ if(window.scrollY>640) toTop.classList.add('show'); else toTop.classList.remove('show'); }
+  window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
+  toTop.addEventListener('click', function(){
+    window.scrollTo({top:0, behavior: root.getAttribute('data-quiet')==='on'?'auto':'smooth'});
+  });
+
+  /* ---- Mood filter ---- */
+  var mf=document.querySelector('.mood-filter');
+  if(mf){
+    mf.addEventListener('click', function(e){
+      var b=e.target.closest('.mf-chip'); if(!b) return;
+      mf.querySelectorAll('.mf-chip').forEach(function(c){ c.classList.toggle('active', c===b); });
+      var g=b.dataset.g;
+      document.querySelectorAll('.mood-group').forEach(function(grp){
+        grp.classList.toggle('hidden', g!=='all' && grp.dataset.g!==g);
+      });
+    });
+  }
 
   /* ---- Soft background music (audio file) ---- */
   var soundBtn=document.getElementById('soundBtn'), ambient=null, on=false, fadeTimer=null, TARGET_VOL=0.4;
