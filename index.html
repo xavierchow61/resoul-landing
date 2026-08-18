@@ -394,6 +394,16 @@ section{padding:64px 0;}
 .sub-desc{margin-top:12px;color:var(--ink-soft);font-size:1rem;line-height:1.8;}
 .sub-intro + .candles{padding-top:22px;}
 
+/* ===== Collapsible tools (candle / memory) ===== */
+.tool-toggle{margin:18px auto 0;display:inline-flex;align-items:center;gap:9px;background:var(--card);
+  border:1px solid var(--gold);color:var(--gold-deep);border-radius:999px;padding:12px 26px;
+  font-family:var(--sans);font-size:.98rem;font-weight:500;cursor:pointer;transition:background .2s,color .2s,transform .15s;}
+.tool-toggle:hover{background:rgba(184,154,110,.12);transform:translateY(-1px);}
+.tool-toggle.active{background:var(--gold);color:#fff;border-color:var(--gold);}
+:root[data-theme="dark"] .tool-toggle.active{background:var(--gold-deep);color:#211a13;}
+.tool-body{display:none;}
+.tool-body.open{display:block;animation:candleIn .4s ease;}
+
 /* ===== Candle wall ===== */
 .candles{background:var(--cream);text-align:center;}
 .candle-form{max-width:400px;margin:24px auto 0;display:flex;flex-direction:column;gap:10px;}
@@ -608,12 +618,15 @@ section{padding:64px 0;}
       <p class="eyebrow reveal">點一盞燭光</p>
       <h2 class="reveal">為毛孩，點一盞燭光。</h2>
       <p class="lead reveal" style="margin-top:14px;">寫下一句想對牠說的話，亮起一盞屬於你們的燭光。</p>
-      <div class="candle-form reveal">
-        <input id="candleName" maxlength="20" placeholder="毛孩的名字（可留空）">
-        <textarea id="candleMsg" maxlength="80" rows="2" placeholder="想對牠說的一句話…"></textarea>
-        <button id="candleLight" class="soft-btn" type="button">🕯️ 點一盞燭光</button>
+      <button class="tool-toggle reveal" type="button" aria-expanded="false" data-target="candleBody">🕯️ 點一盞燭光</button>
+      <div class="tool-body" id="candleBody">
+        <div class="candle-form">
+          <input id="candleName" maxlength="20" placeholder="毛孩的名字（可留空）">
+          <textarea id="candleMsg" maxlength="80" rows="2" placeholder="想對牠說的一句話…"></textarea>
+          <button id="candleLight" class="soft-btn" type="button">🕯️ 亮起燭光</button>
+        </div>
+        <div class="candle-wall" id="candleWall"></div>
       </div>
-      <div class="candle-wall" id="candleWall"></div>
     </div>
   </section>
 
@@ -625,22 +638,25 @@ section{padding:64px 0;}
       <p class="eyebrow reveal">毛孩回憶卡</p>
       <h2 class="reveal">為牠，做一張回憶卡。</h2>
       <p class="lead reveal" style="margin-top:14px;">上載一張相片，寫下名字與幾句回憶，即時生成一張溫柔的紀念卡。相片只會在你的裝置上處理，不會上傳。</p>
-      <div class="mem-editor reveal">
-        <label class="mem-upload">＋ 上載相片<input type="file" id="memPhoto" accept="image/*" hidden></label>
-        <input id="memName" maxlength="20" placeholder="毛孩的名字">
-        <input id="memDates" maxlength="24" placeholder="陪伴的年月（例如 2015 – 2024）">
-        <textarea id="memWords" maxlength="120" rows="3" placeholder="想記住的幾句回憶…"></textarea>
+      <button class="tool-toggle reveal" type="button" aria-expanded="false" data-target="memBody">🖼️ 製作回憶卡</button>
+      <div class="tool-body" id="memBody">
+        <div class="mem-editor">
+          <label class="mem-upload">＋ 上載相片<input type="file" id="memPhoto" accept="image/*" hidden></label>
+          <input id="memName" maxlength="20" placeholder="毛孩的名字">
+          <input id="memDates" maxlength="24" placeholder="陪伴的年月（例如 2015 – 2024）">
+          <textarea id="memWords" maxlength="120" rows="3" placeholder="想記住的幾句回憶…"></textarea>
+        </div>
+        <figure class="mem-card" id="memCard">
+          <div class="mem-photo" id="memPhotoBox" aria-hidden="true">🐾</div>
+          <figcaption>
+            <div class="mem-cname" id="memCName">牠的名字</div>
+            <div class="mem-cdates" id="memCDates"></div>
+            <p class="mem-cwords" id="memCWords">在這裡寫下最想記住的回憶…</p>
+            <div class="mem-cbrand">Resoul · 願想念被溫柔安放</div>
+          </figcaption>
+        </figure>
+        <button id="memDownload" class="soft-btn" type="button">儲存這張回憶卡</button>
       </div>
-      <figure class="mem-card reveal" id="memCard">
-        <div class="mem-photo" id="memPhotoBox" aria-hidden="true">🐾</div>
-        <figcaption>
-          <div class="mem-cname" id="memCName">牠的名字</div>
-          <div class="mem-cdates" id="memCDates"></div>
-          <p class="mem-cwords" id="memCWords">在這裡寫下最想記住的回憶…</p>
-          <div class="mem-cbrand">Resoul · 願想念被溫柔安放</div>
-        </figcaption>
-      </figure>
-      <button id="memDownload" class="soft-btn" type="button">儲存這張回憶卡</button>
     </div>
   </section>
 
@@ -1145,6 +1161,17 @@ section{padding:64px 0;}
     if(q) root.removeAttribute('data-quiet'); else root.setAttribute('data-quiet','on');
     try{localStorage.setItem('resoul-quiet', q?'off':'on');}catch(e){}
     updQuiet();
+  });
+
+  /* ---- Collapsible tools (candle / memory) ---- */
+  document.querySelectorAll('.tool-toggle').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var t=document.getElementById(btn.dataset.target); if(!t) return;
+      var open=t.classList.toggle('open');
+      btn.classList.toggle('active',open);
+      btn.setAttribute('aria-expanded', open?'true':'false');
+      if(open) t.scrollIntoView({block:'nearest',behavior:'smooth'});
+    });
   });
 
   /* ---- Soft background music (audio file) ---- */
