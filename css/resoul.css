@@ -619,20 +619,25 @@ section{padding:64px 0;}
 
 /* ===== Service procedure timeline ===== */
 .procedure{background:var(--cream);text-align:center;}
-/* 服務流程 — 由左至右的散步路徑，跟住小腳印 */
+/* 服務流程 — 直向、左右交錯的蜿蜒散步路徑，跟住小腳印 */
 .walk-hint{margin:14px auto 0;max-width:560px;color:var(--ink-soft);font-size:.9rem;}
 .wh-arw{display:inline-block;margin-left:5px;color:var(--gold-deep);animation:walkNudge 1.8s ease-in-out infinite;}
-@keyframes walkNudge{0%,100%{transform:translateX(0);}50%{transform:translateX(5px);}}
-.proc-walk{margin:26px -22px 0;padding:8px 22px 16px;overflow-x:auto;-webkit-overflow-scrolling:touch;scroll-snap-type:x proximity;}
-.walk-track{display:flex;align-items:flex-start;gap:0;list-style:none;padding:0;margin:0;min-width:min-content;}
-.wstep{flex:0 0 auto;width:206px;position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;scroll-snap-align:center;padding:0 6px;}
-/* 連接虛線 + 沿線的小腳印 */
-.wstep:not(:first-child)::before{content:"";position:absolute;top:24px;left:-50%;right:50%;border-top:2px dashed var(--line);z-index:0;}
-.wstep:not(:first-child)::after{content:"🐾  🐾  🐾";position:absolute;top:15px;left:-50%;right:50%;text-align:center;white-space:nowrap;font-size:13px;line-height:1;z-index:1;transform:rotate(5deg);}
+@keyframes walkNudge{0%,100%{transform:translateY(0);}50%{transform:translateY(4px);}}
+.proc-walk{margin:26px auto 0;max-width:540px;padding:0 4px;}
+.walk-track{display:flex;flex-direction:column;gap:0;list-style:none;padding:0;margin:0;}
+.wstep{position:relative;display:flex;align-items:flex-start;gap:14px;padding-bottom:38px;text-align:left;}
+.wstep:nth-child(even){flex-direction:row-reverse;text-align:right;}
+/* 每步向內縮少少，令路徑更不規則、更似漫步 */
+.wstep:nth-child(3n){margin-left:26px;}
+.wstep:nth-child(3n+2){margin-right:26px;}
+/* 交錯處的小腳印，斜斜通往下一步 */
+.wstep:not(:last-child)::after{content:"🐾  🐾";position:absolute;bottom:10px;font-size:13px;line-height:1;z-index:0;opacity:.85;}
+.wstep:nth-child(odd):not(:last-child)::after{left:34px;transform:rotate(24deg);}
+.wstep:nth-child(even):not(:last-child)::after{right:34px;transform:rotate(-24deg);}
 /* 石階節點 */
-.wstone{position:relative;z-index:2;width:48px;height:48px;border-radius:50%;border:1.5px solid var(--gold);background:var(--card);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,.05);}
+.wstone{flex:0 0 auto;position:relative;z-index:2;width:48px;height:48px;border-radius:50%;border:1.5px solid var(--gold);background:var(--card);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,.05);}
 .wnum{font-family:var(--serif);font-weight:600;font-size:1.05rem;color:var(--gold-deep);}
-.wcard{margin-top:16px;}
+.wcard{flex:1;padding-top:6px;}
 .wcard h4{font-size:1rem;color:var(--ink);line-height:1.5;}
 .wcard p{color:var(--ink-soft);font-size:.86rem;margin-top:5px;line-height:1.6;}
 .wcard i{display:block;margin-top:6px;font-family:var(--slogan);font-style:italic;font-size:.8rem;color:var(--ink-faint);line-height:1.45;}
