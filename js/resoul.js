@@ -482,6 +482,23 @@
   var form = document.getElementById('bookForm');
   if(!form) return;
   var WA_NUMBER = '85264762951'; // Resoul WhatsApp（如需更改，改呢度）
+
+  // 按「網上預約」先展開表單，再平滑捲落
+  var bcta = document.getElementById('bookingCta');
+  var bsec = document.getElementById('booking');
+  var bdiv = document.getElementById('bookingDivider');
+  if(bcta && bsec){
+    bcta.addEventListener('click', function(){
+      if(bdiv) bdiv.style.display='';
+      bsec.style.display='';
+      bsec.querySelectorAll('.reveal').forEach(function(n){ n.classList.add('in'); });
+      var header = document.querySelector('.site-header');
+      var offset = (header ? header.offsetHeight : 0) + 14;
+      var y = bsec.getBoundingClientRect().top + window.pageYOffset - offset;
+      window.scrollTo({ top: y < 0 ? 0 : y, behavior: 'smooth' });
+      setTimeout(function(){ var n=document.getElementById('bkName'); if(n) n.focus(); }, 500);
+    });
+  }
   function val(id){ var e=document.getElementById(id); return e ? e.value.trim() : ''; }
   form.addEventListener('submit', function(e){
     e.preventDefault();
