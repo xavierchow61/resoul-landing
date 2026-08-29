@@ -675,3 +675,6 @@ section{padding:64px 0;}
   .nav-group:hover .nav-menu{display:flex;}
   .nav-group:hover .nav-caret{transform:rotate(180deg);}
 }
+
+/* 關於 / 火化：內文段落靠左（標題維持置中） */
+.about .lead,.cremation .lead{text-align:left;}
