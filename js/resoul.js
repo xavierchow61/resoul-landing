@@ -432,7 +432,7 @@
   if(!form) return;
   var WA_NUMBER = '85264762951'; // Resoul WhatsApp（如需更改，改呢度）
   // Google Sheet 收集：貼上 Apps Script Web App 網址即會同步寫入 Sheet（留空則只發 WhatsApp）
-  var SHEET_ENDPOINT = '';
+  var SHEET_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxNb2AErdbstA_N3khZtyACn_oOModpfmA8_NBvLy6ArODEaPbZiZEAoVBHY8iIdvNv/exec';
 
   // 按「網上預約」先展開表單，再平滑捲落
   var bcta = document.getElementById('bookingCta');
