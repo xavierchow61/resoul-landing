@@ -619,28 +619,27 @@ section{padding:64px 0;}
 
 /* ===== Service procedure timeline ===== */
 .procedure{background:var(--cream);text-align:center;}
-/* 服務流程 — 直向、左右交錯的蜿蜒散步路徑，跟住小腳印 */
+/* 服務流程 — 由左至右、不規則高低錯落的散步路徑（自動換行，不需拉動） */
 .walk-hint{margin:14px auto 0;max-width:560px;color:var(--ink-soft);font-size:.9rem;}
 .wh-arw{display:inline-block;margin-left:5px;color:var(--gold-deep);animation:walkNudge 1.8s ease-in-out infinite;}
-@keyframes walkNudge{0%,100%{transform:translateY(0);}50%{transform:translateY(4px);}}
-.proc-walk{margin:26px auto 0;max-width:540px;padding:0 4px;}
-.walk-track{display:flex;flex-direction:column;gap:0;list-style:none;padding:0;margin:0;}
-.wstep{position:relative;display:flex;align-items:flex-start;gap:14px;padding-bottom:38px;text-align:left;}
-.wstep:nth-child(even){flex-direction:row-reverse;text-align:right;}
-/* 每步向內縮少少，令路徑更不規則、更似漫步 */
-.wstep:nth-child(3n){margin-left:26px;}
-.wstep:nth-child(3n+2){margin-right:26px;}
-/* 交錯處的小腳印，斜斜通往下一步 */
-.wstep:not(:last-child)::after{content:"🐾  🐾";position:absolute;bottom:10px;font-size:13px;line-height:1;z-index:0;opacity:.85;}
-.wstep:nth-child(odd):not(:last-child)::after{left:34px;transform:rotate(24deg);}
-.wstep:nth-child(even):not(:last-child)::after{right:34px;transform:rotate(-24deg);}
-/* 石階節點 */
-.wstone{flex:0 0 auto;position:relative;z-index:2;width:48px;height:48px;border-radius:50%;border:1.5px solid var(--gold);background:var(--card);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,.05);}
-.wnum{font-family:var(--serif);font-weight:600;font-size:1.05rem;color:var(--gold-deep);}
-.wcard{flex:1;padding-top:6px;}
-.wcard h4{font-size:1rem;color:var(--ink);line-height:1.5;}
-.wcard p{color:var(--ink-soft);font-size:.86rem;margin-top:5px;line-height:1.6;}
-.wcard i{display:block;margin-top:6px;font-family:var(--slogan);font-style:italic;font-size:.8rem;color:var(--ink-faint);line-height:1.45;}
+@keyframes walkNudge{0%,100%{transform:translateX(0);}50%{transform:translateX(5px);}}
+.proc-walk{margin:26px auto 0;max-width:560px;padding:6px 0 4px;}
+.walk-track{display:flex;flex-wrap:wrap;justify-content:center;align-items:flex-start;gap:10px 14px;list-style:none;padding:0;margin:0;}
+.wstep{flex:0 0 auto;width:150px;position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;}
+/* 不規則：每步高低錯落，好似漫步 */
+.wstep:nth-child(2n){margin-top:28px;}
+.wstep:nth-child(3n){margin-top:12px;}
+.wstep:nth-child(4n){margin-top:38px;}
+.wstep:nth-child(5n){margin-top:6px;}
+.wstep:nth-child(7n){margin-top:22px;}
+/* 石階節點 + 通往下一步的小腳印 */
+.wstone{position:relative;z-index:2;width:46px;height:46px;border-radius:50%;border:1.5px solid var(--gold);background:var(--card);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,.05);}
+.wstep:not(:last-child) .wstone::after{content:"🐾";position:absolute;top:52%;right:-17px;transform:translateY(-50%) rotate(14deg);font-size:11px;opacity:.65;}
+.wnum{font-family:var(--serif);font-weight:600;font-size:1.02rem;color:var(--gold-deep);}
+.wcard{margin-top:12px;}
+.wcard h4{font-size:.95rem;color:var(--ink);line-height:1.45;}
+.wcard p{color:var(--ink-soft);font-size:.8rem;margin-top:5px;line-height:1.55;}
+.wcard i{display:block;margin-top:5px;font-family:var(--slogan);font-style:italic;font-size:.74rem;color:var(--ink-faint);line-height:1.4;}
 @media (prefers-reduced-motion:reduce){.wh-arw{animation:none;}}
 :root[data-quiet="on"] .wh-arw{animation:none;}
 
@@ -678,3 +677,17 @@ section{padding:64px 0;}
 
 /* 關於 / 火化：內文段落靠左（標題維持置中） */
 .about .lead,.cremation .lead{text-align:left;}
+
+/* ---------- 條款 / 私隱政策頁 ---------- */
+.legal{max-width:var(--maxw);margin:0 auto;padding:34px 24px 56px;}
+.legal h1{font-size:1.65rem;color:var(--ink);margin-bottom:6px;}
+.legal .updated{color:var(--ink-faint);font-size:.82rem;margin-bottom:22px;}
+.legal h2{font-size:1.1rem;color:var(--ink);margin:26px 0 8px;}
+.legal p{color:var(--ink-soft);font-size:.94rem;line-height:1.85;margin:0 0 10px;}
+.legal ul{margin:8px 0 12px;padding-left:1.3em;}
+.legal li{color:var(--ink-soft);font-size:.94rem;line-height:1.8;margin:5px 0;}
+.legal a{color:var(--gold-deep);text-decoration:underline;}
+.legal .note{margin-top:26px;padding-top:16px;border-top:1px solid var(--line);color:var(--ink-faint);font-size:.82rem;line-height:1.7;}
+.flinks{margin-top:12px;font-size:.78rem;letter-spacing:.04em;}
+.flinks a{color:var(--ink-faint);}
+.flinks a:hover{color:var(--gold-deep);}
