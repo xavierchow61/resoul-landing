@@ -716,6 +716,6 @@ section{padding:64px 0;}
 .book-urgent b{color:var(--gold-deep);}
 .book-urgent a{color:var(--gold-deep);border-bottom:1px solid var(--gold);}
 
-/* 情緒支持頁圖片 */
-.support-figure{margin:26px 0 4px;border-radius:18px;overflow:hidden;box-shadow:var(--shadow);}
-.support-figure img{width:100%;aspect-ratio:16/9;object-fit:cover;object-position:center 58%;}
+/* 情緒支持頁：關於哀傷 / 照顧自己 */
+.selfcare{background:var(--cream);}
+.care-cta{text-align:center;margin-top:32px;}
