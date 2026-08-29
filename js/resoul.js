@@ -431,6 +431,8 @@
   var form = document.getElementById('bookForm');
   if(!form) return;
   var WA_NUMBER = '85264762951'; // Resoul WhatsApp（如需更改，改呢度）
+  // Google Sheet 收集：貼上 Apps Script Web App 網址即會同步寫入 Sheet（留空則只發 WhatsApp）
+  var SHEET_ENDPOINT = '';
 
   // 按「網上預約」先展開表單，再平滑捲落
   var bcta = document.getElementById('bookingCta');
@@ -464,6 +466,22 @@
       '方便聯絡時間：' + (val('bkTime') || '—'),
       '備註：' + (val('bkNote') || '—')
     ];
+    // 同步寫入 Google Sheet（fire-and-forget，唔阻住 WhatsApp）
+    if(SHEET_ENDPOINT){
+      var payload = {
+        name: val('bkName'), phone: val('bkPhone'), plan: val('bkPlan'),
+        pet: val('bkPet'), weight: val('bkWeight'), place: val('bkPlace'),
+        situation: val('bkSituation'), time: val('bkTime'), note: val('bkNote'),
+        source: 'cremation-booking'
+      };
+      try{
+        fetch(SHEET_ENDPOINT, {
+          method: 'POST', mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(payload)
+        });
+      }catch(err){}
+    }
     var url = 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(lines.join('\n'));
     window.open(url, '_blank', 'noopener');
   });
