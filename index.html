@@ -200,9 +200,9 @@ section{padding:64px 0;}
 .chip:hover{background:var(--gold);color:#fff;border-color:var(--gold);}
 .chat-input{display:flex;gap:10px;align-items:flex-end;padding:12px 16px 16px;background:#fdfbf6;border-top:1px solid var(--line);}
 .chat-input textarea{
-  flex:1;resize:none;border:1px solid var(--line);border-radius:14px;
-  padding:11px 13px;font-family:var(--sans);font-size:.92rem;color:var(--ink);
-  background:#fff;line-height:1.6;max-height:120px;min-height:46px;
+  flex:1;resize:vertical;border:1px solid var(--line);border-radius:14px;
+  padding:11px 13px;font-family:var(--sans);font-size:.95rem;color:var(--ink);
+  background:#fff;line-height:1.65;max-height:280px;min-height:70px;
 }
 .chat-input textarea:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(184,154,110,.15);}
 .send{
@@ -566,12 +566,12 @@ section{padding:64px 0;}
 .cremation{text-align:center;}
 .seaview{margin-top:30px;display:grid;grid-template-columns:1fr;gap:24px;align-items:center;}
 @media(min-width:760px){.seaview{grid-template-columns:1fr 1fr;gap:40px;}}
-.seaview-img{aspect-ratio:4/3;border-radius:18px;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;text-align:center;
-  background:linear-gradient(160deg,#a7c7d9 0%,#d3e2e7 42%,#f0e6d0 100%);box-shadow:var(--shadow);position:relative;background-size:cover;background-position:center;}
-.seaview-img::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(60,47,39,.22),transparent 55%);}
-.sv-tag{font-family:var(--serif);font-size:1.9rem;font-weight:700;letter-spacing:.14em;color:#fff;z-index:1;text-shadow:0 2px 12px rgba(50,40,30,.5);}
-.sv-sub{font-family:var(--slogan);font-style:italic;font-size:.98rem;color:#fff;z-index:1;text-shadow:0 1px 8px rgba(50,40,30,.5);}
-.sv-note{margin-top:10px;font-size:.76rem;color:#fff;background:rgba(60,47,39,.4);padding:5px 13px;border-radius:999px;z-index:1;}
+.seaview-img{aspect-ratio:4/3;border-radius:18px;overflow:hidden;box-shadow:var(--shadow);position:relative;}
+.seaview-img img{width:100%;height:100%;object-fit:cover;display:block;}
+.seaview-img::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(50,40,30,.42),transparent 48%);}
+.sv-cap{position:absolute;left:18px;bottom:15px;z-index:1;color:#fff;text-align:left;text-shadow:0 2px 10px rgba(50,40,30,.55);}
+.sv-cap b{font-family:var(--serif);font-size:1.5rem;font-weight:700;letter-spacing:.12em;display:block;}
+.sv-cap i{font-family:var(--slogan);font-style:italic;font-size:.85rem;letter-spacing:.05em;}
 .seaview-txt{text-align:left;}
 .seaview-txt h3{font-size:1.3rem;color:var(--ink);margin-bottom:12px;}
 .seaview-txt p{color:var(--ink-soft);font-size:.96rem;line-height:1.85;margin-bottom:10px;}
@@ -616,7 +616,6 @@ section{padding:64px 0;}
 <div class="uctrl">
   <button id="supportBtn" class="uc-btn uc-support" type="button" aria-label="即時支援熱線" title="即時支援">♡</button>
   <button id="quietBtn" class="uc-btn" type="button" aria-label="安靜模式（減少動畫）" title="安靜模式">靜</button>
-  <button id="soundBtn" class="uc-btn" type="button" aria-label="輕柔背景音開關" title="輕柔背景音">♪</button>
   <button id="themeBtn" class="uc-btn" type="button" aria-label="深色模式開關" title="深色模式">☾</button>
 </div>
 
@@ -668,7 +667,7 @@ section{padding:64px 0;}
       <div class="triage reveal">
         <button type="button" data-open-chat>我只是很想牠</button>
         <a href="#support">我需要整理告別安排</a>
-        <a href="#candles">我想留下紀念</a>
+        <a href="#products">我想留下紀念</a>
       </div>
     </div>
   </section>
@@ -697,65 +696,6 @@ section{padding:64px 0;}
           <h3>最後留下紀念</h3>
           <p>把想念好好安放，為牠在家中、在心裡留一個溫柔的位置，讓這份愛可以繼續陪著你。</p>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <hr class="divider">
-
-  <!-- ============ SUPPORT EXTRA: subheading ============ -->
-  <section class="sub-intro">
-    <div class="wrap">
-      <h3 class="sub-title reveal">陪自己走過的溫柔方式</h3>
-      <p class="sub-desc reveal">除了被聆聽，你也可以在這裡，為毛孩點一盞燭光、做一張回憶卡，為想念留一個安放的位置。</p>
-    </div>
-  </section>
-
-  <!-- ============ CANDLE WALL ============ -->
-  <section class="candles" id="candles">
-    <div class="wrap">
-      <p class="eyebrow reveal">點一盞燭光</p>
-      <h2 class="reveal">為毛孩，點一盞燭光。</h2>
-      <p class="lead reveal" style="margin-top:14px;">寫下一句想對牠說的話，亮起一盞屬於你們的燭光。</p>
-      <p class="companion-note reveal">你並不孤單——每一盞燭光，都是一位和你一樣深愛毛孩的人，靜靜點亮的。</p>
-      <button class="tool-toggle reveal" type="button" aria-expanded="false" data-target="candleBody">🕯️ 點一盞燭光</button>
-      <div class="tool-body" id="candleBody">
-        <div class="candle-form">
-          <input id="candleName" maxlength="20" placeholder="毛孩的名字（可留空）">
-          <textarea id="candleMsg" maxlength="80" rows="2" placeholder="想對牠說的一句話…"></textarea>
-          <button id="candleLight" class="soft-btn" type="button">🕯️ 亮起燭光</button>
-        </div>
-        <div class="candle-wall" id="candleWall"></div>
-      </div>
-    </div>
-  </section>
-
-  <hr class="divider">
-
-  <!-- ============ MEMORY CARD ============ -->
-  <section class="memory" id="memory">
-    <div class="wrap">
-      <p class="eyebrow reveal">毛孩回憶卡</p>
-      <h2 class="reveal">為牠，做一張回憶卡。</h2>
-      <p class="lead reveal" style="margin-top:14px;">上載一張相片，寫下名字與幾句回憶，即時生成一張溫柔的紀念卡。相片只會在你的裝置上處理，不會上傳。</p>
-      <button class="tool-toggle reveal" type="button" aria-expanded="false" data-target="memBody">🖼️ 製作回憶卡</button>
-      <div class="tool-body" id="memBody">
-        <div class="mem-editor">
-          <label class="mem-upload">＋ 上載相片<input type="file" id="memPhoto" accept="image/*" hidden></label>
-          <input id="memName" maxlength="20" placeholder="毛孩的名字">
-          <input id="memDates" maxlength="24" placeholder="陪伴的年月（例如 2015 – 2024）">
-          <textarea id="memWords" maxlength="120" rows="3" placeholder="想記住的幾句回憶…"></textarea>
-        </div>
-        <figure class="mem-card" id="memCard">
-          <div class="mem-photo" id="memPhotoBox" aria-hidden="true">🐾</div>
-          <figcaption>
-            <div class="mem-cname" id="memCName">牠的名字</div>
-            <div class="mem-cdates" id="memCDates"></div>
-            <p class="mem-cwords" id="memCWords">在這裡寫下最想記住的回憶…</p>
-            <div class="mem-cbrand">Resoul · 願想念被溫柔安放</div>
-          </figcaption>
-        </figure>
-        <button id="memDownload" class="soft-btn" type="button">儲存這張回憶卡</button>
       </div>
     </div>
   </section>
@@ -812,10 +752,9 @@ section{padding:64px 0;}
       <p class="lead reveal">在 Resoul，我們 24/7 為你提供溫柔而有尊嚴的服務：即時接送、細心處理、個性化私人家火化、專屬骨灰罈與紀念品、寧靜的告別儀式，以及環保選項——一切都按照你的心願，給予你最愛的毛孩最溫柔的道別。</p>
 
       <div class="seaview reveal">
-        <div class="seaview-img" id="seaviewImg" role="img" aria-label="海景紀念室 THE MODERN，面向大海的寧靜告別空間">
-          <span class="sv-tag">THE MODERN</span>
-          <span class="sv-sub">Modern Elegance by the Sea</span>
-          <span class="sv-note">🌅 海景紀念室 · 相片稍後加上</span>
+        <div class="seaview-img" id="seaviewImg">
+          <img src="images/resoul-seaview.webp" alt="海景紀念室 THE MODERN，面向大海的寧靜告別空間，寵物籃與鮮花">
+          <span class="sv-cap"><b>THE MODERN</b><i>Modern Elegance by the Sea</i></span>
         </div>
         <div class="seaview-txt">
           <h3>保證海景紀念室</h3>
@@ -1317,7 +1256,7 @@ section{padding:64px 0;}
     if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); submit(); }
   });
 
-  function autoGrow(){ text.style.height='auto'; text.style.height=Math.min(text.scrollHeight,120)+'px'; }
+  function autoGrow(){ text.style.height='auto'; text.style.height=Math.min(text.scrollHeight,260)+'px'; }
   text.addEventListener('input', autoGrow);
 
   document.getElementById('widgetChips').addEventListener('click', function(e){
@@ -1478,35 +1417,6 @@ section{padding:64px 0;}
     });
     bRender();
   }
-
-  /* ---- Soft background music (audio file) ---- */
-  var soundBtn=document.getElementById('soundBtn'), ambient=null, on=false, fadeTimer=null, TARGET_VOL=0.4;
-  function ensureAudio(){
-    if(ambient) return ambient;
-    ambient=new Audio('images/resoul-ambient.mp3');
-    ambient.loop=true; ambient.preload='none'; ambient.volume=0;
-    return ambient;
-  }
-  function fadeTo(vol, done){
-    if(fadeTimer) clearInterval(fadeTimer);
-    var a=ambient; if(!a) return;
-    fadeTimer=setInterval(function(){
-      var d=vol-a.volume;
-      if(Math.abs(d)<0.03){ a.volume=Math.max(0,Math.min(1,vol)); clearInterval(fadeTimer); fadeTimer=null; if(done) done(); }
-      else { a.volume=Math.max(0,Math.min(1,a.volume+d*0.18)); }
-    }, 60);
-  }
-  soundBtn.addEventListener('click',function(){
-    on=!on;
-    if(on){
-      var a=ensureAudio();
-      a.play().then(function(){ soundBtn.classList.add('active'); fadeTo(TARGET_VOL); })
-              .catch(function(){ on=false; soundBtn.classList.remove('active'); });
-    } else {
-      fadeTo(0, function(){ if(ambient) ambient.pause(); });
-      soundBtn.classList.remove('active');
-    }
-  });
 
   /* ---- Candle wall (localStorage) ---- */
   var wall=document.getElementById('candleWall');
