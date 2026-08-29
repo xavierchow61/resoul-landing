@@ -325,57 +325,6 @@
     });
   }
 
-  /* ---- Grief board (localStorage prototype) ---- */
-  var boardList=document.getElementById('boardList');
-  if(boardList){
-    var boardPhotoData=null;
-    var boardSeed=[
-      {n:'Bailey 的家人',m:'謝謝你陪伴我們走過十年，家裡每個角落都還記得你。',t:Date.now()-86400000*2},
-      {n:'',m:'想念你的氣味，想念你等我回家的樣子。願你在那邊自由奔跑。',t:Date.now()-3600000*5}
-    ];
-    function bLoad(){try{return JSON.parse(localStorage.getItem('resoul-board')||'[]');}catch(e){return [];}}
-    function bSave(a){try{localStorage.setItem('resoul-board',JSON.stringify(a.slice(0,80)));}catch(e){}}
-    function bEsc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
-    function bTime(t){var h=Math.floor((Date.now()-t)/3600000);if(h<1)return '剛剛';if(h<24)return h+' 小時前';return Math.floor(h/24)+' 天前';}
-    function bRender(){
-      boardList.innerHTML='';
-      bLoad().concat(boardSeed).forEach(function(p){
-        var el=document.createElement('div');el.className='bpost';
-        el.innerHTML=(p.img?'<img src="'+p.img+'" alt="留言相片">':'')
-          +'<div class="bp-name">'+(p.n?bEsc(p.n):'一位同路人')+'</div>'
-          +'<div class="bp-msg">'+bEsc(p.m)+'</div>'
-          +'<div class="bp-time">'+bTime(p.t)+'</div>';
-        boardList.appendChild(el);
-      });
-    }
-    document.getElementById('boardPhoto').addEventListener('change',function(e){
-      var f=e.target.files&&e.target.files[0];if(!f)return;
-      var r=new FileReader();
-      r.onload=function(ev){
-        var img=new Image();
-        img.onload=function(){
-          var mx=560,sc=Math.min(1,mx/Math.max(img.width,img.height));
-          var c=document.createElement('canvas');c.width=Math.round(img.width*sc);c.height=Math.round(img.height*sc);
-          c.getContext('2d').drawImage(img,0,0,c.width,c.height);
-          boardPhotoData=c.toDataURL('image/jpeg',0.75);
-          var pv=document.getElementById('boardPreview');pv.src=boardPhotoData;pv.style.display='block';
-        };
-        img.src=ev.target.result;
-      };
-      r.readAsDataURL(f);
-    });
-    document.getElementById('boardPost').addEventListener('click',function(){
-      var msg=document.getElementById('boardMsg').value.trim();
-      if(!msg && !boardPhotoData) return;
-      var arr=bLoad();
-      arr.unshift({n:document.getElementById('boardName').value.trim(),m:msg,img:boardPhotoData,t:Date.now()});
-      bSave(arr);
-      document.getElementById('boardMsg').value='';document.getElementById('boardName').value='';
-      boardPhotoData=null;var pv=document.getElementById('boardPreview');pv.style.display='none';pv.src='';
-      bRender();
-    });
-    bRender();
-  }
 
   /* ---- Candle wall (localStorage) ---- */
   var wall=document.getElementById('candleWall');
