@@ -604,3 +604,38 @@ section{padding:64px 0;}
 
 /* nav active */
 .nav a[aria-current]{color:var(--gold-deep);border-color:var(--gold);}
+
+/* ===== Service highlights ===== */
+.services{text-align:center;}
+.services-grid{margin-top:28px;display:grid;grid-template-columns:1fr;gap:15px;text-align:left;}
+@media(min-width:560px){.services-grid{grid-template-columns:1fr 1fr;}}
+@media(min-width:880px){.services-grid{grid-template-columns:1fr 1fr 1fr;}}
+.scard{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px 20px;box-shadow:0 8px 26px -22px rgba(70,52,34,.5);}
+.sc-ic{display:inline-flex;width:44px;height:44px;border-radius:50%;background:#f1e7d7;align-items:center;justify-content:center;font-size:1.2rem;margin-bottom:12px;}
+:root[data-theme="dark"] .sc-ic{background:#33291f;}
+.scard h3{font-size:1.05rem;color:var(--ink);margin-bottom:7px;}
+.scard p{color:var(--ink-soft);font-size:.9rem;line-height:1.7;}
+.scard i{display:block;margin-top:8px;font-family:var(--slogan);font-style:italic;font-size:.85rem;color:var(--gold-deep);}
+
+/* ===== Service procedure timeline ===== */
+.procedure{background:var(--cream);text-align:center;}
+.proc-list{margin:28px auto 0;max-width:560px;list-style:none;padding:0;text-align:left;}
+.proc-list li{display:flex;gap:16px;padding:0 0 26px;position:relative;}
+.proc-list li:not(:last-child)::before{content:"";position:absolute;left:19px;top:42px;bottom:0;width:2px;background:var(--line);}
+.proc-list .pn{flex:0 0 auto;width:40px;height:40px;border-radius:50%;border:1.5px solid var(--gold);background:var(--card);color:var(--gold-deep);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-weight:600;font-size:1rem;z-index:1;}
+.proc-list h4{font-size:1.04rem;color:var(--ink);line-height:1.5;}
+.proc-list p{color:var(--ink-soft);font-size:.9rem;margin-top:3px;line-height:1.65;}
+.proc-list i{display:block;margin-top:4px;font-family:var(--slogan);font-style:italic;font-size:.82rem;color:var(--ink-faint);}
+
+/* ===== Four Farewells ===== */
+.farewell{text-align:center;}
+.farewell-steps{margin-top:28px;display:grid;grid-template-columns:1fr;gap:14px;text-align:left;}
+@media(min-width:560px){.farewell-steps{grid-template-columns:1fr 1fr;}}
+.fw{display:flex;gap:15px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px 20px;box-shadow:0 8px 26px -22px rgba(70,52,34,.5);}
+.fw-n{flex:0 0 auto;width:44px;height:44px;border-radius:50%;background:var(--gold);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:1.3rem;}
+:root[data-theme="dark"] .fw-n{background:var(--gold-deep);color:#211a13;}
+.fw h3{font-size:1.15rem;color:var(--ink);}
+.fw i{display:block;font-family:var(--slogan);font-style:italic;font-size:.82rem;color:var(--gold-deep);margin:2px 0 6px;}
+.fw p{color:var(--ink-soft);font-size:.9rem;line-height:1.65;}
+.farewell-note{margin-top:26px;color:var(--ink-soft);font-size:.96rem;line-height:1.95;}
+.farewell-note b{color:var(--ink);font-weight:600;}
