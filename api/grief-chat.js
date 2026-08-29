@@ -65,6 +65,25 @@ function loadSystemPrompt() {
 
 const SYSTEM_PROMPT = loadSystemPrompt();
 
+/* ---------- 防濫用：per-IP 速率限制（best-effort，記憶體內） ----------
+ * 無伺服器環境下每個實例獨立，屬盡力而為的防護；如需嚴格限制可接 Vercel KV / Upstash。 */
+const RATE = { windowMs: 60000, max: 25, burstMs: 10000, burstMax: 8 };
+const hits = new Map(); // ip -> [timestamps]
+function clientIp(req) {
+  const xff = String(req.headers["x-forwarded-for"] || "").split(",")[0].trim();
+  return xff || (req.socket && req.socket.remoteAddress) || "unknown";
+}
+function rateLimited(ip) {
+  const now = Date.now();
+  let arr = (hits.get(ip) || []).filter((t) => now - t < RATE.windowMs);
+  const burst = arr.filter((t) => now - t < RATE.burstMs).length;
+  if (arr.length >= RATE.max || burst >= RATE.burstMax) { hits.set(ip, arr); return true; }
+  arr.push(now);
+  hits.set(ip, arr);
+  if (hits.size > 5000) { for (const [k, v] of hits) { if (!v.some((t) => now - t < RATE.windowMs)) hits.delete(k); } }
+  return false;
+}
+
 module.exports = async (req, res) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
@@ -72,6 +91,8 @@ module.exports = async (req, res) => {
 
   if (req.method === "OPTIONS") { res.status(204).end(); return; }
   if (req.method !== "POST") { res.status(405).json({ error: "method_not_allowed" }); return; }
+
+  if (rateLimited(clientIp(req))) { res.status(429).json({ error: "rate_limited" }); return; }
 
   const key = process.env.GEMINI_API_KEY;
   if (!key) { res.status(500).json({ error: "server_not_configured" }); return; }
@@ -91,12 +112,12 @@ module.exports = async (req, res) => {
 
   const url =
     "https://generativelanguage.googleapis.com/v1beta/models/" +
-    MODEL + ":generateContent?key=" + key;
+    MODEL + ":streamGenerateContent?alt=sse&key=" + key;
 
   const payload = {
     system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
     contents,
-    generationConfig: { temperature: 0.7, topP: 0.95, maxOutputTokens: 2048 },
+    generationConfig: { temperature: 0.7, topP: 0.95, maxOutputTokens: 2048, candidateCount: 1 },
     safetySettings: [
       { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_ONLY_HIGH" },
       { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_ONLY_HIGH" },
@@ -105,23 +126,53 @@ module.exports = async (req, res) => {
     ],
   };
 
+  let upstream;
   try {
-    const r = await fetch(url, {
+    upstream = await fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
     });
-    if (!r.ok) {
-      const detail = (await r.text()).slice(0, 400);
-      res.status(502).json({ error: "gemini_error", detail });
-      return;
-    }
-    const data = await r.json();
-    const parts = (data && data.candidates && data.candidates[0] &&
-      data.candidates[0].content && data.candidates[0].content.parts) || [];
-    const reply = parts.map((p) => (p && p.text) || "").join("").trim();
-    res.status(200).json({ reply });
   } catch (e) {
     res.status(502).json({ error: "upstream_unreachable" });
+    return;
   }
+  if (!upstream.ok || !upstream.body) {
+    const detail = (await upstream.text().catch(() => "")).slice(0, 400);
+    res.status(502).json({ error: "gemini_error", detail });
+    return;
+  }
+
+  // 串流回應：逐段將文字寫回前端（text/plain）
+  res.setHeader("Content-Type", "text/plain; charset=utf-8");
+  res.setHeader("Cache-Control", "no-cache, no-transform");
+  res.setHeader("X-Accel-Buffering", "no");
+  if (typeof res.flushHeaders === "function") res.flushHeaders();
+
+  const reader = upstream.body.getReader();
+  const decoder = new TextDecoder();
+  let buf = "";
+  try {
+    for (;;) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      buf += decoder.decode(value, { stream: true });
+      let idx;
+      while ((idx = buf.indexOf("\n")) >= 0) {
+        const line = buf.slice(0, idx).trim();
+        buf = buf.slice(idx + 1);
+        if (!line || line.startsWith(":") || !line.startsWith("data:")) continue;
+        const js = line.slice(5).trim();
+        if (js === "[DONE]") continue;
+        try {
+          const obj = JSON.parse(js);
+          const parts = (obj && obj.candidates && obj.candidates[0] &&
+            obj.candidates[0].content && obj.candidates[0].content.parts) || [];
+          const text = parts.map((p) => (p && p.text) || "").join("");
+          if (text) res.write(text);
+        } catch (e) { /* 分段的 JSON，等下一段 */ }
+      }
+    }
+  } catch (e) { /* 串流中斷，直接收尾 */ }
+  res.end();
 };

@@ -623,23 +623,32 @@ section{padding:64px 0;}
 .walk-hint{margin:14px auto 0;max-width:560px;color:var(--ink-soft);font-size:.9rem;}
 .wh-arw{display:inline-block;margin-left:5px;color:var(--gold-deep);animation:walkNudge 1.8s ease-in-out infinite;}
 @keyframes walkNudge{0%,100%{transform:translateX(0);}50%{transform:translateX(5px);}}
-.proc-walk{margin:26px auto 0;max-width:560px;padding:6px 0 4px;}
-.walk-track{display:flex;flex-wrap:wrap;justify-content:center;align-items:flex-start;gap:10px 14px;list-style:none;padding:0;margin:0;}
-.wstep{flex:0 0 auto;width:150px;position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;}
+/* 加闊呢一段容器，等 7 步可以放同一行 */
+.procedure .wrap{max-width:1120px;}
+.proc-walk{margin:26px auto 0;max-width:100%;padding:6px 0 4px;}
+.walk-track{display:flex;flex-wrap:nowrap;justify-content:center;align-items:flex-start;gap:6px;list-style:none;padding:0;margin:0;}
+.wstep{flex:1 1 0;min-width:0;position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;}
 /* 不規則：每步高低錯落，好似漫步 */
-.wstep:nth-child(2n){margin-top:28px;}
+.wstep:nth-child(2n){margin-top:26px;}
 .wstep:nth-child(3n){margin-top:12px;}
-.wstep:nth-child(4n){margin-top:38px;}
+.wstep:nth-child(4n){margin-top:36px;}
 .wstep:nth-child(5n){margin-top:6px;}
-.wstep:nth-child(7n){margin-top:22px;}
+.wstep:nth-child(7n){margin-top:20px;}
 /* 石階節點 + 通往下一步的小腳印 */
-.wstone{position:relative;z-index:2;width:46px;height:46px;border-radius:50%;border:1.5px solid var(--gold);background:var(--card);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,.05);}
-.wstep:not(:last-child) .wstone::after{content:"🐾";position:absolute;top:52%;right:-17px;transform:translateY(-50%) rotate(14deg);font-size:11px;opacity:.65;}
-.wnum{font-family:var(--serif);font-weight:600;font-size:1.02rem;color:var(--gold-deep);}
-.wcard{margin-top:12px;}
-.wcard h4{font-size:.95rem;color:var(--ink);line-height:1.45;}
-.wcard p{color:var(--ink-soft);font-size:.8rem;margin-top:5px;line-height:1.55;}
-.wcard i{display:block;margin-top:5px;font-family:var(--slogan);font-style:italic;font-size:.74rem;color:var(--ink-faint);line-height:1.4;}
+.wstone{position:relative;z-index:2;width:42px;height:42px;border-radius:50%;border:1.5px solid var(--gold);background:var(--card);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,.05);}
+.wstep:not(:last-child) .wstone::after{content:"🐾";position:absolute;top:52%;right:-11px;transform:translateY(-50%) rotate(14deg);font-size:9px;opacity:.6;}
+.wnum{font-family:var(--serif);font-weight:600;font-size:.98rem;color:var(--gold-deep);}
+.wcard{margin-top:10px;padding:0 3px;}
+.wcard h4{font-size:.82rem;color:var(--ink);line-height:1.4;}
+.wcard p{color:var(--ink-soft);font-size:.72rem;margin-top:4px;line-height:1.5;}
+.wcard i{display:block;margin-top:4px;font-family:var(--slogan);font-style:italic;font-size:.68rem;color:var(--ink-faint);line-height:1.35;}
+@media(max-width:600px){
+  .wcard i{display:none;} /* 手機空間有限，隱藏英文副標，保持一行 */
+  .wcard h4{font-size:.74rem;}
+  .wcard p{font-size:.66rem;}
+  .wstone{width:34px;height:34px;}
+  .wnum{font-size:.82rem;}
+}
 @media (prefers-reduced-motion:reduce){.wh-arw{animation:none;}}
 :root[data-quiet="on"] .wh-arw{animation:none;}
 

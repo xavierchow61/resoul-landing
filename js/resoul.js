@@ -154,23 +154,42 @@
     body.appendChild(m); scrollDown(); return m;
   }
 
-  // 呼叫 Gemini 後端；失敗或空回應自動回落規則引擎
+  // 呼叫 Gemini 後端（串流逐字顯示）；失敗或空回應自動回落規則引擎
+  var DISC = '<div class="disc">以上由 AI 生成，只作情緒陪伴用途，唔可以取代獸醫或心理健康專業人士。</div>';
   function callLLM(t){
     var typing = addTyping();
     fetch(GRIEF_API, {
       method:'POST', headers:{'Content-Type':'application/json'},
       body: JSON.stringify({ messages: history })
     })
-    .then(function(r){ return r.json(); })
-    .then(function(d){
+    .then(function(resp){
+      if(resp.status === 429){
+        typing.remove();
+        addBotHTML('你今日同我傾咗唔少，先唞一唞，過一陣再嚟搵我，好嗎？我一直喺度。🤍');
+        return;
+      }
+      // 唔支援串流或出錯 → 回落規則引擎
+      if(!resp.ok || !resp.body || !resp.body.getReader){ typing.remove(); respond(t); return; }
       typing.remove();
-      var reply = (d && d.reply || '').trim();
-      if(!reply){ respond(t); return; }
-      history.push({role:'model', text:reply});
-      addBotHTML(
-        esc(reply).replace(/\n/g,'<br>')
-        + '<div class="disc">以上由 AI 生成，只作情緒陪伴用途，唔可以取代獸醫或心理健康專業人士。</div>'
-      );
+      var botEl = el('div','msg bot',''); body.appendChild(botEl); scrollDown();
+      var reader = resp.body.getReader();
+      var dec = new TextDecoder();
+      var acc = '';
+      return (function pump(){
+        return reader.read().then(function(chunk){
+          if(chunk.done){
+            if(!acc.trim()){ botEl.remove(); respond(t); return; }
+            history.push({role:'model', text:acc});
+            botEl.innerHTML = esc(acc).replace(/\n/g,'<br>') + DISC;
+            scrollDown();
+            return;
+          }
+          acc += dec.decode(chunk.value, {stream:true});
+          botEl.innerHTML = esc(acc).replace(/\n/g,'<br>');
+          scrollDown();
+          return pump();
+        });
+      })();
     })
     .catch(function(){ typing.remove(); respond(t); });
   }
