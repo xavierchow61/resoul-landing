@@ -427,3 +427,31 @@
     });
   }
 })();
+
+
+/* ---- 導覽下拉分組：點擊開合 + 高亮當前頁 ---- */
+(function(){
+  "use strict";
+  var groups = [].slice.call(document.querySelectorAll('.nav-group'));
+  function closeAll(){ groups.forEach(function(g){ g.classList.remove('open'); var t=g.querySelector('.nav-top'); if(t)t.setAttribute('aria-expanded','false'); }); }
+  groups.forEach(function(g){
+    var top = g.querySelector('.nav-top'); if(!top) return;
+    top.addEventListener('click', function(e){
+      e.preventDefault(); e.stopPropagation();
+      var open = g.classList.contains('open');
+      closeAll();
+      if(!open){ g.classList.add('open'); top.setAttribute('aria-expanded','true'); }
+    });
+  });
+  document.addEventListener('click', function(e){ if(!e.target.closest('.nav-group')) closeAll(); });
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeAll(); });
+  // 高亮當前頁所屬組
+  var page = (location.pathname.split('/').pop() || 'index.html');
+  [].forEach.call(document.querySelectorAll('.nav-menu a, .nav-single'), function(a){
+    var href = a.getAttribute('href');
+    if(href && href!=='#' && href===page){
+      a.setAttribute('aria-current','page');
+      var grp = a.closest('.nav-group'); if(grp) grp.classList.add('active');
+    }
+  });
+})();
