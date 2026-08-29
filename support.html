@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>情緒支持｜Resoul</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Parisienne&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/resoul.css">
+</head>
+<body>
+
+<div class="uctrl">
+  <button id="supportBtn" class="uc-btn uc-support" type="button" aria-label="即時支援熱線" title="即時支援">♡</button>
+  <button id="quietBtn" class="uc-btn" type="button" aria-label="安靜模式（減少動畫）" title="安靜模式">靜</button>
+  <button id="themeBtn" class="uc-btn" type="button" aria-label="深色模式開關" title="深色模式">☾</button>
+</div>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="index.html" aria-label="Resoul 首頁">
+      <img src="images/resoul-wordmark.png" alt="Resoul 品牌標誌，線條勾勒的腳印中藏著一顆心，配優雅手寫字體 Resoul">
+      <span class="brand-slogan">Your last greatest love to show</span>
+    </a>
+    <nav class="nav" aria-label="主要導覽">
+      <a href="support.html" aria-current="page">情緒支持</a>
+      <a href="#" data-open-chat>AI 對話</a>
+      <a href="products.html">紀念產品</a>
+      <a href="faq.html">常見心情</a>
+      <a href="about.html">關於我們</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+    <section class="support" id="support">
+    <div class="wrap">
+      <p class="eyebrow reveal">情緒支持</p>
+      <h2 class="reveal">失去毛孩的那一刻，<br>主人需要的不只是流程。</h2>
+      <p class="lead reveal" style="margin-top:14px;">一步一步嚟就好，你不需要一次過想清楚所有事。</p>
+      <div class="steps journey">
+        <div class="step reveal">
+          <div class="num">01</div>
+          <h3>先承接失落</h3>
+          <p>難過、慌亂、捨不得，都是因為你很愛牠。這些感受不需要被急著解決，先讓自己好好停一停。</p>
+        </div>
+        <div class="step reveal">
+          <div class="num">02</div>
+          <h3>再整理下一步</h3>
+          <p>當心情稍為安定，才慢慢想接下來的安排。一件一件來，你不必在最亂的時候做完所有決定。</p>
+        </div>
+        <div class="step reveal">
+          <div class="num">03</div>
+          <h3>最後留下紀念</h3>
+          <p>把想念好好安放，為牠在家中、在心裡留一個溫柔的位置，讓這份愛可以繼續陪著你。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+    <section class="board" id="board">
+    <div class="wrap">
+      <p class="eyebrow reveal">同路人留言板</p>
+      <h2 class="reveal">在這裡，寫下你的想念。</h2>
+      <p class="lead reveal" style="margin-top:14px;">珍惜每段故事，溫暖每顆心。你可以留下一句想念、一張相片，也可以靜靜讀別人的故事——在這條路上，你並不孤單。</p>
+      <div class="board-form reveal">
+        <input id="boardName" maxlength="24" placeholder="你的名字或毛孩的名字（可留空）">
+        <textarea id="boardMsg" maxlength="300" rows="3" placeholder="想說的話…"></textarea>
+        <label class="board-upload" id="boardUploadLabel">＋ 加一張相片（可選）<input type="file" id="boardPhoto" accept="image/*" hidden></label>
+        <img id="boardPreview" alt="預覽" style="display:none;">
+        <button id="boardPost" class="soft-btn" type="button">🤍 發佈留言</button>
+      </div>
+      <div class="board-list" id="boardList"></div>
+      <p class="board-note reveal">＊ 目前留言會保存在你的裝置上（示範版）。日後接上帳戶與雲端後，就能與所有同路人共享、永久保存。</p>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+    <section class="resources" id="resources">
+    <div class="wrap">
+      <p class="eyebrow reveal">如果你覺得撐不住</p>
+      <h2 class="reveal">你不必自己一個人扛。</h2>
+      <p class="lead reveal" style="margin-top:14px;">哀傷有時會很重。如果這種難受持續影響到生活，找人傾訴或尋求專業支援，都是好好照顧自己的方式。以下是一些你可以聯絡的地方。</p>
+      <div class="res-list reveal">
+        <div class="res-card">
+          <div class="rc-name">香港心理衞生會</div>
+          <div class="rc-row"><span class="rc-label">電話</span><a href="tel:25280196">2528 0196</a></div>
+          <div class="rc-row"><span class="rc-label">網址</span><a href="https://www.mhahk.org.hk" target="_blank" rel="noopener">mhahk.org.hk</a></div>
+        </div>
+        <div class="res-card">
+          <div class="rc-name">撒瑪利亞防止自殺會（24 小時）</div>
+          <div class="rc-row"><span class="rc-label">電話</span><a href="tel:23892222">2389 2222</a></div>
+          <div class="rc-row"><span class="rc-label">網址</span><a href="https://www.sbhk.org.hk" target="_blank" rel="noopener">sbhk.org.hk</a></div>
+        </div>
+        <div class="res-card">
+          <div class="rc-name">全邁進心理服務</div>
+          <div class="rc-row"><span class="rc-label">電話</span><a href="tel:21776168">2177 6168</a></div>
+          <div class="rc-row"><span class="rc-label">網址</span><a href="https://www.omg-centre.com" target="_blank" rel="noopener">omg-centre.com</a></div>
+        </div>
+        <div class="res-card">
+          <div class="rc-name">SPCA 香港愛護動物協會</div>
+          <div class="rc-row"><span class="rc-label">電話</span><a href="tel:27111000">2711 1000</a></div>
+          <div class="rc-row"><span class="rc-label">網址</span><a href="https://www.spca.org.hk" target="_blank" rel="noopener">spca.org.hk</a></div>
+        </div>
+      </div>
+      <p class="res-note reveal">若情況緊急、或有傷害自己的念頭，請即時致電撒瑪利亞會 24 小時熱線 <a href="tel:23892222">2389 2222</a>，或緊急致電 999。</p>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <img class="fbrand-img" src="images/resoul-wordmark.png" alt="Resoul">
+    <div class="fslogan">Your last greatest love to show</div>
+  </footer>
+</main>
+
+<button class="fab" id="fab" type="button" aria-label="開啟情緒傾聽對話">
+  <span class="pw" aria-hidden="true">🐾</span>
+  <span>情緒傾聽</span>
+</button>
+
+<div class="widget" id="widget" role="dialog" aria-modal="false" aria-label="情緒傾聽對話">
+  <div class="chat-head">
+    <div class="dot" aria-hidden="true">🐾</div>
+    <div>
+      <div class="who">情緒傾聽</div>
+      <div class="st">溫柔陪你，慢慢說</div>
+    </div>
+    <button class="w-close" id="wClose" type="button" aria-label="收起對話">×</button>
+  </div>
+  <div class="chat-body" id="widgetBody" aria-live="polite"></div>
+  <div class="chips" id="widgetChips">
+    <button class="chip" data-fill="template">📋 填入建議格式</button>
+    <button class="chip" data-fill="example">💬 貼上匿名範例</button>
+    <button class="chip" data-send="我現在很混亂，唔知可以做啲咩。">我現在很混亂</button>
+    <button class="chip" data-send="我很掛住牠，覺得好孤單。">我很掛念牠</button>
+  </div>
+  <div class="chat-input">
+    <textarea id="widgetText" rows="1" placeholder="用匿名方式，說說最近和寵物有關的困擾…"></textarea>
+    <button class="send" id="widgetSend" aria-label="送出">➤</button>
+  </div>
+  <div class="chat-safety">如果情緒持續影響生活，請尋求專業支援。</div>
+</div>
+
+<button id="toTop" class="to-top" type="button" aria-label="返回頁首">↑</button>
+
+<div class="support-modal" id="supportModal" aria-hidden="true">
+  <div class="sm-backdrop" data-sclose></div>
+  <div class="sm-card" role="dialog" aria-modal="true" aria-labelledby="smTitle">
+    <button class="sm-close" data-sclose type="button" aria-label="關閉">×</button>
+    <h3 id="smTitle" class="sm-title">如果你需要即時支援</h3>
+    <p class="sm-lead">你並不孤單。如果情緒好難受，或者有傷害自己的念頭，請即刻聯絡以下 24 小時專線：</p>
+    <div class="sm-list">
+      <a href="tel:23892222"><b>撒瑪利亞會（24 小時）</b><span>2389 2222</span></a>
+      <a href="tel:24667350"><b>醫院管理局精神健康專線</b><span>2466 7350</span></a>
+      <a href="tel:18281"><b>東華三院芷若園</b><span>18281</span></a>
+      <a href="tel:999" class="sm-emerg"><b>緊急情況</b><span>999</span></a>
+    </div>
+  </div>
+</div>
+
+<script src="js/resoul.js" defer></script>
+</body>
+</html>
