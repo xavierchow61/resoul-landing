@@ -719,3 +719,17 @@ section{padding:64px 0;}
 /* 情緒支持頁：關於哀傷 / 照顧自己 */
 .selfcare{background:var(--cream);}
 .care-cta{text-align:center;margin-top:32px;}
+
+/* ---------- 火化方案比較表 ---------- */
+.plans{background:var(--cream);text-align:center;}
+.plans-scroll{margin-top:26px;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+.plans-table{width:100%;border-collapse:collapse;min-width:340px;}
+.plans-table th,.plans-table td{padding:12px 6px;text-align:center;border-bottom:1px solid var(--line);font-size:.84rem;vertical-align:middle;}
+.plans-table thead th{font-family:var(--serif);font-weight:600;color:var(--ink);font-size:1rem;padding-bottom:14px;}
+.plans-table tbody td:first-child,.plans-table thead th:first-child{text-align:left;color:var(--ink-soft);line-height:1.4;}
+.paw-ic{display:inline-block;width:22px;height:22px;background:var(--paw) center/contain no-repeat;vertical-align:middle;}
+.paw-ic.no{opacity:.2;filter:grayscale(1);}
+.paw-note{display:block;font-size:.68rem;color:var(--gold-deep);margin-top:3px;letter-spacing:.02em;}
+.plans-table tfoot .price-row td{font-family:var(--serif);font-weight:600;color:var(--ink);border-top:2px solid var(--gold);border-bottom:none;padding-top:14px;font-size:.92rem;}
+.plans-table tfoot .price-row td:first-child{color:var(--ink-soft);font-size:.8rem;font-family:var(--sans);}
+.plans-note{margin-top:16px;color:var(--ink-faint);font-size:.8rem;line-height:1.7;}
