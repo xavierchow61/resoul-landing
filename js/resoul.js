@@ -456,6 +456,7 @@
       '【Resoul 火化服務預約】',
       '主人稱呼：' + val('bkName'),
       '聯絡電話：' + val('bkPhone'),
+      '火化方案：' + val('bkPlan'),
       '寵物類型：' + val('bkPet'),
       '寵物體重：' + (val('bkWeight') || '—'),
       '接送地點：' + (val('bkPlace') || '—'),
