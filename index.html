@@ -561,6 +561,53 @@ section{padding:64px 0;}
 .mf-chip.active{background:var(--gold);color:#fff;border-color:var(--gold);}
 :root[data-theme="dark"] .mf-chip.active{background:var(--gold-deep);color:#211a13;}
 .mood-group.hidden{display:none;}
+
+/* ===== Cremation / seaview ===== */
+.cremation{text-align:center;}
+.seaview{margin-top:30px;display:grid;grid-template-columns:1fr;gap:24px;align-items:center;}
+@media(min-width:760px){.seaview{grid-template-columns:1fr 1fr;gap:40px;}}
+.seaview-img{aspect-ratio:4/3;border-radius:18px;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;text-align:center;
+  background:linear-gradient(160deg,#a7c7d9 0%,#d3e2e7 42%,#f0e6d0 100%);box-shadow:var(--shadow);position:relative;background-size:cover;background-position:center;}
+.seaview-img::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(60,47,39,.22),transparent 55%);}
+.sv-tag{font-family:var(--serif);font-size:1.9rem;font-weight:700;letter-spacing:.14em;color:#fff;z-index:1;text-shadow:0 2px 12px rgba(50,40,30,.5);}
+.sv-sub{font-family:var(--slogan);font-style:italic;font-size:.98rem;color:#fff;z-index:1;text-shadow:0 1px 8px rgba(50,40,30,.5);}
+.sv-note{margin-top:10px;font-size:.76rem;color:#fff;background:rgba(60,47,39,.4);padding:5px 13px;border-radius:999px;z-index:1;}
+.seaview-txt{text-align:left;}
+.seaview-txt h3{font-size:1.3rem;color:var(--ink);margin-bottom:12px;}
+.seaview-txt p{color:var(--ink-soft);font-size:.96rem;line-height:1.85;margin-bottom:10px;}
+.sv-line{font-family:var(--slogan);font-style:italic;color:var(--gold-deep);font-size:1.06rem;}
+.cremation-contact{margin-top:30px;color:var(--ink-soft);font-size:.98rem;}
+.cremation-contact a{color:var(--gold-deep);border-bottom:1px solid var(--gold);}
+.cremation .cta{margin-top:14px;}
+
+/* ===== Loving promise ===== */
+.promise{background:var(--cream);text-align:center;}
+.promise-cards{margin-top:28px;display:flex;flex-direction:column;gap:16px;text-align:left;}
+@media(min-width:760px){.promise-cards{flex-direction:row;}}
+.pcard2{flex:1;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:24px 22px;box-shadow:0 8px 26px -22px rgba(70,52,34,.5);}
+.pc2-ic{display:inline-flex;width:44px;height:44px;border-radius:50%;background:#f1e7d7;align-items:center;justify-content:center;font-size:1.2rem;margin-bottom:12px;}
+:root[data-theme="dark"] .pc2-ic{background:#33291f;}
+.pcard2 h3{font-size:1.08rem;color:var(--ink);margin-bottom:9px;line-height:1.5;}
+.pcard2 p{color:var(--ink-soft);font-size:.92rem;line-height:1.8;}
+
+/* ===== Closing poem ===== */
+.closing-poem{margin-top:16px;font-family:var(--slogan);font-style:italic;font-size:1.05rem;color:#d8cab8;line-height:1.95;}
+
+/* ===== Grief board ===== */
+.board{text-align:center;}
+.board-form{max-width:440px;margin:24px auto 0;display:flex;flex-direction:column;gap:10px;}
+.board-form input,.board-form textarea{border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-family:var(--sans);font-size:.94rem;color:var(--ink);background:var(--card);resize:none;width:100%;}
+.board-form input:focus,.board-form textarea:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(184,154,110,.14);}
+.board-upload{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px dashed var(--gold);border-radius:12px;padding:12px;color:var(--gold-deep);cursor:pointer;font-size:.92rem;background:var(--card);}
+#boardPreview{max-width:180px;border-radius:12px;margin:0 auto;border:1px solid var(--line);}
+.board-list{margin-top:32px;display:grid;grid-template-columns:1fr;gap:15px;text-align:left;}
+@media(min-width:640px){.board-list{grid-template-columns:1fr 1fr;}}
+.bpost{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 17px;box-shadow:0 8px 26px -22px rgba(70,52,34,.5);animation:candleIn .4s ease;}
+.bpost img{width:100%;border-radius:10px;margin-bottom:10px;display:block;}
+.bp-name{font-family:var(--serif);font-weight:600;color:var(--ink);font-size:.95rem;}
+.bp-msg{color:var(--ink-soft);font-size:.9rem;line-height:1.7;margin-top:5px;white-space:pre-wrap;word-break:break-word;}
+.bp-time{color:var(--ink-faint);font-size:.72rem;margin-top:8px;}
+.board-note{margin-top:22px;font-size:.8rem;color:var(--ink-faint);line-height:1.7;}
 </style>
 </head>
 <body>
@@ -756,6 +803,62 @@ section{padding:64px 0;}
 
   <hr class="divider">
 
+  <!-- ============ CREMATION / SEAVIEW ============ -->
+  <section class="cremation" id="cremation">
+    <div class="wrap">
+      <p class="eyebrow reveal">火化服務</p>
+      <h2 class="reveal">最偉大的愛，<br>值得最溫柔的再見。</h2>
+      <p class="lead reveal" style="margin-top:14px;">失去摯愛的寵物，是我們人生中最深刻的痛之一。牠們不只是陪伴，更是家人，是毛茸茸的無條件愛。此刻的傷痛或許讓你喘不過氣——請允許自己悲傷，也在需要的時候依靠懂你的人。</p>
+      <p class="lead reveal">在 Resoul，我們 24/7 為你提供溫柔而有尊嚴的服務：即時接送、細心處理、個性化私人家火化、專屬骨灰罈與紀念品、寧靜的告別儀式，以及環保選項——一切都按照你的心願，給予你最愛的毛孩最溫柔的道別。</p>
+
+      <div class="seaview reveal">
+        <div class="seaview-img" id="seaviewImg" role="img" aria-label="海景紀念室 THE MODERN，面向大海的寧靜告別空間">
+          <span class="sv-tag">THE MODERN</span>
+          <span class="sv-sub">Modern Elegance by the Sea</span>
+          <span class="sv-note">🌅 海景紀念室 · 相片稍後加上</span>
+        </div>
+        <div class="seaview-txt">
+          <h3>保證海景紀念室</h3>
+          <p>在香港心臟地帶，Resoul 提供保證海景紀念室——一個寧靜、私密的空間，讓遼闊大海與金色日落成為你道別的溫柔背景。</p>
+          <p>當太陽沉入島嶼後方，天空染上暖色調，柔和光線灑滿房間，海浪低語安寧，每一刻都充滿平寧。在此，道別化為美好轉換：從旅程，到告別，再到永恆珍藏的回憶。</p>
+          <p class="sv-line">你最偉大的愛，值得這片風景、這份寧靜、這份永遠。</p>
+        </div>
+      </div>
+
+      <p class="cremation-contact reveal">我們隨時在這裡。致電 <a href="tel:+85264762951">+852 6476 2951</a>　或</p>
+      <a class="cta reveal" href="https://resoul.hk/zh/" target="_blank" rel="noopener">查看Resoul官方資料 <span class="arw">→</span></a>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ============ LOVING PROMISE ============ -->
+  <section class="promise" id="promise">
+    <div class="wrap">
+      <p class="eyebrow reveal">愛心承諾</p>
+      <h2 class="reveal">愛心承諾</h2>
+      <div class="promise-cards">
+        <div class="pcard2 reveal">
+          <span class="pc2-ic" aria-hidden="true">🔥</span>
+          <h3>專屬旅程</h3>
+          <p>一爐一寵，永遠如此。我們認為每一個靈魂都值得尊重與獨享的空間，因此從未提供集體火化服務。我們承諾為您的寶貝點燃只屬於牠的火光，確保牠能在我們的陪伴下舒適溫暖地完成這趟旅程。</p>
+        </div>
+        <div class="pcard2 reveal">
+          <span class="pc2-ic" aria-hidden="true">🎞️</span>
+          <h3>零失誤</h3>
+          <p>每一步，我們都會追蹤、拍照、錄影，並為每一位客人提供 24 小時的專屬雲端檔案夾，讓您寶貝的旅程——從抵達到完結——完全公開、透明、清晰。對您而言，這不是程序，而是永遠的放心，一絲混淆也不允許。</p>
+        </div>
+        <div class="pcard2 reveal">
+          <span class="pc2-ic" aria-hidden="true">🐾</span>
+          <h3>每一次告別，都溫暖一隻流浪小動物</h3>
+          <p>我們承諾與守護小動物的人並肩同行。每一次服務，我們都會資助動物慈善團體，為流浪動物提供有尊嚴的火化服務。讓我們一起將愛延續——讓您的寶貝以這趟旅程照亮另一個小生命的旅途，把離別變成永恆的擁抱。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
   <!-- ============ FAQ ============ -->
   <section class="faq">
     <div class="wrap">
@@ -911,6 +1014,26 @@ section{padding:64px 0;}
 
   <hr class="divider">
 
+  <!-- ============ GRIEF BOARD ============ -->
+  <section class="board" id="board">
+    <div class="wrap">
+      <p class="eyebrow reveal">同路人留言板</p>
+      <h2 class="reveal">在這裡，寫下你的想念。</h2>
+      <p class="lead reveal" style="margin-top:14px;">珍惜每段故事，溫暖每顆心。你可以留下一句想念、一張相片，也可以靜靜讀別人的故事——在這條路上，你並不孤單。</p>
+      <div class="board-form reveal">
+        <input id="boardName" maxlength="24" placeholder="你的名字或毛孩的名字（可留空）">
+        <textarea id="boardMsg" maxlength="300" rows="3" placeholder="想說的話…"></textarea>
+        <label class="board-upload" id="boardUploadLabel">＋ 加一張相片（可選）<input type="file" id="boardPhoto" accept="image/*" hidden></label>
+        <img id="boardPreview" alt="預覽" style="display:none;">
+        <button id="boardPost" class="soft-btn" type="button">🤍 發佈留言</button>
+      </div>
+      <div class="board-list" id="boardList"></div>
+      <p class="board-note reveal">＊ 目前留言會保存在你的裝置上（示範版）。日後接上帳戶與雲端後，就能與所有同路人共享、永久保存。</p>
+    </div>
+  </section>
+
+  <hr class="divider">
+
   <!-- ============ ABOUT ============ -->
   <section class="about" id="about">
     <div class="wrap">
@@ -933,6 +1056,7 @@ section{padding:64px 0;}
     <div class="closing-body">
       <h2 class="reveal">你不需要一個人<br>承受這段告別。</h2>
       <p class="reveal">在想念很重的時候，願你能慢慢找到被陪伴的感覺，也為毛孩留下溫柔而體面的紀念。</p>
+      <p class="reveal closing-poem">在 Resoul，離別不是終點，而是永恆的致敬——是對那些歡笑、陪伴與無私之愛的溫柔延續。<br>願你想起牠時，心底先泛起微笑，才落下淚水。<br>屬於你們的緣份，永遠都在。</p>
       <p class="closing-cta-lead reveal">當你準備好，再慢慢了解下一步。</p>
       <a class="cta light reveal" href="https://resoul.hk/zh/" target="_blank" rel="noopener"
          style="color:#f4ece0;border-color:rgba(244,236,224,.5);">
@@ -1301,6 +1425,58 @@ section{padding:64px 0;}
         grp.classList.toggle('hidden', g!=='all' && grp.dataset.g!==g);
       });
     });
+  }
+
+  /* ---- Grief board (localStorage prototype) ---- */
+  var boardList=document.getElementById('boardList');
+  if(boardList){
+    var boardPhotoData=null;
+    var boardSeed=[
+      {n:'Bailey 的家人',m:'謝謝你陪伴我們走過十年，家裡每個角落都還記得你。',t:Date.now()-86400000*2},
+      {n:'',m:'想念你的氣味，想念你等我回家的樣子。願你在那邊自由奔跑。',t:Date.now()-3600000*5}
+    ];
+    function bLoad(){try{return JSON.parse(localStorage.getItem('resoul-board')||'[]');}catch(e){return [];}}
+    function bSave(a){try{localStorage.setItem('resoul-board',JSON.stringify(a.slice(0,80)));}catch(e){}}
+    function bEsc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+    function bTime(t){var h=Math.floor((Date.now()-t)/3600000);if(h<1)return '剛剛';if(h<24)return h+' 小時前';return Math.floor(h/24)+' 天前';}
+    function bRender(){
+      boardList.innerHTML='';
+      bLoad().concat(boardSeed).forEach(function(p){
+        var el=document.createElement('div');el.className='bpost';
+        el.innerHTML=(p.img?'<img src="'+p.img+'" alt="留言相片">':'')
+          +'<div class="bp-name">'+(p.n?bEsc(p.n):'一位同路人')+'</div>'
+          +'<div class="bp-msg">'+bEsc(p.m)+'</div>'
+          +'<div class="bp-time">'+bTime(p.t)+'</div>';
+        boardList.appendChild(el);
+      });
+    }
+    document.getElementById('boardPhoto').addEventListener('change',function(e){
+      var f=e.target.files&&e.target.files[0];if(!f)return;
+      var r=new FileReader();
+      r.onload=function(ev){
+        var img=new Image();
+        img.onload=function(){
+          var mx=560,sc=Math.min(1,mx/Math.max(img.width,img.height));
+          var c=document.createElement('canvas');c.width=Math.round(img.width*sc);c.height=Math.round(img.height*sc);
+          c.getContext('2d').drawImage(img,0,0,c.width,c.height);
+          boardPhotoData=c.toDataURL('image/jpeg',0.75);
+          var pv=document.getElementById('boardPreview');pv.src=boardPhotoData;pv.style.display='block';
+        };
+        img.src=ev.target.result;
+      };
+      r.readAsDataURL(f);
+    });
+    document.getElementById('boardPost').addEventListener('click',function(){
+      var msg=document.getElementById('boardMsg').value.trim();
+      if(!msg && !boardPhotoData) return;
+      var arr=bLoad();
+      arr.unshift({n:document.getElementById('boardName').value.trim(),m:msg,img:boardPhotoData,t:Date.now()});
+      bSave(arr);
+      document.getElementById('boardMsg').value='';document.getElementById('boardName').value='';
+      boardPhotoData=null;var pv=document.getElementById('boardPreview');pv.style.display='none';pv.src='';
+      bRender();
+    });
+    bRender();
   }
 
   /* ---- Soft background music (audio file) ---- */
