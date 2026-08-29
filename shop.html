@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>選購紀念品｜Resoul</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Parisienne&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/resoul.css">
+<style>
+/* ===== 商店專用（沿用 resoul.css tokens，支援深色模式）===== */
+.shop-hero{background:var(--cream);text-align:center;padding:44px 0 8px;}
+.shop-hero .eyebrow{margin-bottom:8px;}
+.shop-hero h1{font-size:1.7rem;color:var(--ink);}
+.shop-hero p{color:var(--ink-soft);margin-top:10px;}
+.shop-wrap{max-width:var(--maxw);margin:0 auto;padding:28px 22px 60px;}
+
+/* 狀態 */
+.shop-state{text-align:center;color:var(--ink-faint);padding:50px 10px;font-size:.95rem;}
+.shop-state.err{color:var(--gold-deep);}
+
+/* 產品格 */
+.shop-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;}
+@media(min-width:760px){.shop-grid{grid-template-columns:repeat(3,1fr);}}
+.pcard{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column;box-shadow:0 8px 26px -22px rgba(70,52,34,.5);transition:transform .2s,box-shadow .25s;cursor:pointer;}
+.pcard:hover{transform:translateY(-3px);box-shadow:0 18px 40px -24px rgba(70,52,34,.55);}
+.pcard-img{aspect-ratio:1/1;object-fit:cover;width:100%;background:var(--cream);}
+.pcard-noimg{display:flex;align-items:center;justify-content:center;font-size:2.4rem;color:var(--ink-faint);}
+.pcard-body{padding:14px 15px 16px;display:flex;flex-direction:column;flex:1;}
+.pcard-name{font-family:var(--serif);font-weight:600;font-size:1rem;color:var(--ink);}
+.pcard-desc{color:var(--ink-faint);font-size:.8rem;margin:4px 0 12px;flex:1;}
+.pcard-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.price{font-family:var(--serif);color:var(--ink);font-weight:600;font-size:1rem;}
+.price small{color:var(--ink-faint);font-weight:400;font-size:.72rem;}
+.btn{background:var(--ink);color:var(--bg);border:none;border-radius:999px;padding:8px 15px;font-family:var(--sans);font-size:.82rem;font-weight:500;cursor:pointer;transition:background .2s,transform .12s;white-space:nowrap;}
+.btn:hover{transform:translateY(-1px);opacity:.92;}
+.btn:disabled{opacity:.4;cursor:not-allowed;transform:none;}
+.btn.lg{padding:13px 26px;font-size:.96rem;}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--gold);}
+.btn.ghost:hover{background:rgba(184,154,110,.12);}
+
+/* 產品詳情 */
+.detail-back{background:none;border:none;color:var(--ink-soft);font-size:.9rem;cursor:pointer;padding:4px 0;margin-bottom:18px;font-family:var(--sans);}
+.detail-back:hover{color:var(--gold-deep);}
+.pdp{display:grid;grid-template-columns:1fr;gap:26px;}
+@media(min-width:760px){.pdp{grid-template-columns:1fr 1fr;gap:44px;align-items:start;}}
+.pdp-media img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:16px;box-shadow:var(--shadow);}
+.pdp-noimg{aspect-ratio:1/1;border-radius:16px;background:var(--cream);display:flex;align-items:center;justify-content:center;font-size:3.4rem;color:var(--ink-faint);}
+.pdp-thumbs{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;}
+.pdp-thumbs img{width:60px;height:60px;object-fit:cover;border-radius:10px;border:1px solid var(--line);cursor:pointer;opacity:.75;}
+.pdp-thumbs img:hover{opacity:1;border-color:var(--gold);}
+.pdp-name{font-size:1.7rem;line-height:1.3;color:var(--ink);}
+.pdp-price{font-family:var(--serif);font-size:1.35rem;color:var(--ink);margin:10px 0 4px;font-weight:600;}
+.pdp-avail{font-size:.82rem;min-height:18px;color:var(--ink-faint);}
+.pdp-avail.out{color:#b5533f;}
+.opt-label{font-size:.82rem;color:var(--ink-soft);margin:20px 0 8px;font-weight:500;}
+.opts{display:flex;gap:9px;flex-wrap:wrap;}
+.opt{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:8px 15px;font-size:.85rem;color:var(--ink-soft);cursor:pointer;font-family:var(--sans);transition:.2s;}
+.opt.sel{background:var(--gold);color:#fff;border-color:var(--gold);}
+.qty{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:999px;overflow:hidden;}
+.qty button{width:40px;height:42px;border:none;background:var(--card);cursor:pointer;font-size:1.1rem;color:var(--ink-soft);}
+.qty span{width:44px;text-align:center;font-weight:600;color:var(--ink);}
+.pdp-cta{margin-top:22px;display:flex;gap:12px;flex-wrap:wrap;}
+.pdp-desc{margin-top:24px;color:var(--ink-soft);font-size:.92rem;line-height:1.85;border-top:1px solid var(--line);padding-top:18px;white-space:pre-line;}
+.trust{margin-top:18px;display:flex;flex-direction:column;gap:8px;}
+.trust div{font-size:.85rem;color:var(--ink-soft);}
+.trust b{color:var(--gold-deep);}
+
+/* 購物車按鈕（放喺 uctrl 旁）*/
+.cart-fab{position:fixed;top:14px;right:14px;z-index:60;background:var(--card);border:1px solid var(--line);border-radius:999px;width:44px;height:44px;cursor:pointer;font-size:1.2rem;color:var(--ink);box-shadow:var(--shadow);}
+.cart-count{position:absolute;top:-4px;right:-4px;background:var(--gold);color:#fff;font-size:.66rem;font-weight:700;min-width:18px;height:18px;border-radius:9px;display:flex;align-items:center;justify-content:center;padding:0 4px;}
+
+/* 購物車抽屜 */
+.shop-overlay{position:fixed;inset:0;background:rgba(45,34,25,.45);opacity:0;pointer-events:none;transition:opacity .25s;z-index:70;}
+.shop-overlay.open{opacity:1;pointer-events:auto;}
+.cart-drawer{position:fixed;top:0;right:0;height:100%;width:min(400px,100vw);background:var(--bg);z-index:71;transform:translateX(100%);transition:transform .3s ease;display:flex;flex-direction:column;box-shadow:-20px 0 60px -30px rgba(45,34,25,.5);}
+.cart-drawer.open{transform:none;}
+.cart-hd{display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid var(--line);}
+.cart-hd h3{font-size:1.1rem;color:var(--ink);}
+.cart-x{background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--ink-soft);line-height:1;}
+.cart-body{flex:1;overflow-y:auto;padding:12px 22px;}
+.cart-empty{color:var(--ink-faint);text-align:center;padding:56px 10px;font-size:.92rem;}
+.line{display:flex;gap:12px;padding:14px 0;border-bottom:1px solid var(--line);}
+.line img,.line-noimg{width:64px;height:64px;object-fit:cover;border-radius:10px;flex:0 0 auto;}
+.line-noimg{background:var(--cream);display:flex;align-items:center;justify-content:center;font-size:1.6rem;color:var(--ink-faint);}
+.line-info{flex:1;min-width:0;}
+.line-name{font-family:var(--serif);font-weight:600;font-size:.92rem;color:var(--ink);}
+.line-opt{color:var(--ink-faint);font-size:.76rem;margin:2px 0 6px;}
+.line-row{display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.line-qty{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:999px;}
+.line-qty button{width:28px;height:28px;border:none;background:none;cursor:pointer;color:var(--ink-soft);}
+.line-qty span{width:26px;text-align:center;font-size:.85rem;color:var(--ink);}
+.line-price{font-weight:600;font-size:.88rem;color:var(--ink);}
+.line-rm{background:none;border:none;color:var(--ink-faint);font-size:.74rem;cursor:pointer;text-decoration:underline;margin-top:4px;}
+.cart-ft{border-top:1px solid var(--line);padding:16px 22px 20px;background:var(--card);}
+.cart-sub{display:flex;justify-content:space-between;font-size:1rem;margin-bottom:4px;color:var(--ink);}
+.cart-sub b{font-family:var(--serif);}
+.cart-hint{color:var(--ink-faint);font-size:.76rem;margin-bottom:12px;}
+.checkout{width:100%;background:var(--ink);color:var(--bg);border:none;border-radius:999px;padding:14px;font-family:var(--sans);font-size:1rem;font-weight:500;cursor:pointer;}
+.checkout:hover{opacity:.92;}
+
+/* 提示 toast */
+.shop-toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--bg);padding:12px 22px;border-radius:999px;font-size:.88rem;opacity:0;pointer-events:none;transition:.3s;z-index:80;}
+.shop-toast.show{opacity:1;transform:translateX(-50%);}
+</style>
+</head>
+<body>
+
+<div class="uctrl">
+  <button id="supportBtn" class="uc-btn uc-support" type="button" aria-label="即時支援熱線" title="即時支援">♡</button>
+  <button id="quietBtn" class="uc-btn" type="button" aria-label="安靜模式（減少動畫）" title="安靜模式">靜</button>
+  <button id="themeBtn" class="uc-btn" type="button" aria-label="深色模式開關" title="深色模式">☾</button>
+</div>
+
+<button class="cart-fab" id="cartBtn" type="button" aria-label="購物車">🛒<span class="cart-count" id="cartCount" style="display:none">0</span></button>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="index.html" aria-label="Resoul 首頁">
+      <img src="images/resoul-wordmark.png" alt="Resoul 品牌標誌，線條勾勒的腳印中藏著一顆心，配優雅手寫字體 Resoul">
+      <span class="brand-slogan">Your last greatest love to show</span>
+    </a>
+    <nav class="nav" aria-label="主要導覽">
+      <a href="support.html">情緒支持</a>
+      <a href="products.html">紀念產品</a>
+      <a href="shop.html" aria-current="page">選購紀念品</a>
+      <a href="cremation.html">火化服務</a>
+      <a href="faq.html">常見心情</a>
+      <a href="about.html">關於我們</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="shop-hero">
+    <div class="wrap">
+      <p class="eyebrow">紀念物品</p>
+      <h1>讓愛，以另一種形式留在身邊</h1>
+      <p>每一件都由人手細心製作，把毛孩的印記溫柔保存。</p>
+    </div>
+  </section>
+
+  <div class="shop-wrap">
+    <!-- 產品列表 -->
+    <div id="shopList">
+      <div class="shop-state" id="shopLoading">正在載入紀念品…</div>
+      <div class="shop-state" id="shopEmpty" style="display:none">商品即將上架，請稍後再來看看。</div>
+      <div class="shop-state err" id="shopError" style="display:none">暫時載入不到商品，請稍後再試。</div>
+      <div class="shop-grid" id="shopGrid"></div>
+    </div>
+    <!-- 產品詳情（動態填入）-->
+    <div id="shopDetail" style="display:none"></div>
+  </div>
+
+  <footer class="footer">
+    <img class="fbrand-img" src="images/resoul-wordmark.png" alt="Resoul">
+    <div class="fslogan">Your last greatest love to show</div>
+  </footer>
+</main>
+
+<button class="fab" id="fab" type="button" aria-label="開啟情緒傾聽對話">
+  <span class="pw" aria-hidden="true">🐾</span>
+  <span>情緒傾聽</span>
+</button>
+
+<div class="widget" id="widget" role="dialog" aria-modal="false" aria-label="情緒傾聽對話">
+  <div class="chat-head">
+    <div class="dot" aria-hidden="true">🐾</div>
+    <div>
+      <div class="who">情緒傾聽</div>
+      <div class="st">溫柔陪你，慢慢說</div>
+    </div>
+    <button class="w-close" id="wClose" type="button" aria-label="收起對話">×</button>
+  </div>
+  <div class="chat-body" id="widgetBody" aria-live="polite"></div>
+  <div class="chips" id="widgetChips">
+    <button class="chip" data-fill="template">📋 填入建議格式</button>
+    <button class="chip" data-fill="example">💬 貼上匿名範例</button>
+    <button class="chip" data-send="我現在很混亂，唔知可以做啲咩。">我現在很混亂</button>
+    <button class="chip" data-send="我很掛住牠，覺得好孤單。">我很掛念牠</button>
+  </div>
+  <div class="chat-input">
+    <textarea id="widgetText" rows="1" placeholder="用匿名方式，說說最近和寵物有關的困擾…"></textarea>
+    <button class="send" id="widgetSend" aria-label="送出">➤</button>
+  </div>
+  <div class="chat-safety">如果情緒持續影響生活，請尋求專業支援。</div>
+</div>
+
+<button id="toTop" class="to-top" type="button" aria-label="返回頁首">↑</button>
+
+<!-- 購物車抽屜 -->
+<div class="shop-overlay" id="shopOverlay"></div>
+<aside class="cart-drawer" id="cart" aria-label="購物車">
+  <div class="cart-hd"><h3>你的購物車</h3><button class="cart-x" id="cartClose" type="button" aria-label="關閉">×</button></div>
+  <div class="cart-body" id="cartBody"></div>
+  <div class="cart-ft">
+    <div class="cart-sub"><span>小計</span><b id="cartSub">HK$0</b></div>
+    <p class="cart-hint">運費與稅項於結帳時計算。付款由 Shopify 安全托管。</p>
+    <button class="checkout" id="checkoutBtn" type="button">前往結帳 →</button>
+  </div>
+</aside>
+
+<div class="shop-toast" id="shopToast">已加入購物車</div>
+
+<div class="support-modal" id="supportModal" aria-hidden="true">
+  <div class="sm-backdrop" data-sclose></div>
+  <div class="sm-card" role="dialog" aria-modal="true" aria-labelledby="smTitle">
+    <button class="sm-close" data-sclose type="button" aria-label="關閉">×</button>
+    <h3 id="smTitle" class="sm-title">如果你需要即時支援</h3>
+    <p class="sm-lead">你並不孤單。如果情緒好難受，或者有傷害自己的念頭，請即刻聯絡以下 24 小時專線：</p>
+    <div class="sm-list">
+      <a href="tel:23892222"><b>撒瑪利亞會（24 小時）</b><span>2389 2222</span></a>
+      <a href="tel:24667350"><b>醫院管理局精神健康專線</b><span>2466 7350</span></a>
+      <a href="tel:18281"><b>東華三院芷若園</b><span>18281</span></a>
+      <a href="tel:999" class="sm-emerg"><b>緊急情況</b><span>999</span></a>
+    </div>
+  </div>
+</div>
+
+<script src="js/resoul.js" defer></script>
+<script src="js/shop.js" defer></script>
+</body>
+</html>
