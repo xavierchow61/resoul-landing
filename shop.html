@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>選購紀念品｜Resoul</title>
+<title>紀念產品｜Resoul</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Parisienne&display=swap" rel="stylesheet">
@@ -15,6 +15,9 @@
 .shop-hero h1{font-size:1.7rem;color:var(--ink);}
 .shop-hero p{color:var(--ink-soft);margin-top:10px;}
 .shop-wrap{max-width:var(--maxw);margin:0 auto;padding:28px 22px 60px;}
+.shop-buy-hd{text-align:center;margin-bottom:26px;}
+.shop-buy-hd h2{font-size:1.5rem;color:var(--ink);margin-top:4px;}
+.shop-buy-sub{color:var(--ink-soft);font-size:.92rem;margin-top:8px;}
 
 /* 狀態 */
 .shop-state{text-align:center;color:var(--ink-faint);padding:50px 10px;font-size:.95rem;}
@@ -103,6 +106,9 @@
 /* 提示 toast */
 .shop-toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--bg);padding:12px 22px;border-radius:999px;font-size:.88rem;opacity:0;pointer-events:none;transition:.3s;z-index:80;}
 .shop-toast.show{opacity:1;transform:translateX(-50%);}
+
+/* 購物車開啟時，收起情緒傾聽浮標與返頂掣，避免壓住結帳掣 */
+body.cart-open .fab,body.cart-open .to-top{display:none!important;}
 </style>
 </head>
 <body>
@@ -123,8 +129,8 @@
     </a>
     <nav class="nav" aria-label="主要導覽">
       <a href="support.html">情緒支持</a>
-      <a href="products.html">紀念產品</a>
-      <a href="shop.html" aria-current="page">選購紀念品</a>
+      <a href="#" data-open-chat>AI 對話</a>
+      <a href="shop.html" aria-current="page">紀念產品</a>
       <a href="cremation.html">火化服務</a>
       <a href="faq.html">常見心情</a>
       <a href="about.html">關於我們</a>
@@ -134,15 +140,52 @@
 
 <main id="top">
 
-  <section class="shop-hero">
+  <section class="products" id="products">
     <div class="wrap">
-      <p class="eyebrow">紀念物品</p>
-      <h1>讓愛，以另一種形式留在身邊</h1>
-      <p>每一件都由人手細心製作，把毛孩的印記溫柔保存。</p>
+      <p class="eyebrow reveal">紀念產品</p>
+      <h2 class="reveal">讓這份愛，<br>在日常裡有一個位置。</h2>
+      <p class="lead reveal" style="margin-top:14px;">當說再見很難，有些人會選擇用一件小物，把愛留在日常。</p>
+
+      <div class="media reveal">
+        <video src="images/resoul-memorial.mp4" poster="images/resoul-memorial-poster.jpg"
+               muted loop playsinline controls preload="metadata"
+               aria-label="紀念寵物產品的製作與生活情境短片"></video>
+      </div>
+
+      <div class="pcards">
+        <article class="pcard reveal">
+          <img src="images/resoul-jewelry.jpg" alt="以毛孩紋印製成的純銀心形與圓形頸鏈飾物">
+          <div class="pc-body">
+            <h3>把想念留在身邊</h3>
+            <p>將牠的紋印或掌印化作可以隨身佩戴的飾物，在忙碌的日子裡，仍能輕輕碰到那份熟悉。</p>
+          </div>
+        </article>
+        <article class="pcard reveal">
+          <img src="images/resoul-craft.png" alt="兩位工匠在燈下細心雕刻木牌與打磨銀飾">
+          <div class="pc-body">
+            <h3>讓紀念被細心製作</h3>
+            <p>每一件都由人手慢慢雕琢，把牠的樣子與名字，用時間和心意好好地保存下來。</p>
+          </div>
+        </article>
+        <article class="pcard reveal">
+          <img src="images/resoul-lifestyle.png" alt="陽光下的木製紀念盒與照片，旁邊放著鮮花與茶">
+          <div class="pc-body">
+            <h3>為家中留一個位置</h3>
+            <p>一個安放照片與飾物的角落，讓牠仍然是家的一部分，陪你度過每一個安靜的早晨。</p>
+          </div>
+        </article>
+      </div>
     </div>
   </section>
 
+  <hr class="divider">
+
   <div class="shop-wrap">
+    <div class="shop-buy-hd">
+      <p class="eyebrow">選購紀念品</p>
+      <h2>把心意，帶回家</h2>
+      <p class="shop-buy-sub">每一件都由人手細心製作。選好後，付款由 Shopify 安全托管。</p>
+    </div>
     <!-- 產品列表 -->
     <div id="shopList">
       <div class="shop-state" id="shopLoading">正在載入紀念品…</div>

@@ -321,8 +321,8 @@
   }
 
   /* ===== 抽屜／提示 ===== */
-  function openCart() { $("#cart").classList.add("open"); $("#shopOverlay").classList.add("open"); }
-  function closeCart() { $("#cart").classList.remove("open"); $("#shopOverlay").classList.remove("open"); }
+  function openCart() { $("#cart").classList.add("open"); $("#shopOverlay").classList.add("open"); document.body.classList.add("cart-open"); }
+  function closeCart() { $("#cart").classList.remove("open"); $("#shopOverlay").classList.remove("open"); document.body.classList.remove("cart-open"); }
   var toastTimer;
   function toast(msg) {
     var t = $("#shopToast"); t.textContent = msg; t.classList.add("show");
