@@ -119,6 +119,66 @@
     </div>
   </section>
 
+  <hr class="divider">
+
+  <section class="booking" id="booking">
+    <div class="wrap">
+      <p class="eyebrow reveal">網上預約</p>
+      <h2 class="reveal">預約火化服務</h2>
+      <p class="lead reveal" style="margin-top:12px;text-align:center;">填好以下資料，按「經 WhatsApp 送出」，我們會盡快與你聯絡，溫柔安排每一步。</p>
+
+      <form class="book-form reveal" id="bookForm">
+        <div class="bf-field">
+          <label for="bkName">主人稱呼 <span class="req">*</span></label>
+          <input id="bkName" name="name" required placeholder="怎麼稱呼你">
+        </div>
+        <div class="bf-field">
+          <label for="bkPhone">聯絡電話 / WhatsApp <span class="req">*</span></label>
+          <input id="bkPhone" name="phone" type="tel" required placeholder="例如 9xxx xxxx">
+        </div>
+        <div class="bf-field">
+          <label for="bkPet">寵物類型</label>
+          <select id="bkPet" name="pet">
+            <option value="貓">貓</option>
+            <option value="狗">狗</option>
+            <option value="兔">兔</option>
+            <option value="倉鼠">倉鼠</option>
+            <option value="鳥">鳥</option>
+            <option value="其他">其他</option>
+          </select>
+        </div>
+        <div class="bf-field">
+          <label for="bkWeight">寵物體重（約，方便估算）</label>
+          <input id="bkWeight" name="weight" placeholder="例如 5 kg（可留空）">
+        </div>
+        <div class="bf-field">
+          <label for="bkPlace">接送地點</label>
+          <input id="bkPlace" name="place" placeholder="住址或獸醫診所（可留空）">
+        </div>
+        <div class="bf-field">
+          <label for="bkSituation">目前情況</label>
+          <select id="bkSituation" name="situation">
+            <option value="寵物已離世，需盡快接送">寵物已離世，需盡快接送</option>
+            <option value="預先了解與安排">預先了解與安排</option>
+            <option value="其他">其他</option>
+          </select>
+        </div>
+        <div class="bf-field">
+          <label for="bkTime">方便聯絡的時間</label>
+          <input id="bkTime" name="time" placeholder="例如 今晚 / 明早（可留空）">
+        </div>
+        <div class="bf-field">
+          <label for="bkNote">想我們知道的事</label>
+          <textarea id="bkNote" name="note" rows="3" placeholder="任何特別安排或心願（可留空）"></textarea>
+        </div>
+        <button type="submit" class="cta book-submit">經 WhatsApp 送出預約 <span class="arw">→</span></button>
+        <p class="book-note">按下後會開啟 WhatsApp，資料已為你填好，確認後傳送即可。我們不會在網站儲存你的資料。</p>
+      </form>
+
+      <div class="book-urgent reveal">🕊️ <b>緊急個案</b>：如寵物剛離世、需要即時接送，歡迎直接 <a href="https://wa.me/85264762951" target="_blank" rel="noopener">WhatsApp 我們（24 小時待命）</a>。</div>
+    </div>
+  </section>
+
   <footer class="footer">
     <img class="fbrand-img" src="images/resoul-wordmark.png" alt="Resoul">
     <div class="fslogan">Your last greatest love to show</div>

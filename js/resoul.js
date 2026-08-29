@@ -474,3 +474,30 @@
     }
   });
 })();
+
+
+/* ---- 火化服務網上預約：整理成 WhatsApp 訊息 ---- */
+(function(){
+  "use strict";
+  var form = document.getElementById('bookForm');
+  if(!form) return;
+  var WA_NUMBER = '85264762951'; // Resoul WhatsApp（如需更改，改呢度）
+  function val(id){ var e=document.getElementById(id); return e ? e.value.trim() : ''; }
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    if(!val('bkName') || !val('bkPhone')){ return; }
+    var lines = [
+      '【Resoul 火化服務預約】',
+      '主人稱呼：' + val('bkName'),
+      '聯絡電話：' + val('bkPhone'),
+      '寵物類型：' + val('bkPet'),
+      '寵物體重：' + (val('bkWeight') || '—'),
+      '接送地點：' + (val('bkPlace') || '—'),
+      '目前情況：' + val('bkSituation'),
+      '方便聯絡時間：' + (val('bkTime') || '—'),
+      '備註：' + (val('bkNote') || '—')
+    ];
+    var url = 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(lines.join('\n'));
+    window.open(url, '_blank', 'noopener');
+  });
+})();

@@ -700,3 +700,18 @@ section{padding:64px 0;}
 .flinks{margin-top:12px;font-size:.78rem;letter-spacing:.04em;}
 .flinks a{color:var(--ink-faint);}
 .flinks a:hover{color:var(--gold-deep);}
+
+/* ---------- 火化服務：網上預約表單 ---------- */
+.booking{background:var(--cream);}
+.book-form{margin:24px auto 0;max-width:460px;display:flex;flex-direction:column;gap:14px;text-align:left;}
+.bf-field{display:flex;flex-direction:column;gap:6px;}
+.bf-field label{font-size:.84rem;color:var(--ink-soft);font-weight:500;}
+.bf-field label .req{color:#b5533f;}
+.book-form input,.book-form select,.book-form textarea{font-family:var(--sans);font-size:.94rem;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px;width:100%;}
+.book-form input:focus,.book-form select:focus,.book-form textarea:focus{outline:none;border-color:var(--gold);}
+.book-form textarea{resize:vertical;line-height:1.7;}
+.book-submit{margin-top:6px;align-self:center;}
+.book-note{color:var(--ink-faint);font-size:.8rem;line-height:1.7;text-align:center;margin-top:2px;}
+.book-urgent{max-width:460px;margin:20px auto 0;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;font-size:.88rem;color:var(--ink-soft);line-height:1.7;text-align:center;}
+.book-urgent b{color:var(--gold-deep);}
+.book-urgent a{color:var(--gold-deep);border-bottom:1px solid var(--gold);}
