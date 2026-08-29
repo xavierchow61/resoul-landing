@@ -44,6 +44,7 @@
     "query($n:Int!){ articles(first:$n, sortKey:PUBLISHED_AT, reverse:true){ edges{ node{" +
     " id handle title excerpt publishedAt contentHtml" +
     " image{ url altText } authorV2{ name } blog{ title handle }" +
+    " comments(first:50){ edges{ node{ author{ name } content } } }" +
     " } } } }";
 
   var state = { articles: [] };
@@ -80,6 +81,15 @@
     var img = a.image ? a.image.url : "";
     var author = a.authorV2 ? a.authorV2.name : "";
     var meta = [author, fmtDate(a.publishedAt)].filter(Boolean).join("　·　");
+    var comments = (a.comments && a.comments.edges) ? a.comments.edges.map(function (e) { return e.node; }) : [];
+    var commentsHtml = comments.length
+      ? comments.map(function (c) {
+          return '<div class="comment"><div class="comment-author">' + esc(c.author ? c.author.name : "訪客") + "</div>" +
+                 '<div class="comment-body">' + esc(c.content || "").replace(/\n/g, "<br>") + "</div></div>";
+        }).join("")
+      : '<p class="comments-empty">還沒有留言。願意的話，成為第一個留下想念的人。</p>';
+    var action = "https://" + SHOP.domain + "/blogs/" + (a.blog ? a.blog.handle : "news") + "/" + a.handle + "/comments";
+
     d.innerHTML =
       '<button class="detail-back" type="button" id="articleBack">← 返回所有文章</button>' +
       '<article class="article">' +
@@ -88,8 +98,34 @@
       (img ? '<img class="article-cover" src="' + esc(img) + '" alt="' + esc(a.image.altText || a.title) + '">' : "") +
       '<div class="article-body">' + (a.contentHtml || "") + "</div>" +
       '<p class="article-note">本文僅供一般參考，個別情況請諮詢你的獸醫。</p>' +
+      '<section class="comments">' +
+      '<h2 class="comments-h">留言　<span>' + comments.length + "</span></h2>" +
+      '<div class="comment-list">' + commentsHtml + "</div>" +
+      '<form class="comment-form" id="commentForm" method="post" action="' + esc(action) + '" target="resoul-comment-sink">' +
+      '<input type="hidden" name="form_type" value="new_comment">' +
+      '<input type="hidden" name="utf8" value="✓">' +
+      '<div class="cf-row">' +
+      '<input name="comment[author]" placeholder="暱稱（可用化名）" required>' +
+      '<input name="comment[email]" type="email" placeholder="電郵（不會公開顯示）" required>' +
+      "</div>" +
+      '<textarea name="comment[body]" rows="4" placeholder="寫下你想說的話…" required></textarea>' +
+      '<button type="submit" class="btn lg">送出留言</button>' +
+      '<p class="cf-note">為保障你的私隱，請避免填寫真實姓名、電話等資料。留言會經審核後顯示。</p>' +
+      "</form>" +
+      '<p class="cf-thanks" id="cfThanks" style="display:none">多謝你的留言 🤍 經審核後就會顯示。</p>' +
+      "</section>" +
       "</article>";
     $("#articleBack").addEventListener("click", closeArticle);
+    var form = $("#commentForm");
+    if (form) {
+      form.addEventListener("submit", function () {
+        // 提交去 Shopify（隱藏 iframe，唔會跳走本頁）
+        setTimeout(function () {
+          form.style.display = "none";
+          var t = $("#cfThanks"); if (t) t.style.display = "block";
+        }, 120);
+      });
+    }
     $("#blogList").style.display = "none";
     d.style.display = "block";
     scrollToBlog();

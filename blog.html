@@ -50,6 +50,28 @@
 .article-body li{margin:6px 0;}
 .article-body blockquote{border-left:3px solid var(--gold);margin:18px 0;padding:4px 0 4px 16px;color:var(--ink-faint);font-style:italic;}
 .article-note{margin-top:30px;padding-top:16px;border-top:1px solid var(--line);color:var(--ink-faint);font-size:.82rem;}
+
+/* 留言 */
+.comments{max-width:720px;margin:40px auto 0;padding-top:26px;border-top:1px solid var(--line);}
+.comments-h{font-size:1.2rem;color:var(--ink);}
+.comments-h span{color:var(--gold-deep);font-size:.9rem;}
+.comment-list{margin:18px 0 26px;display:flex;flex-direction:column;gap:16px;}
+.comment{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;}
+.comment-author{font-family:var(--serif);font-weight:600;font-size:.92rem;color:var(--ink);margin-bottom:4px;}
+.comment-body{color:var(--ink-soft);font-size:.92rem;line-height:1.75;}
+.comments-empty{color:var(--ink-faint);font-size:.9rem;margin:16px 0 26px;}
+.comment-form{display:flex;flex-direction:column;gap:12px;}
+.cf-row{display:flex;gap:12px;flex-wrap:wrap;}
+.cf-row input{flex:1;min-width:180px;}
+.comment-form input,.comment-form textarea{font-family:var(--sans);font-size:.92rem;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:10px;padding:11px 14px;width:100%;}
+.comment-form input:focus,.comment-form textarea:focus{outline:none;border-color:var(--gold);}
+.comment-form textarea{resize:vertical;line-height:1.7;}
+.comment-form .btn{align-self:flex-start;}
+.cf-note{color:var(--ink-faint);font-size:.78rem;line-height:1.6;}
+.cf-thanks{color:var(--gold-deep);font-size:.95rem;padding:16px 0;}
+.btn{background:var(--ink);color:var(--bg);border:none;border-radius:999px;padding:8px 15px;font-family:var(--sans);font-size:.82rem;font-weight:500;cursor:pointer;transition:opacity .2s,transform .12s;}
+.btn:hover{transform:translateY(-1px);opacity:.92;}
+.btn.lg{padding:13px 28px;font-size:.96rem;}
 </style>
 </head>
 <body>
@@ -135,6 +157,8 @@
   </div>
   <div class="chat-safety">如果情緒持續影響生活，請尋求專業支援。</div>
 </div>
+
+<iframe name="resoul-comment-sink" title="留言提交" style="display:none" aria-hidden="true"></iframe>
 
 <button id="toTop" class="to-top" type="button" aria-label="返回頁首">↑</button>
 
