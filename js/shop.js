@@ -225,8 +225,17 @@
 
     refreshVariant();
     $("#shopList").style.display = "none";
+    var hd = document.querySelector(".shop-buy-hd"); if (hd) hd.style.display = "none";
     d.style.display = "block";
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    scrollToShop();
+  }
+  function scrollToShop() {
+    var target = document.querySelector(".shop-wrap");
+    if (!target) return;
+    var header = document.querySelector(".site-header");
+    var offset = (header ? header.offsetHeight : 0) + 14;
+    var y = target.getBoundingClientRect().top + window.pageYOffset - offset;
+    window.scrollTo({ top: y < 0 ? 0 : y, behavior: "smooth" });
   }
   function refreshVariant() {
     var p = state.current; if (!p) return;
@@ -244,8 +253,10 @@
   }
   function closeDetail() {
     $("#shopDetail").style.display = "none";
+    var hd = document.querySelector(".shop-buy-hd"); if (hd) hd.style.display = "";
     $("#shopList").style.display = "block";
     state.current = null;
+    scrollToShop();
   }
 
   /* ===== 加入購物車 ===== */
