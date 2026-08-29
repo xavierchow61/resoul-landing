@@ -566,6 +566,9 @@ section{padding:64px 0;}
 .seaview-txt h3{font-size:1.3rem;color:var(--ink);margin-bottom:12px;}
 .seaview-txt p{color:var(--ink-soft);font-size:.96rem;line-height:1.85;margin-bottom:10px;}
 .sv-line{font-family:var(--slogan);font-style:italic;color:var(--gold-deep);font-size:1.06rem;}
+.cremation-figure{margin:26px auto 0;max-width:640px;border-radius:18px;overflow:hidden;box-shadow:var(--shadow);}
+.cremation-figure img{width:100%;aspect-ratio:16/10;object-fit:cover;display:block;}
+.cremation-figure figcaption{padding:13px 18px;font-size:.9rem;color:var(--ink-soft);text-align:center;background:var(--card);}
 .cremation-contact{margin-top:30px;color:var(--ink-soft);font-size:.98rem;}
 .cremation-contact a{color:var(--gold-deep);border-bottom:1px solid var(--gold);}
 .cremation .cta{margin-top:14px;}
