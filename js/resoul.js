@@ -198,12 +198,13 @@
   function autoGrow(){ text.style.height='auto'; text.style.height=Math.min(text.scrollHeight,260)+'px'; }
   text.addEventListener('input', autoGrow);
 
-  document.getElementById('widgetChips').addEventListener('click', function(e){
+  var chipsEl = document.getElementById('widgetChips');
+  if(chipsEl){ chipsEl.addEventListener('click', function(e){
     var b = e.target.closest('.chip'); if(!b) return;
     if(b.dataset.fill==='template'){ text.value=TEMPLATE; text.focus(); autoGrow(); }
     else if(b.dataset.fill==='example'){ text.value=EXAMPLE; text.focus(); autoGrow(); }
     else if(b.dataset.send){ text.value=b.dataset.send; submit(); }
-  });
+  }); }
 
   // Open / close floating widget
   function openWidget(){ widget.classList.add('open'); fab.classList.add('hide'); setTimeout(function(){ text.focus(); },260); }
