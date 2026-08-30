@@ -12,6 +12,25 @@
   };
   var ENDPOINT = "https://" + SHOP.domain + "/api/" + SHOP.version + "/graphql.json";
 
+  /* 留言由 Supabase 保存（見 supabase/schema.sql）；publishable key 為公開用途 */
+  var SB_URL = "https://tkgxdzvsnmereaygddaz.supabase.co";
+  var SB_KEY = "sb_publishable_bRZVm-air0obDK7QuRYaMw_b-mnVMA6";
+  var SBH = { apikey: SB_KEY, Authorization: "Bearer " + SB_KEY };
+  function sbCrisis(t) { return /想死|唔想活|自殺|傷害自己|撐唔住|頂唔住|想跟(佢|牠|你)去|活唔落去|結束生命|唔想生存|冇晒意思/.test(t); }
+  function loadComments(handle, listEl, countEl) {
+    fetch(SB_URL + "/rest/v1/posts?select=name,body,created_at&status=eq.visible&context=eq." + encodeURIComponent("blog:" + handle) + "&order=created_at.desc&limit=100", { headers: SBH })
+      .then(function (r) { return r.json(); })
+      .then(function (rows) {
+        if (!Array.isArray(rows)) return;
+        if (countEl) countEl.textContent = rows.length;
+        if (!rows.length) { listEl.innerHTML = '<p class="comments-empty">還沒有留言。願意的話，成為第一個留言的人。</p>'; return; }
+        listEl.innerHTML = rows.map(function (c) {
+          return '<div class="comment"><div class="comment-author">' + esc(c.name || "一位讀者") + "</div>" +
+                 '<div class="comment-body">' + esc(c.body || "").replace(/\n/g, "<br>") + "</div></div>";
+        }).join("");
+      }).catch(function () {});
+  }
+
   function $(s, r) { return (r || document).querySelector(s); }
   function esc(s) {
     return String(s == null ? "" : s)
@@ -44,7 +63,6 @@
     "query($n:Int!){ articles(first:$n, sortKey:PUBLISHED_AT, reverse:true){ edges{ node{" +
     " id handle title excerpt publishedAt contentHtml" +
     " image{ url altText } authorV2{ name } blog{ title handle }" +
-    " comments(first:50){ edges{ node{ author{ name } content } } }" +
     " } } } }";
 
   var state = { articles: [] };
@@ -81,15 +99,7 @@
     var img = a.image ? a.image.url : "";
     var author = a.authorV2 ? a.authorV2.name : "";
     var meta = [author, fmtDate(a.publishedAt)].filter(Boolean).join("　·　");
-    var comments = (a.comments && a.comments.edges) ? a.comments.edges.map(function (e) { return e.node; }) : [];
-    var commentsHtml = comments.length
-      ? comments.map(function (c) {
-          return '<div class="comment"><div class="comment-author">' + esc(c.author ? c.author.name : "訪客") + "</div>" +
-                 '<div class="comment-body">' + esc(c.content || "").replace(/\n/g, "<br>") + "</div></div>";
-        }).join("")
-      : '<p class="comments-empty">還沒有留言。願意的話，成為第一個留下想念的人。</p>';
-    var action = "https://" + SHOP.domain + "/blogs/" + (a.blog ? a.blog.handle : "news") + "/" + a.handle + "/comments";
-
+    var handle = a.handle;
     d.innerHTML =
       '<button class="detail-back" type="button" id="articleBack">← 返回所有文章</button>' +
       '<article class="article">' +
@@ -99,31 +109,40 @@
       '<div class="article-body">' + (a.contentHtml || "") + "</div>" +
       '<p class="article-note">本文僅供一般參考，個別情況請諮詢你的獸醫。</p>' +
       '<section class="comments">' +
-      '<h2 class="comments-h">留言　<span>' + comments.length + "</span></h2>" +
-      '<div class="comment-list">' + commentsHtml + "</div>" +
-      '<form class="comment-form" id="commentForm" method="post" action="' + esc(action) + '" target="resoul-comment-sink">' +
-      '<input type="hidden" name="form_type" value="new_comment">' +
-      '<input type="hidden" name="utf8" value="✓">' +
-      '<div class="cf-row">' +
-      '<input name="comment[author]" placeholder="暱稱（可用化名）" required>' +
-      '<input name="comment[email]" type="email" placeholder="電郵（不會公開顯示）" required>' +
-      "</div>" +
-      '<textarea name="comment[body]" rows="4" placeholder="寫下你想說的話…" required></textarea>' +
+      '<h2 class="comments-h">留言　<span id="cmtCount"></span></h2>' +
+      '<div class="comment-list" id="cmtList"><p class="comments-empty">載入中…</p></div>' +
+      '<form class="comment-form" id="commentForm">' +
+      '<input id="cmtName" maxlength="40" placeholder="暱稱（可用化名）">' +
+      '<textarea id="cmtBody" rows="4" maxlength="1000" placeholder="寫下你想說的話…" required></textarea>' +
       '<button type="submit" class="btn lg">送出留言</button>' +
-      '<p class="cf-note">為保障你的私隱，請避免填寫真實姓名、電話等資料。留言會經審核後顯示。</p>' +
+      '<p class="cf-note" id="cmtStatus">為保障你的私隱，請避免填寫真實姓名、電話等資料。留言會經審核後顯示。</p>' +
       "</form>" +
-      '<p class="cf-thanks" id="cfThanks" style="display:none">多謝你的留言 🤍 經審核後就會顯示。</p>' +
       "</section>" +
       "</article>";
     $("#articleBack").addEventListener("click", closeArticle);
+    loadComments(handle, $("#cmtList"), $("#cmtCount"));
     var form = $("#commentForm");
     if (form) {
-      form.addEventListener("submit", function () {
-        // 提交去 Shopify（隱藏 iframe，唔會跳走本頁）
-        setTimeout(function () {
-          form.style.display = "none";
-          var t = $("#cfThanks"); if (t) t.style.display = "block";
-        }, 120);
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        var body = ($("#cmtBody").value || "").trim();
+        var nm = ($("#cmtName").value || "").trim();
+        var st = $("#cmtStatus");
+        if (!body) return;
+        if (sbCrisis(body)) { var sbtn = document.getElementById("supportBtn"); if (sbtn) sbtn.click(); }
+        var btn = form.querySelector("button");
+        btn.disabled = true; if (st) st.textContent = "正在送出…";
+        fetch(SB_URL + "/rest/v1/posts", {
+          method: "POST",
+          headers: { apikey: SB_KEY, Authorization: "Bearer " + SB_KEY, "Content-Type": "application/json", "Prefer": "return=minimal" },
+          body: JSON.stringify({ context: "blog:" + handle, name: nm || null, body: body })
+        }).then(function (r) {
+          if (!r.ok) throw new Error("insert");
+          $("#cmtBody").value = ""; $("#cmtName").value = "";
+          if (st) { st.textContent = "多謝你的留言 🤍 經審核後就會顯示。"; st.style.color = "var(--gold-deep)"; }
+        }).catch(function () {
+          if (st) st.textContent = "送出失敗，請稍後再試。";
+        }).then(function () { btn.disabled = false; });
       });
     }
     $("#blogList").style.display = "none";

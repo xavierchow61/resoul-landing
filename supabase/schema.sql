@@ -71,6 +71,12 @@ insert into storage.buckets (id, name, public)
 values ('board-images', 'board-images', true)
 on conflict (id) do nothing;
 
+-- 圖片限制（防濫用）：檔案上限 5MB、只准圖片
+update storage.buckets
+set file_size_limit    = 5242880,
+    allowed_mime_types = array['image/jpeg','image/png','image/webp','image/gif','image/heic']
+where id = 'board-images';
+
 -- 公眾可讀圖片
 drop policy if exists "public read board-images" on storage.objects;
 create policy "public read board-images"
