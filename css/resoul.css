@@ -57,7 +57,7 @@ p{margin:0;}
 .nav{
   display:flex;gap:22px;overflow-x:auto;
   scrollbar-width:none;-ms-overflow-style:none;
-  padding-bottom:2px;justify-content:flex-start;
+  padding-bottom:2px;justify-content:center;
   -webkit-overflow-scrolling:touch;
 }
 .nav::-webkit-scrollbar{display:none;}
