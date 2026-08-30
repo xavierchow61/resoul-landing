@@ -29,6 +29,7 @@
         <div class="nav-menu">
           <a href="support.html">情緒支持</a>
           <a href="#" data-open-chat>AI 對話</a>
+          <a href="board.html">同路人留言板</a>
           <a href="faq.html">常見心情</a>
           <a href="blog.html">照顧誌</a>
         </div>
@@ -107,25 +108,6 @@
     </div>
   </section>
 
-  <hr class="divider">
-
-  <section class="board" id="board">
-    <div class="wrap">
-      <p class="eyebrow reveal">同路人留言板</p>
-      <h2 class="reveal">在這裡，寫下你的想念。</h2>
-      <p class="lead reveal" style="margin-top:14px;">留下一句想念、一張相片，也可以靜靜讀別人的故事——在這條路上，你並不孤單。</p>
-      <div class="board-form reveal">
-        <input id="boardName" maxlength="40" placeholder="你的名字或毛孩的名字（可留空）">
-        <textarea id="boardMsg" maxlength="1000" rows="3" placeholder="想說的話…"></textarea>
-        <label class="board-upload" id="boardUploadLabel">＋ 加一張相片（可選）<input type="file" id="boardPhoto" accept="image/*" hidden></label>
-        <img id="boardPreview" alt="預覽" style="display:none;max-width:180px;border-radius:10px;margin-top:8px;">
-        <button id="boardPost" class="soft-btn" type="button">🤍 發佈留言</button>
-        <p class="board-note" id="boardStatus" style="min-height:1em;"></p>
-      </div>
-      <div class="board-list" id="boardList"></div>
-      <p class="board-note reveal">＊ 留言經審核後顯示。為保障你的私隱，請避免填寫真實姓名、電話等個人資料。</p>
-    </div>
-  </section>
 
   <footer class="footer">
     <img class="fbrand-img" src="images/resoul-wordmark.png" alt="Resoul">
@@ -175,6 +157,5 @@
 </div>
 
 <script src="js/resoul.js" defer></script>
-<script src="js/board.js" defer></script>
 </body>
 </html>

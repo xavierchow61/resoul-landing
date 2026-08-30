@@ -596,7 +596,7 @@ section{padding:64px 0;}
 .board-list{margin-top:32px;display:grid;grid-template-columns:1fr;gap:15px;text-align:left;}
 @media(min-width:640px){.board-list{grid-template-columns:1fr 1fr;}}
 .bpost{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 17px;box-shadow:0 8px 26px -22px rgba(70,52,34,.5);animation:candleIn .4s ease;}
-.bpost img{width:100%;border-radius:10px;margin-bottom:10px;display:block;}
+.bpost img{max-width:100%;max-height:240px;width:auto;border-radius:10px;margin:0 auto 10px;display:block;}
 .bp-name{font-family:var(--serif);font-weight:600;color:var(--ink);font-size:.95rem;}
 .bp-msg{color:var(--ink-soft);font-size:.9rem;line-height:1.7;margin-top:5px;white-space:pre-wrap;word-break:break-word;}
 .bp-time{color:var(--ink-faint);font-size:.72rem;margin-top:8px;}
@@ -718,6 +718,10 @@ section{padding:64px 0;}
 
 /* 情緒支持頁：關於哀傷 / 照顧自己 */
 .selfcare{background:var(--cream);}
+/* 關於哀傷 / 照顧自己：4 張排成 2×2，避免第 4 張落單 */
+@media(min-width:520px){
+  .normalize .services-grid,.selfcare .services-grid{grid-template-columns:1fr 1fr;}
+}
 .care-cta{text-align:center;margin-top:32px;}
 
 /* ---------- 火化方案比較表 ---------- */
