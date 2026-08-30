@@ -440,14 +440,17 @@
   var bdiv = document.getElementById('bookingDivider');
   if(bcta && bsec){
     bcta.addEventListener('click', function(){
-      if(bdiv) bdiv.style.display='';
-      bsec.style.display='';
-      bsec.querySelectorAll('.reveal').forEach(function(n){ n.classList.add('in'); });
+      // 展開火化方案表 + 預約表單
+      ['plansDivider','plans','bookingDivider','booking'].forEach(function(id){
+        var el = document.getElementById(id);
+        if(el){ el.style.display=''; if(el.querySelectorAll) el.querySelectorAll('.reveal').forEach(function(n){ n.classList.add('in'); }); }
+      });
+      // 捲到火化方案（先揀方案，表單在下方）
+      var target = document.getElementById('plans') || bsec;
       var header = document.querySelector('.site-header');
       var offset = (header ? header.offsetHeight : 0) + 14;
-      var y = bsec.getBoundingClientRect().top + window.pageYOffset - offset;
+      var y = target.getBoundingClientRect().top + window.pageYOffset - offset;
       window.scrollTo({ top: y < 0 ? 0 : y, behavior: 'smooth' });
-      setTimeout(function(){ var n=document.getElementById('bkName'); if(n) n.focus(); }, 500);
     });
   }
   function val(id){ var e=document.getElementById(id); return e ? e.value.trim() : ''; }
