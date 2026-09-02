@@ -56,7 +56,7 @@
       <p class="lead reveal" style="margin-top:14px;">看著相伴多年的牠日漸虛弱、受著病痛煎熬，「放手」也許是你能為牠做、最深情也最不捨的一件事。這個決定從不容易——你不需要獨自面對，我們會溫柔地陪你走過。</p>
       <p class="lead reveal">Resoul 的寵物善終安樂死服務，由<strong>註冊獸醫</strong>以無痛、安詳的方式進行，讓毛孩在你的懷抱與熟悉的氣味中，平靜地睡去。無論在家中或診所，我們都會為你和牠，守護這段最後的時光，並可即時銜接火化與紀念安排。</p>
 
-      <button class="cta reveal" type="button" onclick="document.getElementById('booking').scrollIntoView({behavior:'smooth'})">網上預約 <span class="arw">→</span></button>
+      <button class="cta reveal" type="button" onclick="['euthDivider','booking'].forEach(function(i){var e=document.getElementById(i);if(e)e.style.display='';});document.getElementById('booking').scrollIntoView({behavior:'smooth'});">網上預約 <span class="arw">→</span></button>
     </div>
   </section>
 
@@ -113,9 +113,9 @@
     </div>
   </section>
 
-  <hr class="divider">
+  <hr class="divider" id="euthDivider" style="display:none">
 
-  <section class="booking" id="booking" style="display:block">
+  <section class="booking" id="booking" style="display:none">
     <div class="wrap">
       <p class="eyebrow reveal">網上預約</p>
       <h2 class="reveal">預約安樂死服務</h2>
