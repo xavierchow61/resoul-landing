@@ -485,6 +485,27 @@
         });
       }catch(err){}
     }
+    // 同步寫入後台 Supabase（cremation_bookings；fire-and-forget）
+    try{
+      fetch('https://tkgxdzvsnmereaygddaz.supabase.co/rest/v1/cremation_bookings', {
+        method: 'POST',
+        headers: {
+          apikey: 'sb_publishable_bRZVm-air0obDK7QuRYaMw_b-mnVMA6',
+          Authorization: 'Bearer sb_publishable_bRZVm-air0obDK7QuRYaMw_b-mnVMA6',
+          'Content-Type': 'application/json',
+          Prefer: 'return=minimal'
+        },
+        body: JSON.stringify({
+          owner_name: val('bkName'),
+          contact: val('bkPhone'),
+          plan: val('bkPlan'),
+          pet_type: val('bkPet'),
+          pickup_address: val('bkPlace') || null,
+          notes: '體重：' + (val('bkWeight')||'—') + '｜情況：' + val('bkSituation') + '｜方便時間：' + (val('bkTime')||'—') + '｜備註：' + (val('bkNote')||'—'),
+          source: 'web:cremation'
+        })
+      });
+    }catch(err){}
     var url = 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(lines.join('\n'));
     window.open(url, '_blank', 'noopener');
   });

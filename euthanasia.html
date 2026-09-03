@@ -240,6 +240,25 @@
       '地址：' + (v('euAddr') || '—'),
       '毛孩狀況：' + (v('euCond') || '—')
     ];
+    try {
+      fetch('https://tkgxdzvsnmereaygddaz.supabase.co/rest/v1/cremation_bookings', {
+        method: 'POST',
+        headers: {
+          apikey: 'sb_publishable_bRZVm-air0obDK7QuRYaMw_b-mnVMA6',
+          Authorization: 'Bearer sb_publishable_bRZVm-air0obDK7QuRYaMw_b-mnVMA6',
+          'Content-Type': 'application/json',
+          Prefer: 'return=minimal'
+        },
+        body: JSON.stringify({
+          owner_name: v('euName'),
+          contact: v('euPhone'),
+          pet_type: v('euPet'),
+          pickup_address: v('euAddr') || null,
+          notes: '安樂死｜地點：' + v('euPlace') + '｜希望日期：' + (v('euDate') || '—') + '｜時段：' + (v('euTime') || '—') + '｜狀況：' + (v('euCond') || '—'),
+          source: 'web:euthanasia'
+        })
+      });
+    } catch (err) {}
     var url = 'https://wa.me/85264762951?text=' + encodeURIComponent(lines.join('\n'));
     window.open(url, '_blank');
   });
