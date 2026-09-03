@@ -23,6 +23,12 @@
 .shop-state{text-align:center;color:var(--ink-faint);padding:50px 10px;font-size:.95rem;}
 .shop-state.err{color:var(--gold-deep);}
 
+/* 類別篩選 */
+.shop-filters{display:flex;flex-wrap:wrap;gap:9px;margin:0 0 20px;}
+.shop-chip{appearance:none;cursor:pointer;font:inherit;font-size:.86rem;line-height:1;padding:9px 16px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink-faint);transition:background .18s,color .18s,border-color .18s;}
+.shop-chip:hover{border-color:var(--gold-deep);color:var(--ink);}
+.shop-chip.sel{background:var(--ink);border-color:var(--ink);color:var(--cream);}
+
 /* 產品格 */
 .shop-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;}
 @media(min-width:760px){.shop-grid{grid-template-columns:repeat(3,1fr);}}
@@ -205,6 +211,7 @@ body.cart-open .fab,body.cart-open .to-top{display:none!important;}
       <div class="shop-state" id="shopLoading">正在載入紀念品…</div>
       <div class="shop-state" id="shopEmpty" style="display:none">商品即將上架，請稍後再來看看。</div>
       <div class="shop-state err" id="shopError" style="display:none">暫時載入不到商品，請稍後再試。</div>
+      <div class="shop-filters" id="shopFilters" style="display:none"></div>
       <div class="shop-grid" id="shopGrid"></div>
     </div>
     <!-- 產品詳情（動態填入）-->

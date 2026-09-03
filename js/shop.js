@@ -59,7 +59,7 @@
   /* ===== 產品查詢 ===== */
   var PRODUCTS_Q =
     "query($n:Int!){ products(first:$n, sortKey:CREATED_AT, reverse:true){ edges{ node{" +
-    " id title description handle" +
+    " id title description handle productType" +
     " featuredImage{ url altText }" +
     " images(first:6){ edges{ node{ url altText } } }" +
     " options{ name values }" +
@@ -101,7 +101,7 @@
   }
 
   /* ===== 狀態 ===== */
-  var state = { products: [], cart: null, current: null, qty: 1, sel: {} };
+  var state = { products: [], cart: null, current: null, qty: 1, sel: {}, filter: "all" };
 
   /* ===== 購物車：確保存在 ===== */
   function ensureCartThen(mid, qty) {
@@ -119,14 +119,49 @@
     try { if (cart && cart.id) localStorage.setItem(CART_KEY, cart.id); } catch (e) {}
   }
 
+  /* ===== 渲染：類別篩選 chips（按產品實際 productType 動態生成）===== */
+  function renderFilters() {
+    var bar = $("#shopFilters");
+    if (!bar) return;
+    // 抽出實際存在嘅類別（去重、保留原有次序）
+    var cats = [];
+    state.products.forEach(function (p) {
+      var t = (p.productType || "").trim();
+      if (t && cats.indexOf(t) === -1) cats.push(t);
+    });
+    // 少於兩個類別就唔使顯示篩選（得一種，篩咗都無意義）
+    if (cats.length < 2) { bar.style.display = "none"; return; }
+    bar.style.display = "flex";
+    bar.innerHTML = "";
+    var defs = [{ key: "all", label: "全部" }].concat(cats.map(function (c) { return { key: c, label: c }; }));
+    defs.forEach(function (d) {
+      var b = el("button", "shop-chip" + (state.filter === d.key ? " sel" : ""), esc(d.label));
+      b.type = "button";
+      b.addEventListener("click", function () {
+        state.filter = d.key;
+        renderFilters();
+        renderGrid();
+      });
+      bar.appendChild(b);
+    });
+  }
+
   /* ===== 渲染：產品列表 ===== */
   function renderGrid() {
     var grid = $("#shopGrid");
     var empty = $("#shopEmpty");
     grid.innerHTML = "";
     if (!state.products.length) { empty.style.display = "block"; return; }
+    var list = state.filter === "all"
+      ? state.products
+      : state.products.filter(function (p) { return (p.productType || "").trim() === state.filter; });
+    if (!list.length) {
+      empty.textContent = "此類別暫時沒有商品。";
+      empty.style.display = "block";
+      return;
+    }
     empty.style.display = "none";
-    state.products.forEach(function (p) {
+    list.forEach(function (p) {
       var img = p.featuredImage ? p.featuredImage.url : "";
       var alt = p.featuredImage ? (p.featuredImage.altText || p.title) : p.title;
       var price = p.priceRange.minVariantPrice;
@@ -365,6 +400,7 @@
         n.variants = n.variants.edges.map(function (x) { return x.node; });
         return n;
       });
+      renderFilters();
       renderGrid();
       $("#shopLoading").style.display = "none";
     }).catch(function (err) {

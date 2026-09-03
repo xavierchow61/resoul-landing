@@ -119,7 +119,7 @@
     <div class="wrap">
       <p class="eyebrow reveal">網上預約</p>
       <h2 class="reveal">預約安樂死服務</h2>
-      <p class="lead reveal" style="margin-top:12px;text-align:center;">填好以下資料，按「經 WhatsApp 送出」，我們會盡快與你聯絡，溫柔安排每一步。</p>
+      <p class="lead reveal" style="margin-top:12px;text-align:center;">填好以下資料，按「送出預約」，我們會盡快與你聯絡，溫柔安排每一步。</p>
 
       <form class="book-form reveal" id="euthForm">
         <div class="bf-field">
@@ -165,8 +165,9 @@
           <label for="euCond">毛孩目前狀況</label>
           <textarea id="euCond" name="cond" rows="3" placeholder="病況、年齡、是否受痛（可留空）"></textarea>
         </div>
-        <button type="submit" class="cta book-submit">經 WhatsApp 送出預約 <span class="arw">→</span></button>
-        <p class="book-note">按下後會開啟 WhatsApp，資料已為你填好，確認後傳送即可。我們不會在網站儲存你的資料。</p>
+        <button type="submit" class="cta book-submit">送出預約 <span class="arw">→</span></button>
+        <p class="book-note">送出後我們會盡快與你聯絡，溫柔安排每一步。你的資料只用於處理此預約。</p>
+        <div class="book-msg" id="euMsg" role="status" aria-live="polite" hidden></div>
       </form>
 
       <div class="book-urgent reveal">🕊️ <b>需要即時支援</b>：如毛孩正受著痛苦、需要盡快安排，歡迎直接 <a href="https://wa.me/85264762951" target="_blank" rel="noopener">WhatsApp 我們（24 小時待命）</a>。</div>
@@ -221,46 +222,79 @@
 </div>
 
 <script>
-// 安樂死預約 → 經 WhatsApp 送出（今日先用；日後可改接 Google Calendar / 後台）
+// 安樂死預約 → 送出後直接寫入 Supabase（正式記錄）+ Google Sheet（best-effort），不再經 WhatsApp。
 (function () {
+  var WA_NUMBER = '85264762951';
+  // Google Sheet 收集（與火化共用同一 Apps Script）；留空則只寫 Supabase。
+  var SHEET_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxNb2AErdbstA_N3khZtyACn_oOModpfmA8_NBvLy6ArODEaPbZiZEAoVBHY8iIdvNv/exec';
   var f = document.getElementById('euthForm');
   if (!f) return;
+  var v = function (id) { var el = document.getElementById(id); return el ? el.value.trim() : ''; };
+  var msg = document.getElementById('euMsg');
+  var btn = f.querySelector('.book-submit');
+  function showMsg(kind, html) {
+    if (!msg) return;
+    msg.className = 'book-msg ' + kind;
+    msg.innerHTML = html;
+    msg.hidden = false;
+    try { msg.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (e) {}
+  }
+  // Google Sheet：best-effort（no-cors 無法讀回應，不作成功判斷依據）
+  function sheetWrite() {
+    if (!SHEET_ENDPOINT) return;
+    try {
+      fetch(SHEET_ENDPOINT, {
+        method: 'POST', mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({
+          name: v('euName'), phone: v('euPhone'), pet: v('euPet'),
+          place: v('euPlace'), date: v('euDate'), time: v('euTime'),
+          addr: v('euAddr'), cond: v('euCond'), source: 'euthanasia-booking'
+        })
+      }).catch(function (err) { console.error('[Resoul] 安樂死預約寫入 Google Sheet 失敗：', err); });
+    } catch (err) { console.error('[Resoul] 安樂死預約寫入 Google Sheet 失敗：', err); }
+  }
   f.addEventListener('submit', function (e) {
     e.preventDefault();
-    var v = function (id) { var el = document.getElementById(id); return el ? el.value.trim() : ''; };
-    if (!v('euName') || !v('euPhone')) { alert('請填寫主人稱呼與聯絡電話。'); return; }
-    var lines = [
-      '【Resoul 安樂死預約】',
-      '主人稱呼：' + v('euName'),
-      '聯絡電話：' + v('euPhone'),
-      '寵物類型：' + v('euPet'),
-      '服務地點：' + v('euPlace'),
-      '希望日期：' + (v('euDate') || '待定'),
-      '希望時段：' + (v('euTime') || '待定'),
-      '地址：' + (v('euAddr') || '—'),
-      '毛孩狀況：' + (v('euCond') || '—')
-    ];
-    try {
-      fetch('https://tkgxdzvsnmereaygddaz.supabase.co/rest/v1/cremation_bookings', {
-        method: 'POST',
-        headers: {
-          apikey: 'sb_publishable_bRZVm-air0obDK7QuRYaMw_b-mnVMA6',
-          Authorization: 'Bearer sb_publishable_bRZVm-air0obDK7QuRYaMw_b-mnVMA6',
-          'Content-Type': 'application/json',
-          Prefer: 'return=minimal'
-        },
-        body: JSON.stringify({
-          owner_name: v('euName'),
-          contact: v('euPhone'),
-          pet_type: v('euPet'),
-          pickup_address: v('euAddr') || null,
-          notes: '安樂死｜地點：' + v('euPlace') + '｜希望日期：' + (v('euDate') || '—') + '｜時段：' + (v('euTime') || '—') + '｜狀況：' + (v('euCond') || '—'),
-          source: 'web:euthanasia'
-        })
-      });
-    } catch (err) {}
-    var url = 'https://wa.me/85264762951?text=' + encodeURIComponent(lines.join('\n'));
-    window.open(url, '_blank');
+    if (!v('euName') || !v('euPhone')) { showMsg('err', '請填寫主人稱呼與聯絡電話。'); return; }
+    var oldLabel = btn ? btn.innerHTML : '';
+    if (btn) { btn.disabled = true; btn.innerHTML = '提交中…'; }
+    if (msg) { msg.hidden = true; }
+
+    // Google Sheet 同步（best-effort）
+    sheetWrite();
+
+    // Supabase 為正式預約記錄，以此判斷成功／失敗
+    fetch('https://tkgxdzvsnmereaygddaz.supabase.co/rest/v1/cremation_bookings', {
+      method: 'POST',
+      headers: {
+        apikey: 'sb_publishable_bRZVm-air0obDK7QuRYaMw_b-mnVMA6',
+        Authorization: 'Bearer sb_publishable_bRZVm-air0obDK7QuRYaMw_b-mnVMA6',
+        'Content-Type': 'application/json',
+        Prefer: 'return=minimal'
+      },
+      body: JSON.stringify({
+        owner_name: v('euName'),
+        contact: v('euPhone'),
+        pet_type: v('euPet'),
+        pickup_address: v('euAddr') || null,
+        notes: '安樂死｜地點：' + v('euPlace') + '｜希望日期：' + (v('euDate') || '—') + '｜時段：' + (v('euTime') || '—') + '｜狀況：' + (v('euCond') || '—'),
+        source: 'web:euthanasia'
+      })
+    }).then(function (res) {
+      if (res.ok) {
+        f.reset();
+        showMsg('ok', '✅ <b>預約已收到</b>，我們會盡快與你聯絡，溫柔安排每一步。<br>如需即時支援，歡迎致電／<a href="https://wa.me/' + WA_NUMBER + '" target="_blank" rel="noopener">WhatsApp 我們（24 小時）</a>。');
+      } else {
+        res.text().then(function (t) { console.error('[Resoul] 安樂死預約寫入後台失敗 HTTP ' + res.status + '：' + t); });
+        showMsg('err', '很抱歉，提交時發生問題，請稍後再試，或直接 <a href="https://wa.me/' + WA_NUMBER + '" target="_blank" rel="noopener">WhatsApp 我們</a>。');
+      }
+    }).catch(function (err) {
+      console.error('[Resoul] 安樂死預約寫入後台失敗（網絡錯誤）：', err);
+      showMsg('err', '網絡不穩定，提交未成功，請稍後再試，或直接 <a href="https://wa.me/' + WA_NUMBER + '" target="_blank" rel="noopener">WhatsApp 我們</a>。');
+    }).then(function () {
+      if (btn) { btn.disabled = false; btn.innerHTML = oldLabel; }
+    });
   });
 })();
 </script>

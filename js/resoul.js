@@ -454,59 +454,75 @@
     });
   }
   function val(id){ var e=document.getElementById(id); return e ? e.value.trim() : ''; }
+  var msg = document.getElementById('bookMsg');
+  var btn = form.querySelector('.book-submit');
+  function showMsg(kind, html){
+    if(!msg) return;
+    msg.className = 'book-msg ' + kind;
+    msg.innerHTML = html;
+    msg.hidden = false;
+    try{ msg.scrollIntoView({ behavior:'smooth', block:'center' }); }catch(e){}
+  }
+  // Google Sheet：best-effort（no-cors 無法讀回應，不作成功判斷依據）
+  function sheetWrite(){
+    if(!SHEET_ENDPOINT) return;
+    try{
+      fetch(SHEET_ENDPOINT, {
+        method: 'POST', mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({
+          name: val('bkName'), phone: val('bkPhone'), plan: val('bkPlan'),
+          pet: val('bkPet'), weight: val('bkWeight'), place: val('bkPlace'),
+          situation: val('bkSituation'), time: val('bkTime'), note: val('bkNote'),
+          source: 'cremation-booking'
+        })
+      }).catch(function(err){ console.error('[Resoul] 火化預約寫入 Google Sheet 失敗：', err); });
+    }catch(err){ console.error('[Resoul] 火化預約寫入 Google Sheet 失敗：', err); }
+  }
   form.addEventListener('submit', function(e){
     e.preventDefault();
-    if(!val('bkName') || !val('bkPhone')){ return; }
-    var lines = [
-      '【Resoul 火化服務預約】',
-      '主人稱呼：' + val('bkName'),
-      '聯絡電話：' + val('bkPhone'),
-      '火化方案：' + val('bkPlan'),
-      '寵物類型：' + val('bkPet'),
-      '寵物體重：' + (val('bkWeight') || '—'),
-      '接送地點：' + (val('bkPlace') || '—'),
-      '目前情況：' + val('bkSituation'),
-      '方便聯絡時間：' + (val('bkTime') || '—'),
-      '備註：' + (val('bkNote') || '—')
-    ];
-    // 同步寫入 Google Sheet（fire-and-forget，唔阻住 WhatsApp）
-    if(SHEET_ENDPOINT){
-      var payload = {
-        name: val('bkName'), phone: val('bkPhone'), plan: val('bkPlan'),
-        pet: val('bkPet'), weight: val('bkWeight'), place: val('bkPlace'),
-        situation: val('bkSituation'), time: val('bkTime'), note: val('bkNote'),
-        source: 'cremation-booking'
-      };
-      try{
-        fetch(SHEET_ENDPOINT, {
-          method: 'POST', mode: 'no-cors',
-          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify(payload)
-        });
-      }catch(err){}
+    if(!val('bkName') || !val('bkPhone')){
+      showMsg('err', '請填寫主人稱呼與聯絡電話。');
+      return;
     }
-    // 同步寫入後台 Supabase（cremation_bookings；fire-and-forget）
-    try{
-      fetch('https://tkgxdzvsnmereaygddaz.supabase.co/rest/v1/cremation_bookings', {
-        method: 'POST',
-        headers: {
-          apikey: 'sb_publishable_bRZVm-air0obDK7QuRYaMw_b-mnVMA6',
-          Authorization: 'Bearer sb_publishable_bRZVm-air0obDK7QuRYaMw_b-mnVMA6',
-          'Content-Type': 'application/json',
-          Prefer: 'return=minimal'
-        },
-        body: JSON.stringify({
-          owner_name: val('bkName'),
-          contact: val('bkPhone'),
-          plan: val('bkPlan'),
-          pet_type: val('bkPet'),
-          pickup_address: val('bkPlace') || null,
-          notes: '體重：' + (val('bkWeight')||'—') + '｜情況：' + val('bkSituation') + '｜方便時間：' + (val('bkTime')||'—') + '｜備註：' + (val('bkNote')||'—'),
-          source: 'web:cremation'
-        })
-      });
-    }catch(err){}
-    var url = 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(lines.join('\n'));
-    window.open(url, '_blank', 'noopener');
+    var oldLabel = btn ? btn.innerHTML : '';
+    if(btn){ btn.disabled = true; btn.innerHTML = '提交中…'; }
+    if(msg){ msg.hidden = true; }
+
+    // Google Sheet 同步（best-effort）
+    sheetWrite();
+
+    // Supabase 為正式預約記錄，以此判斷成功／失敗
+    fetch('https://tkgxdzvsnmereaygddaz.supabase.co/rest/v1/cremation_bookings', {
+      method: 'POST',
+      headers: {
+        apikey: 'sb_publishable_bRZVm-air0obDK7QuRYaMw_b-mnVMA6',
+        Authorization: 'Bearer sb_publishable_bRZVm-air0obDK7QuRYaMw_b-mnVMA6',
+        'Content-Type': 'application/json',
+        Prefer: 'return=minimal'
+      },
+      body: JSON.stringify({
+        owner_name: val('bkName'),
+        contact: val('bkPhone'),
+        plan: val('bkPlan'),
+        pet_type: val('bkPet'),
+        pickup_address: val('bkPlace') || null,
+        notes: '體重：' + (val('bkWeight')||'—') + '｜情況：' + val('bkSituation') + '｜方便時間：' + (val('bkTime')||'—') + '｜備註：' + (val('bkNote')||'—'),
+        source: 'web:cremation'
+      })
+    }).then(function(res){
+      if(res.ok){
+        form.reset();
+        showMsg('ok', '✅ <b>預約已收到</b>，我們會盡快與你聯絡確認接送與火化安排。<br>如屬緊急個案，歡迎即致電／<a href="https://wa.me/' + WA_NUMBER + '" target="_blank" rel="noopener">WhatsApp 我們（24 小時）</a>。');
+      }else{
+        res.text().then(function(t){ console.error('[Resoul] 火化預約寫入後台失敗 HTTP ' + res.status + '：' + t); });
+        showMsg('err', '很抱歉，提交時發生問題，請稍後再試，或直接 <a href="https://wa.me/' + WA_NUMBER + '" target="_blank" rel="noopener">WhatsApp 我們</a>。');
+      }
+    }).catch(function(err){
+      console.error('[Resoul] 火化預約寫入後台失敗（網絡錯誤）：', err);
+      showMsg('err', '網絡不穩定，提交未成功，請稍後再試，或直接 <a href="https://wa.me/' + WA_NUMBER + '" target="_blank" rel="noopener">WhatsApp 我們</a>。');
+    }).then(function(){
+      if(btn){ btn.disabled = false; btn.innerHTML = oldLabel; }
+    });
   });
 })();
