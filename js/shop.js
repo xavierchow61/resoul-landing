@@ -5,6 +5,10 @@
 (function () {
   "use strict";
 
+  /* ===== 語言（英文頁 <html lang="en"> 時出英文）===== */
+  var EN = (document.documentElement.lang || "").slice(0, 2).toLowerCase() === "en";
+  function L(zh, en) { return EN ? en : zh; }
+
   /* ===== 設定（公開只讀，安全）===== */
   var SHOP = {
     domain: "qs1nmv-b3.myshopify.com",
@@ -133,7 +137,7 @@
     if (cats.length < 2) { bar.style.display = "none"; return; }
     bar.style.display = "flex";
     bar.innerHTML = "";
-    var defs = [{ key: "all", label: "全部" }].concat(cats.map(function (c) { return { key: c, label: c }; }));
+    var defs = [{ key: "all", label: L("全部", "All") }].concat(cats.map(function (c) { return { key: c, label: c }; }));
     defs.forEach(function (d) {
       var b = el("button", "shop-chip" + (state.filter === d.key ? " sel" : ""), esc(d.label));
       b.type = "button";
@@ -156,7 +160,7 @@
       ? state.products
       : state.products.filter(function (p) { return (p.productType || "").trim() === state.filter; });
     if (!list.length) {
-      empty.textContent = "此類別暫時沒有商品。";
+      empty.textContent = L("此類別暫時沒有商品。", "No products in this category yet.");
       empty.style.display = "block";
       return;
     }
@@ -173,9 +177,9 @@
         '<div class="pcard-body">' +
         '<div class="pcard-name">' + esc(p.title) + "</div>" +
         '<div class="pcard-desc">' + esc((p.description || "").slice(0, 60)) + "</div>" +
-        '<div class="pcard-foot"><div class="price">' + money(price.amount, price.currencyCode) +
-        (multi ? ' <small>起</small>' : "") + "</div>" +
-        '<button class="btn" type="button">查看</button></div></div>';
+        '<div class="pcard-foot"><div class="price">' + (multi ? L("", "from ") : "") + money(price.amount, price.currencyCode) +
+        (multi ? L(" <small>起</small>", "") : "") + "</div>" +
+        '<button class="btn" type="button">' + L("查看", "View") + "</button></div></div>";
       card.addEventListener("click", function () { openDetail(p); });
       grid.appendChild(card);
     });
@@ -210,7 +214,7 @@
     });
 
     d.innerHTML =
-      '<button class="detail-back" type="button" id="detailBack">← 返回所有紀念品</button>' +
+      '<button class="detail-back" type="button" id="detailBack">← ' + L("返回所有紀念品", "Back to all keepsakes") + "</button>" +
       '<div class="pdp">' +
       '<div class="pdp-media">' +
       (imgs.length ? '<img id="pdpImg" src="' + esc(imgs[0].url) + '" alt="' + esc(imgs[0].altText || p.title) + '">'
@@ -224,14 +228,14 @@
       '<div class="pdp-price" id="pdpPrice">' + money(v.price.amount, v.price.currencyCode) + "</div>" +
       '<div class="pdp-avail" id="pdpAvail"></div>' +
       optsHtml +
-      '<div class="opt-label">數量</div>' +
+      '<div class="opt-label">' + L("數量", "Quantity") + "</div>" +
       '<div class="qty"><button type="button" data-q="-1">−</button><span id="pdpQ">1</span><button type="button" data-q="1">+</button></div>' +
-      '<div class="pdp-cta"><button class="btn lg" type="button" id="addBtn">加入購物車</button>' +
-      '<button class="btn lg ghost" type="button" id="buyBtn">立即結帳</button></div>' +
+      '<div class="pdp-cta"><button class="btn lg" type="button" id="addBtn">' + L("加入購物車", "Add to cart") + "</button>" +
+      '<button class="btn lg ghost" type="button" id="buyBtn">' + L("立即結帳", "Buy now") + "</button></div>" +
       (p.description ? '<div class="pdp-desc">' + esc(p.description) + "</div>" : "") +
       '<div class="trust">' +
-      '<div><b>🕊️ 專人跟進</b>　由具善終經驗的團隊，全程溫柔處理</div>' +
-      '<div><b>🔒 安全結帳</b>　付款由 Shopify 托管，資料受保護</div>' +
+      "<div><b>🕊️ " + L("專人跟進</b>　由具善終經驗的團隊，全程溫柔處理", "Personal care</b>　handled gently throughout by an experienced farewell team") + "</div>" +
+      "<div><b>🔒 " + L("安全結帳</b>　付款由 Shopify 托管，資料受保護", "Secure checkout</b>　payment handled by Shopify, your data protected") + "</div>" +
       "</div>" +
       "</div></div>";
 
@@ -282,7 +286,7 @@
       av.textContent = ""; av.className = "pdp-avail";
       if (add) { add.disabled = false; buy.disabled = false; }
     } else {
-      av.textContent = "此選項暫時缺貨"; av.className = "pdp-avail out";
+      av.textContent = L("此選項暫時缺貨", "This option is out of stock"); av.className = "pdp-avail out";
       if (add) { add.disabled = true; buy.disabled = true; }
     }
   }
@@ -298,7 +302,7 @@
   function addCurrent(checkout) {
     var p = state.current; if (!p) return;
     var v = variantMatch(p);
-    if (!v || !v.availableForSale) { toast("此選項暫時缺貨"); return; }
+    if (!v || !v.availableForSale) { toast(L("此選項暫時缺貨", "This option is out of stock")); return; }
     var btns = [$("#addBtn"), $("#buyBtn")];
     btns.forEach(function (b) { if (b) b.disabled = true; });
     ensureCartThen(v.id, state.qty).then(function (cart) {
@@ -306,10 +310,10 @@
       if (checkout) {
         if (cart.checkoutUrl) window.location.href = cart.checkoutUrl;
       } else {
-        toast("已加入購物車"); openCart();
+        toast(L("已加入購物車", "Added to cart")); openCart();
       }
     }).catch(function (err) {
-      toast("加入失敗，請稍後再試");
+      toast(L("加入失敗，請稍後再試", "Couldn't add, please try again"));
       console.error("cart add error:", err);
     }).then(function () {
       btns.forEach(function (b) { if (b) b.disabled = false; });
@@ -325,7 +329,7 @@
     var body = $("#cartBody");
     var lines = cart && cart.lines ? cart.lines.edges.map(function (e) { return e.node; }) : [];
     if (!lines.length) {
-      body.innerHTML = '<div class="cart-empty">購物車暫時是空的。<br>慢慢看，不急。</div>';
+      body.innerHTML = '<div class="cart-empty">' + L("購物車暫時是空的。<br>慢慢看，不急。", "Your cart is empty for now.<br>Take your time.") + "</div>";
       $("#cartSub").textContent = money(0, "HKD");
       return;
     }
@@ -346,7 +350,7 @@
         '<button type="button" data-a="-1">−</button><span>' + ln.quantity + "</span>" +
         '<button type="button" data-a="1">+</button></span>' +
         '<span class="line-price">' + money(m.price.amount * ln.quantity, m.price.currencyCode) + "</span></div>" +
-        '<button class="line-rm" type="button">移除</button></div>';
+        '<button class="line-rm" type="button">' + L("移除", "Remove") + "</button></div>";
       line.querySelectorAll(".line-qty button").forEach(function (b) {
         b.addEventListener("click", function () {
           var q = ln.quantity + parseInt(b.getAttribute("data-a"), 10);
@@ -381,7 +385,7 @@
     if (state.cart && state.cart.checkoutUrl) {
       window.location.href = state.cart.checkoutUrl;
     } else {
-      toast("購物車是空的");
+      toast(L("購物車是空的", "Your cart is empty"));
     }
   }
 

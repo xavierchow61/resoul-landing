@@ -5,6 +5,9 @@
 (function () {
   "use strict";
 
+  var EN = (document.documentElement.lang || "").slice(0, 2).toLowerCase() === "en";
+  function L(zh, en) { return EN ? en : zh; }
+
   var SHOP = {
     domain: "qs1nmv-b3.myshopify.com",
     token: "90f06d055534783ae5a7ad3f0f1e5004",
@@ -23,9 +26,9 @@
       .then(function (rows) {
         if (!Array.isArray(rows)) return;
         if (countEl) countEl.textContent = rows.length;
-        if (!rows.length) { listEl.innerHTML = '<p class="comments-empty">還沒有留言。願意的話，成為第一個留言的人。</p>'; return; }
+        if (!rows.length) { listEl.innerHTML = '<p class="comments-empty">' + L("還沒有留言。願意的話，成為第一個留言的人。", "No comments yet. If you'd like, be the first to leave one.") + "</p>"; return; }
         listEl.innerHTML = rows.map(function (c) {
-          return '<div class="comment"><div class="comment-author">' + esc(c.name || "一位讀者") + "</div>" +
+          return '<div class="comment"><div class="comment-author">' + esc(c.name || L("一位讀者", "A reader")) + "</div>" +
                  '<div class="comment-body">' + esc(c.body || "").replace(/\n/g, "<br>") + "</div></div>";
         }).join("");
       }).catch(function () {});
@@ -87,7 +90,7 @@
         '<div class="bcard-title">' + esc(a.title) + "</div>" +
         (meta ? '<div class="bcard-meta">' + esc(meta) + "</div>" : "") +
         '<div class="bcard-excerpt">' + esc((a.excerpt || "").slice(0, 90)) + "</div>" +
-        '<span class="bcard-more">閱讀全文 →</span>' +
+        '<span class="bcard-more">' + L("閱讀全文", "Read more") + " →</span>" +
         "</div>";
       card.addEventListener("click", function () { openArticle(a); });
       grid.appendChild(card);
@@ -101,21 +104,21 @@
     var meta = [author, fmtDate(a.publishedAt)].filter(Boolean).join("　·　");
     var handle = a.handle;
     d.innerHTML =
-      '<button class="detail-back" type="button" id="articleBack">← 返回所有文章</button>' +
+      '<button class="detail-back" type="button" id="articleBack">← ' + L("返回所有文章", "Back to all articles") + "</button>" +
       '<article class="article">' +
       '<h1 class="article-title">' + esc(a.title) + "</h1>" +
       (meta ? '<p class="article-meta">' + esc(meta) + "</p>" : "") +
       (img ? '<img class="article-cover" src="' + esc(img) + '" alt="' + esc(a.image.altText || a.title) + '">' : "") +
       '<div class="article-body">' + (a.contentHtml || "") + "</div>" +
-      '<p class="article-note">本文僅供一般參考，個別情況請諮詢你的獸醫。</p>' +
+      '<p class="article-note">' + L("本文僅供一般參考，個別情況請諮詢你的獸醫。", "This article is for general reference only; please consult your vet for individual cases.") + "</p>" +
       '<section class="comments">' +
-      '<h2 class="comments-h">留言　<span id="cmtCount"></span></h2>' +
-      '<div class="comment-list" id="cmtList"><p class="comments-empty">載入中…</p></div>' +
+      '<h2 class="comments-h">' + L("留言", "Comments") + '　<span id="cmtCount"></span></h2>' +
+      '<div class="comment-list" id="cmtList"><p class="comments-empty">' + L("載入中…", "Loading…") + "</p></div>" +
       '<form class="comment-form" id="commentForm">' +
-      '<input id="cmtName" maxlength="40" placeholder="暱稱（可用化名）">' +
-      '<textarea id="cmtBody" rows="4" maxlength="1000" placeholder="寫下你想說的話…" required></textarea>' +
-      '<button type="submit" class="btn lg">送出留言</button>' +
-      '<p class="cf-note" id="cmtStatus">為保障你的私隱，請避免填寫真實姓名、電話等資料。留言會經審核後顯示。</p>' +
+      '<input id="cmtName" maxlength="40" placeholder="' + L("暱稱（可用化名）", "Nickname (an alias is fine)") + '">' +
+      '<textarea id="cmtBody" rows="4" maxlength="1000" placeholder="' + L("寫下你想說的話…", "Write what you'd like to say…") + '" required></textarea>' +
+      '<button type="submit" class="btn lg">' + L("送出留言", "Post comment") + "</button>" +
+      '<p class="cf-note" id="cmtStatus">' + L("為保障你的私隱，請避免填寫真實姓名、電話等資料。留言會經審核後顯示。", "To protect your privacy, please avoid real names, phone numbers, etc. Comments are shown after review.") + "</p>" +
       "</form>" +
       "</section>" +
       "</article>";
@@ -131,7 +134,7 @@
         if (!body) return;
         if (sbCrisis(body)) { var sbtn = document.getElementById("supportBtn"); if (sbtn) sbtn.click(); }
         var btn = form.querySelector("button");
-        btn.disabled = true; if (st) st.textContent = "正在送出…";
+        btn.disabled = true; if (st) st.textContent = L("正在送出…", "Sending…");
         fetch(SB_URL + "/rest/v1/posts", {
           method: "POST",
           headers: { apikey: SB_KEY, Authorization: "Bearer " + SB_KEY, "Content-Type": "application/json", "Prefer": "return=minimal" },
@@ -139,9 +142,9 @@
         }).then(function (r) {
           if (!r.ok) throw new Error("insert");
           $("#cmtBody").value = ""; $("#cmtName").value = "";
-          if (st) { st.textContent = "多謝你的留言 🤍 經審核後就會顯示。"; st.style.color = "var(--gold-deep)"; }
+          if (st) { st.textContent = L("多謝你的留言 🤍 經審核後就會顯示。", "Thank you for your comment 🤍 It will appear after review."); st.style.color = "var(--gold-deep)"; }
         }).catch(function () {
-          if (st) st.textContent = "送出失敗，請稍後再試。";
+          if (st) st.textContent = L("送出失敗，請稍後再試。", "Failed to send, please try again later.");
         }).then(function () { btn.disabled = false; });
       });
     }

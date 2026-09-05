@@ -1,4 +1,8 @@
 
+/* 語言：英文頁 <html lang="en"> 時，動態字串出英文 */
+var RESOUL_EN = (document.documentElement.lang || '').slice(0,2).toLowerCase() === 'en';
+function RL(zh, en){ return RESOUL_EN ? en : zh; }
+
 (function(){
   "use strict";
   var body = document.getElementById('widgetBody');
@@ -38,21 +42,31 @@
 
   // Welcome message — 依對話手冊「開場與建立關係」語氣，按時間個人化
   var _h = new Date().getHours();
-  var _greet = (_h>=0 && _h<5) ? '而家夜深咯，如果瞓唔著、心裡面好亂，我喺度陪你。'
-             : (_h<12) ? '早晨。無論你昨晚點過，今日我都喺度陪你。'
-             : (_h<18) ? '午安。喺呢個時候停低一陣，同我傾兩句都好。'
-             : '夜晚喇。忙咗一日，如果心裡面仲掛住啲嘢，可以慢慢同我講。';
+  var _greet = RESOUL_EN
+    ? ((_h>=0 && _h<5) ? "It's late now. If you can't sleep and your heart feels heavy, I'm here with you."
+      : (_h<12) ? "Good morning. However last night was, I'm here with you today."
+      : (_h<18) ? "Good afternoon. It's okay to pause here for a moment and talk with me."
+      : "It's evening. After a long day, if something is still weighing on you, take your time and tell me.")
+    : ((_h>=0 && _h<5) ? '而家夜深咯，如果瞓唔著、心裡面好亂，我喺度陪你。'
+      : (_h<12) ? '早晨。無論你昨晚點過，今日我都喺度陪你。'
+      : (_h<18) ? '午安。喺呢個時候停低一陣，同我傾兩句都好。'
+      : '夜晚喇。忙咗一日，如果心裡面仲掛住啲嘢，可以慢慢同我講。');
   addBotHTML(
-    _greet + '<br><br>你好，我係 Resoul 嘅「情緒傾聽」。你唔需要急住講好多，我會喺度陪你。'
+    _greet + RL('<br><br>你好，我係 Resoul 嘅「情緒傾聽」。你唔需要急住講好多，我會喺度陪你。',
+                "<br><br>Hello, I'm Resoul's gentle listener. There's no need to say a lot at once — I'll be here with you.")
   );
-  addNote('傾之前，想你知：', [
+  addNote(RL('傾之前，想你知：', 'Before we talk, a few things:'), RESOUL_EN ? [
+    "I don't give diagnosis, medication or treatment advice for pets — I can't replace a vet.",
+    "I don't give psychological diagnosis or therapy — I can't replace a mental health professional.",
+    "Please don't enter identifiable details like your real name, phone, address, payment info or full medical records."
+  ] : [
     '我唔會提供寵物疾病診斷、用藥或治療建議，唔可以取代獸醫。',
     '我唔會提供心理診斷或治療，唔可以取代心理健康專業人士。',
     '請唔好輸入真實姓名、電話、地址、付款資料或完整病歷等可識別身份嘅內容。'
   ]);
 
   // ---- 關鍵字偵測（依手冊特殊情況）----
-  function detectCrisis(t){ return /想死|唔想活|唔想再.*(活|喺)|冇意思|冇晒意思|撐唔住|頂唔住|傷害自己|自殺|想跟(佢|牠|你)去|想跟佢走|活唔落去|結束生命|结束生命|唔想生存/.test(t); }
+  function detectCrisis(t){ return /想死|唔想活|唔想再.*(活|喺)|冇意思|冇晒意思|撐唔住|頂唔住|傷害自己|自殺|想跟(佢|牠|你)去|想跟佢走|活唔落去|結束生命|结束生命|唔想生存/.test(t) || /\b(want to die|kill myself|end my life|end it all|suicid|hurt myself|harm myself|don'?t want to live|can'?t go on|no reason to live|want to join (him|her|them|it))\b/i.test(t); }
   function detectSelfBlame(t){ return /自責|後悔|責怪|係咪我|係我|我嘅錯|我錯|如果當時|如果我|如果早|怪自己|對唔住佢|對不起牠/.test(t); }
   function detectNumb(t){ return /麻木|冇感覺|冇晒感覺|喊唔出|喊唔到|冇眼淚|唔識喊|空洞|好空|冇反應/.test(t); }
   function detectHealth(t){ return /病|病重|重病|唔食|冇胃口|食慾|嘔|抽筋|呼吸|流血|虛弱|癌|腫瘤|獸醫|睇醫生|開刀|手術/.test(t); }
@@ -60,8 +74,18 @@
 
   // ---- 危機處理（最優先，依手冊情況 C）----
   function crisisResponse(){
-    addBotHTML(
-      '<div class="blk">🤍 我喺度陪你</div>'
+    addBotHTML(RESOUL_EN ?
+      ('<div class="blk">🤍 I\'m here with you</div>'
+      + "I hear how hard this is right now, and thank you for saying it. You are not alone — I'm here with you."
+      + '<div class="blk">📞 Please reach out now</div>'
+      + "If you're having thoughts of harming yourself, please contact a 24-hour hotline right away — professionals there can help you now:"
+      + '<div class="hot">・The Samaritans (24 h): 2389 2222</div>'
+      + '<div class="hot">・Hospital Authority Mental Health Line: 2466 7350</div>'
+      + '<div class="hot">・TWGHs CEASE Crisis Centre: 18281</div>'
+      + 'If it is urgent or there is immediate danger, please call 999 right away.'
+      + '<div class="disc">I am for emotional companionship only and cannot replace professional or emergency support. Your safety matters — please reach one of the hotlines above now.</div>')
+      :
+      ('<div class="blk">🤍 我喺度陪你</div>'
       + '我聽到你而家好辛苦，多謝你願意講出嚟。你並唔孤單，我會喺度陪你。'
       + '<div class="blk">📞 請即刻搵人幫手</div>'
       + '如果你有啲想法會傷害自己，請即刻聯絡以下 24 小時專線，佢哋有專業人士可以即刻幫到你：'
@@ -69,7 +93,7 @@
       + '<div class="hot">・醫院管理局精神健康專線：2466 7350</div>'
       + '<div class="hot">・東華三院芷若園：18281</div>'
       + '如果情況緊急、有即時危險，請即刻致電 999。'
-      + '<div class="disc">我只係情緒陪伴用途，唔可以取代專業或緊急支援。你嘅安全好重要，請即刻搵上面嘅專線傾一傾。</div>'
+      + '<div class="disc">我只係情緒陪伴用途，唔可以取代專業或緊急支援。你嘅安全好重要，請即刻搵上面嘅專線傾一傾。</div>')
     );
   }
 
@@ -77,16 +101,21 @@
   function feelingReflect(t){
     var head;
     if(detectSelfBlame(t))
-      head='好多主人都會咁諗。或者可以先記得，你當時係喺有限資訊下盡咗力去決定；呢份心疼，正正說明你有幾在乎佢。';
+      head=RL('好多主人都會咁諗。或者可以先記得，你當時係喺有限資訊下盡咗力去決定；呢份心疼，正正說明你有幾在乎佢。',
+              "Many owners feel this way. Perhaps remember first that you decided with limited information and did your best; this ache shows how much you care about them.");
     else if(detectNumb(t))
-      head='「喊唔出」或者「冇感覺」，都係哀傷嘅一種反應。你唔需要逼自己有感覺，當你準備好，感受會自然浮現。';
+      head=RL('「喊唔出」或者「冇感覺」，都係哀傷嘅一種反應。你唔需要逼自己有感覺，當你準備好，感受會自然浮現。',
+              "Not being able to cry, or feeling nothing, is also a response to grief. You don't have to force yourself to feel — when you're ready, the feelings will surface on their own.");
     else if(detectLoss(t))
-      head='佢嘅離開，一定喺你心裡面留低好大嘅空。聽落你真係好掛住佢，你嘅眼淚，係因為你好愛佢。';
+      head=RL('佢嘅離開，一定喺你心裡面留低好大嘅空。聽落你真係好掛住佢，你嘅眼淚，係因為你好愛佢。',
+              "Their leaving must have left a great emptiness in you. It sounds like you miss them dearly; your tears are because you love them so.");
     else if(detectHealth(t))
-      head='睇住佢身體唔舒服，你會擔心、會心痛，都係因為你好愛佢。你已經好努力咁陪住佢。';
+      head=RL('睇住佢身體唔舒服，你會擔心、會心痛，都係因為你好愛佢。你已經好努力咁陪住佢。',
+              "Watching them unwell, you worry and ache — because you love them. You have tried so hard to be there for them.");
     else
-      head='多謝你願意講出嚟。無論而家係傷心、混亂，定係講唔出嘅沉重，你都唔係一個人。';
-    return head + '<br><span style="color:var(--ink-faint)">哀傷冇標準時間表，有人會喊、有人會麻木、有人會發嬲，全部都係正常。慢慢嚟，已經係最好。</span>';
+      head=RL('多謝你願意講出嚟。無論而家係傷心、混亂，定係講唔出嘅沉重，你都唔係一個人。',
+              "Thank you for sharing this. Whether it's sadness, confusion, or a heaviness you can't put into words, you are not alone.");
+    return head + '<br><span style="color:var(--ink-faint)">' + RL('哀傷冇標準時間表，有人會喊、有人會麻木、有人會發嬲，全部都係正常。慢慢嚟，已經係最好。', "Grief has no set timetable — some cry, some go numb, some feel anger; all of it is normal. Taking it slowly is already the best you can do.") + '</span>';
   }
 
   // Block 2 — 整理情況（如有格式就解析）
@@ -97,42 +126,56 @@
     var help = (t.match(/我最想得到的幫助[：:]\s*(.+)/)||[])[1];
     if(type||evt||feel||help){
       var parts=[];
-      if(type) parts.push('你隻' + esc(type.trim()));
-      if(evt)  parts.push('最近' + esc(evt.trim()));
-      if(feel) parts.push('心情上係' + esc(feel.trim()));
-      var line = parts.join('，');
+      if(RESOUL_EN){
+        if(type) parts.push('your ' + esc(type.trim()));
+        if(evt)  parts.push('recently ' + esc(evt.trim()));
+        if(feel) parts.push('and you feel ' + esc(feel.trim()));
+        var lineE = parts.join(', ');
+        var tailE = help ? ' What you most want now is ' + esc(help.trim()) + '.' : '';
+        return "If I understand right: " + lineE + "." + tailE + " We can start right here and sort it out, one small step at a time.";
+      }
+      var parts2=[];
+      if(type) parts2.push('你隻' + esc(type.trim()));
+      if(evt)  parts2.push('最近' + esc(evt.trim()));
+      if(feel) parts2.push('心情上係' + esc(feel.trim()));
+      var line = parts2.join('，');
       var tail = help ? '你而家最想要嘅，係' + esc(help.trim()) + '。' : '';
       return '如果我理解啱：' + line + '。' + tail + '我哋可以就由呢度，一小步一小步咁整理。';
     }
     var clip = t.trim();
     if(clip.length>46) clip = clip.slice(0,46)+'…';
-    return '我聽到你而家面對緊嘅係：「' + esc(clip) + '」。呢件事而家佔咗你唔少心力，我哋先擺喺眼前，慢慢睇清楚。';
+    return RL('我聽到你而家面對緊嘅係：「' + esc(clip) + '」。呢件事而家佔咗你唔少心力，我哋先擺喺眼前，慢慢睇清楚。',
+              'What I hear you facing is: "' + esc(clip) + '". This is taking a lot out of you right now; let\'s put it in front of us and look at it slowly together.');
   }
 
   // Block 3 — 探索支持系統 ＋ 低風險行動（非指令式）
   function nextSteps(t){
-    var items = [
+    var items = RESOUL_EN ? [
+      "If you can, let yourself rest a little, sip some warm water, and let your body slow down.",
+      "Is there someone you trust you could share these feelings with? Family, a friend, or someone who has also had a pet.",
+      "Looking at photos, or writing one line you'd like to say to them, can give the longing an outlet."
+    ] : [
       '如果得，先畀自己抖一抖，飲啖暖水，等身體慢返落嚟。',
       '身邊有冇一個你信得過嘅人，可以同佢講下呢段感受？例如家人、朋友，或者同樣養過寵物嘅人。',
       '睇返啲相、寫低想同佢講嘅一句話，都可以畀想念一個出口。'
     ];
-    if(detectHealth(t)) items.push('如果係關於佢嘅身體狀況，可以先問下獸醫，畀專業幫你分擔決定（例如 SPCA 動物拯救熱線 2711 1000）。');
+    if(detectHealth(t)) items.push(RL('如果係關於佢嘅身體狀況，可以先問下獸醫，畀專業幫你分擔決定（例如 SPCA 動物拯救熱線 2711 1000）。', "If it's about their health, consider asking a vet so a professional can share the decision with you (e.g. SPCA animal rescue hotline 2711 1000)."));
     return items.map(function(i){return '<div style="margin:5px 0;">・'+i+'</div>';}).join('');
   }
 
   // 轉介選項（依手冊，溫和）
   function referralNote(){
-    return '<div class="disc">如果呢種難受持續咗好耐、影響到日常生活，搵專業傾下唔代表你「有問題」，而係願意好好照顧自己。可以聯絡 <b>香港心理衞生會 2528 0196</b>，或 <b>撒瑪利亞會（24 小時）2389 2222</b>。</div>';
+    return '<div class="disc">' + RL('如果呢種難受持續咗好耐、影響到日常生活，搵專業傾下唔代表你「有問題」，而係願意好好照顧自己。可以聯絡 <b>香港心理衞生會 2528 0196</b>，或 <b>撒瑪利亞會（24 小時）2389 2222</b>。', "If this pain lasts a long time and affects daily life, talking to a professional doesn't mean something is \"wrong\" with you — it means you're willing to care for yourself. You can contact <b>The Mental Health Association of HK 2528 0196</b>, or <b>The Samaritans (24 h) 2389 2222</b>.") + '</div>';
   }
 
   function respond(t){
     if(detectCrisis(t)){ crisisResponse(); return; }
     var html =
-      '<div class="blk">🤍 接住你此刻嘅感受</div>' + feelingReflect(t) +
-      '<div class="blk">🧭 我聽到嘅情況</div>' + situationSummary(t) +
-      '<div class="blk">🌿 或者可以慢慢咁試</div>' + nextSteps(t) +
+      '<div class="blk">🤍 ' + RL('接住你此刻嘅感受', 'Holding how you feel right now') + '</div>' + feelingReflect(t) +
+      '<div class="blk">🧭 ' + RL('我聽到嘅情況', 'What I hear') + '</div>' + situationSummary(t) +
+      '<div class="blk">🌿 ' + RL('或者可以慢慢咁試', 'Some gentle things to try') + '</div>' + nextSteps(t) +
       referralNote() +
-      '<div class="disc">以上由 AI 生成，只作情緒陪伴同初步整理，唔可以取代獸醫或心理健康專業人士，請按實際情況人手核對。</div>';
+      '<div class="disc">' + RL('以上由 AI 生成，只作情緒陪伴同初步整理，唔可以取代獸醫或心理健康專業人士，請按實際情況人手核對。', 'The above is AI-generated for emotional companionship and initial reflection only; it cannot replace a vet or mental health professional — please verify against your actual situation.') + '</div>';
     addBotHTML(html);
   }
 
@@ -141,11 +184,16 @@
     return clean.length < 6;
   }
   function clarify(){
-    addBotHTML(
-      '想更貼近你嘅情況，可以再多同我講少少嗎？'
+    addBotHTML(RESOUL_EN ?
+      ("To understand your situation better, could you tell me a little more?"
+      + '<div style="margin-top:8px;">1. What is the strongest feeling right now? For example sadness, guilt, loss, anxiety, or helplessness?</div>'
+      + '<div style="margin-top:4px;">2. Roughly how long ago did this happen? Just now, or over some time?</div>'
+      + '<div style="margin-top:4px;">3. What do you most need now — emotional support, sorting out the next step, or figuring out whether to seek professional help?</div>')
+      :
+      ('想更貼近你嘅情況，可以再多同我講少少嗎？'
       + '<div style="margin-top:8px;">1. 你而家最強烈嘅感受係咩？例如傷心、自責、失落、焦慮，定係無助？</div>'
       + '<div style="margin-top:4px;">2. 呢件事大約發生咗幾耐？係啱啱先發生，定係持續咗一段時間？</div>'
-      + '<div style="margin-top:4px;">3. 你而家最需要嘅係情緒支持、整理下一步，定係判斷應唔應該搵專業協助？</div>'
+      + '<div style="margin-top:4px;">3. 你而家最需要嘅係情緒支持、整理下一步，定係判斷應唔應該搵專業協助？</div>')
     );
   }
 
@@ -155,7 +203,7 @@
   }
 
   // 呼叫 Gemini 後端（串流逐字顯示）；失敗或空回應自動回落規則引擎
-  var DISC = '<div class="disc">以上由 AI 生成，只作情緒陪伴用途，唔可以取代獸醫或心理健康專業人士。</div>';
+  var DISC = '<div class="disc">' + RL('以上由 AI 生成，只作情緒陪伴用途，唔可以取代獸醫或心理健康專業人士。', 'The above is AI-generated for emotional companionship only and cannot replace a vet or mental health professional.') + '</div>';
   function callLLM(t){
     var typing = addTyping();
     fetch(GRIEF_API, {
@@ -165,7 +213,7 @@
     .then(function(resp){
       if(resp.status === 429){
         typing.remove();
-        addBotHTML('你今日同我傾咗唔少，先唞一唞，過一陣再嚟搵我，好嗎？我一直喺度。🤍');
+        addBotHTML(RL('你今日同我傾咗唔少，先唞一唞，過一陣再嚟搵我，好嗎？我一直喺度。🤍', "We've talked quite a bit today. Take a rest, and come find me again in a while, okay? I'll always be here. 🤍"));
         return;
       }
       // 唔支援串流或出錯 → 回落規則引擎
@@ -328,7 +376,11 @@
 
   /* ---- Candle wall (localStorage) ---- */
   var wall=document.getElementById('candleWall');
-  var seed=[
+  var seed = RESOUL_EN ? [
+    {n:'Bailey',m:'Thank you for ten years by my side. I miss you so much.'},
+    {n:'',m:'May you be free of illness and pain over there, and keep playing happily.'},
+    {n:'Miku',m:'You will always be my dearest, most gentle baby.'}
+  ] : [
     {n:'Bailey',m:'謝謝你陪伴了我十年，我很想念你。'},
     {n:'',m:'願你在那邊無病無痛，繼續快樂地玩耍。'},
     {n:'Miku',m:'你永遠是我最乖的寶貝。'}
@@ -482,11 +534,11 @@
   form.addEventListener('submit', function(e){
     e.preventDefault();
     if(!val('bkName') || !val('bkPhone')){
-      showMsg('err', '請填寫主人稱呼與聯絡電話。');
+      showMsg('err', RL('請填寫主人稱呼與聯絡電話。', 'Please fill in your name and contact number.'));
       return;
     }
     var oldLabel = btn ? btn.innerHTML : '';
-    if(btn){ btn.disabled = true; btn.innerHTML = '提交中…'; }
+    if(btn){ btn.disabled = true; btn.innerHTML = RL('提交中…', 'Submitting…'); }
     if(msg){ msg.hidden = true; }
 
     // Google Sheet 同步（best-effort）
@@ -513,14 +565,14 @@
     }).then(function(res){
       if(res.ok){
         form.reset();
-        showMsg('ok', '✅ <b>預約已收到</b>，我們會盡快與你聯絡確認接送與火化安排。<br>如屬緊急個案，歡迎即致電／<a href="https://wa.me/' + WA_NUMBER + '" target="_blank" rel="noopener">WhatsApp 我們（24 小時）</a>。');
+        showMsg('ok', RL('✅ <b>預約已收到</b>，我們會盡快與你聯絡確認接送與火化安排。<br>如屬緊急個案，歡迎即致電／<a href="https://wa.me/' + WA_NUMBER + '" target="_blank" rel="noopener">WhatsApp 我們（24 小時）</a>。', '✅ <b>Booking received.</b> We\'ll contact you shortly to confirm pickup and cremation arrangements.<br>For urgent cases, feel free to call / <a href="https://wa.me/' + WA_NUMBER + '" target="_blank" rel="noopener">WhatsApp us (24 h)</a>.'));
       }else{
         res.text().then(function(t){ console.error('[Resoul] 火化預約寫入後台失敗 HTTP ' + res.status + '：' + t); });
-        showMsg('err', '很抱歉，提交時發生問題，請稍後再試，或直接 <a href="https://wa.me/' + WA_NUMBER + '" target="_blank" rel="noopener">WhatsApp 我們</a>。');
+        showMsg('err', RL('很抱歉，提交時發生問題，請稍後再試，或直接 <a href="https://wa.me/' + WA_NUMBER + '" target="_blank" rel="noopener">WhatsApp 我們</a>。', 'Sorry, something went wrong. Please try again, or <a href="https://wa.me/' + WA_NUMBER + '" target="_blank" rel="noopener">WhatsApp us</a>.'));
       }
     }).catch(function(err){
       console.error('[Resoul] 火化預約寫入後台失敗（網絡錯誤）：', err);
-      showMsg('err', '網絡不穩定，提交未成功，請稍後再試，或直接 <a href="https://wa.me/' + WA_NUMBER + '" target="_blank" rel="noopener">WhatsApp 我們</a>。');
+      showMsg('err', RL('網絡不穩定，提交未成功，請稍後再試，或直接 <a href="https://wa.me/' + WA_NUMBER + '" target="_blank" rel="noopener">WhatsApp 我們</a>。', 'Network seems unstable and the booking didn\'t go through. Please try again, or <a href="https://wa.me/' + WA_NUMBER + '" target="_blank" rel="noopener">WhatsApp us</a>.'));
     }).then(function(){
       if(btn){ btn.disabled = false; btn.innerHTML = oldLabel; }
     });

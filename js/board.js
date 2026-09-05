@@ -3,6 +3,8 @@
  */
 (function () {
   "use strict";
+  var EN = (document.documentElement.lang || "").slice(0, 2).toLowerCase() === "en";
+  function L(zh, en) { return EN ? en : zh; }
   var SB_URL = "https://tkgxdzvsnmereaygddaz.supabase.co";
   var SB_KEY = "sb_publishable_bRZVm-air0obDK7QuRYaMw_b-mnVMA6";
 
@@ -20,9 +22,10 @@
   }
   function timeAgo(iso) {
     var h = Math.floor((Date.now() - new Date(iso)) / 3600000);
-    if (h < 1) return "剛剛";
-    if (h < 24) return h + " 小時前";
-    return Math.floor(h / 24) + " 天前";
+    if (h < 1) return L("剛剛", "just now");
+    if (h < 24) return EN ? (h + (h === 1 ? " hour ago" : " hours ago")) : (h + " 小時前");
+    var dd = Math.floor(h / 24);
+    return EN ? (dd + (dd === 1 ? " day ago" : " days ago")) : (dd + " 天前");
   }
   function pubUrl(path) { return SB_URL + "/storage/v1/object/public/board-images/" + path; }
 
@@ -41,15 +44,15 @@
         if (!Array.isArray(rows)) return;
         list.innerHTML = "";
         if (!rows.length) {
-          list.innerHTML = '<div class="board-note" style="text-align:center;padding:20px 0;">還沒有留言。願意的話，成為第一個留下想念的人。</div>';
+          list.innerHTML = '<div class="board-note" style="text-align:center;padding:20px 0;">' + L("還沒有留言。願意的話，成為第一個留下想念的人。", "No messages yet. If you'd like, be the first to leave a note of remembrance.") + "</div>";
           return;
         }
         rows.forEach(function (p) {
           var el = document.createElement("div");
           el.className = "bpost";
           el.innerHTML =
-            (p.image_path ? '<img src="' + esc(pubUrl(p.image_path)) + '" alt="留言相片" loading="lazy">' : "") +
-            '<div class="bp-name">' + (p.name ? esc(p.name) : "一位同路人") + "</div>" +
+            (p.image_path ? '<img src="' + esc(pubUrl(p.image_path)) + '" alt="' + L("留言相片", "Message photo") + '" loading="lazy">' : "") +
+            '<div class="bp-name">' + (p.name ? esc(p.name) : L("一位同路人", "A fellow traveller")) + "</div>" +
             '<div class="bp-msg">' + esc(p.body).replace(/\n/g, "<br>") + "</div>" +
             '<div class="bp-time">' + timeAgo(p.created_at) + "</div>";
           list.appendChild(el);
@@ -98,11 +101,11 @@
     postBtn.addEventListener("click", function () {
       var msg = (document.getElementById("boardMsg").value || "").trim();
       var nm = (document.getElementById("boardName").value || "").trim();
-      if (!msg && !photoBlob) { setStatus("寫一句想念，或加一張相片吧。"); return; }
+      if (!msg && !photoBlob) { setStatus(L("寫一句想念，或加一張相片吧。", "Write a note of remembrance, or add a photo.")); return; }
       if (crisis(msg)) { var sb = document.getElementById("supportBtn"); if (sb) sb.click(); }
 
       postBtn.disabled = true;
-      setStatus("正在送出…");
+      setStatus(L("正在送出…", "Sending…"));
       uploadPhoto().then(function (path) {
         return fetch(SB_URL + "/rest/v1/posts", {
           method: "POST",
@@ -110,7 +113,7 @@
           body: JSON.stringify({
             context: "board",
             name: nm || null,
-            body: msg || "（分享了一張相片）",
+            body: msg || L("（分享了一張相片）", "(shared a photo)"),
             image_path: path
           })
         });
@@ -121,9 +124,9 @@
         photoBlob = null;
         var pv = document.getElementById("boardPreview");
         if (pv) { pv.style.display = "none"; pv.src = ""; }
-        setStatus("多謝你的留言 🤍 經審核後就會顯示。", true);
+        setStatus(L("多謝你的留言 🤍 經審核後就會顯示。", "Thank you for your message 🤍 It will appear after review."), true);
       }).catch(function () {
-        setStatus("送出失敗，請稍後再試。");
+        setStatus(L("送出失敗，請稍後再試。", "Failed to send, please try again later."));
       }).then(function () { postBtn.disabled = false; });
     });
   }
