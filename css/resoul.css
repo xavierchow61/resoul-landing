@@ -669,6 +669,8 @@ section{padding:64px 0;}
 .nav{overflow:visible;}
 .nav-single{flex:0 0 auto;font-size:.86rem;color:var(--ink-soft);letter-spacing:.06em;padding:2px 0;font-weight:500;border-bottom:1.5px solid transparent;transition:color .2s,border-color .2s;}
 .nav-single:hover,.nav-single:focus,.nav-single[aria-current]{color:var(--gold-deep);border-color:var(--gold);}
+.nav-lang{border:1px solid var(--line);border-radius:999px;padding:3px 11px;color:var(--gold-deep);letter-spacing:.08em;}
+.nav-lang:hover,.nav-lang:focus{border-color:var(--gold);background:rgba(184,154,110,.10);}
 .nav-group{position:relative;flex:0 0 auto;}
 .nav-top{background:none;border:none;font-family:var(--sans);font-size:.86rem;color:var(--ink-soft);letter-spacing:.06em;padding:2px 0;font-weight:500;cursor:pointer;display:inline-flex;align-items:center;gap:5px;border-bottom:1.5px solid transparent;transition:color .2s,border-color .2s;}
 .nav-top:hover,.nav-top:focus,.nav-group.active .nav-top{color:var(--gold-deep);}

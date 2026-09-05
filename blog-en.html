@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>照顧誌｜Resoul</title>
+<title>Care Journal｜Resoul</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Parisienne&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/resoul.css">
 <style>
-/* ===== 照顧誌 blog（沿用 resoul.css tokens，支援深色模式）===== */
+/* ===== Care Journal blog (reuses resoul.css tokens, dark-mode aware) ===== */
 .blog-hero{background:var(--cream);text-align:center;padding:44px 0 8px;}
 .blog-hero .eyebrow{margin-bottom:8px;}
 .blog-hero h1{font-size:1.7rem;color:var(--ink);}
@@ -17,8 +17,6 @@
 .blog-wrap{max-width:var(--maxw);margin:0 auto;padding:30px 22px 60px;}
 .blog-state{text-align:center;color:var(--ink-faint);padding:50px 10px;font-size:.95rem;}
 .blog-state.err{color:var(--gold-deep);}
-
-/* 文章列表 */
 .blog-grid{display:grid;grid-template-columns:1fr;gap:18px;}
 @media(min-width:680px){.blog-grid{grid-template-columns:repeat(2,1fr);}}
 @media(min-width:960px){.blog-grid{grid-template-columns:repeat(3,1fr);}}
@@ -31,8 +29,6 @@
 .bcard-meta{color:var(--gold-deep);font-size:.76rem;margin:6px 0 8px;}
 .bcard-excerpt{color:var(--ink-soft);font-size:.86rem;line-height:1.7;flex:1;}
 .bcard-more{color:var(--gold-deep);font-size:.82rem;margin-top:12px;}
-
-/* 文章內頁 */
 .detail-back{background:none;border:none;color:var(--ink-soft);font-size:.9rem;cursor:pointer;padding:4px 0;margin-bottom:18px;font-family:var(--sans);}
 .detail-back:hover{color:var(--gold-deep);}
 .article{max-width:720px;margin:0 auto;}
@@ -50,8 +46,6 @@
 .article-body li{margin:6px 0;}
 .article-body blockquote{border-left:3px solid var(--gold);margin:18px 0;padding:4px 0 4px 16px;color:var(--ink-faint);font-style:italic;}
 .article-note{margin-top:30px;padding-top:16px;border-top:1px solid var(--line);color:var(--ink-faint);font-size:.82rem;}
-
-/* 留言 */
 .comments{max-width:720px;margin:40px auto 0;padding-top:26px;border-top:1px solid var(--line);}
 .comments-h{font-size:1.2rem;color:var(--ink);}
 .comments-h span{color:var(--gold-deep);font-size:.9rem;}
@@ -77,38 +71,38 @@
 <body>
 
 <div class="uctrl">
-  <button id="supportBtn" class="uc-btn uc-support" type="button" aria-label="即時支援熱線" title="即時支援">♡</button>
-  <button id="quietBtn" class="uc-btn" type="button" aria-label="安靜模式（減少動畫）" title="安靜模式">靜</button>
-  <button id="themeBtn" class="uc-btn" type="button" aria-label="深色模式開關" title="深色模式">☾</button>
+  <button id="supportBtn" class="uc-btn uc-support" type="button" aria-label="Immediate support line" title="Immediate support">♡</button>
+  <button id="quietBtn" class="uc-btn" type="button" aria-label="Quiet mode (reduce motion)" title="Quiet mode">Q</button>
+  <button id="themeBtn" class="uc-btn" type="button" aria-label="Toggle dark mode" title="Dark mode">☾</button>
 </div>
 
 <header class="site-header">
   <div class="header-inner">
-    <a class="brand" href="index.html" aria-label="Resoul 首頁">
-      <img src="images/resoul-wordmark.png" alt="Resoul 品牌標誌，線條勾勒的腳印中藏著一顆心，配優雅手寫字體 Resoul">
+    <a class="brand" href="index-en.html" aria-label="Resoul home">
+      <img src="images/resoul-wordmark.png" alt="Resoul brand mark: a heart nestled within a line-drawn paw print, beside the elegant handwritten wordmark Resoul">
       <span class="brand-slogan">Your last greatest love to show</span>
     </a>
-    <nav class="nav" aria-label="主要導覽">
+    <nav class="nav" aria-label="Primary navigation">
       <div class="nav-group">
-        <button class="nav-top" type="button" aria-expanded="false" aria-haspopup="true">陪伴支持<span class="nav-caret" aria-hidden="true">▾</span></button>
+        <button class="nav-top" type="button" aria-expanded="false" aria-haspopup="true">Support<span class="nav-caret" aria-hidden="true">▾</span></button>
         <div class="nav-menu">
-          <a href="support.html">情緒支持</a>
-          <a href="#" data-open-chat>AI 對話</a>
-          <a href="board.html">同路人留言板</a>
-          <a href="faq.html">常見心情</a>
-          <a href="blog.html">照顧誌</a>
+          <a href="support-en.html">Emotional support</a>
+          <a href="#" data-open-chat>AI companion</a>
+          <a href="board-en.html">Community wall</a>
+          <a href="faq-en.html">Common feelings</a>
+          <a href="blog-en.html">Care journal</a>
         </div>
       </div>
       <div class="nav-group">
-        <button class="nav-top" type="button" aria-expanded="false" aria-haspopup="true">服務<span class="nav-caret" aria-hidden="true">▾</span></button>
+        <button class="nav-top" type="button" aria-expanded="false" aria-haspopup="true">Services<span class="nav-caret" aria-hidden="true">▾</span></button>
         <div class="nav-menu">
-          <a href="cremation.html">火化服務</a>
-          <a href="euthanasia.html">寵物安樂死</a>
-          <a href="shop.html">紀念產品</a>
+          <a href="cremation-en.html">Cremation</a>
+          <a href="euthanasia-en.html">Pet euthanasia</a>
+          <a href="shop-en.html">Keepsakes</a>
         </div>
       </div>
-      <a class="nav-single" href="about.html">關於我們</a>
-      <a class="nav-single nav-lang" href="blog-en.html" aria-label="Switch to English">EN</a>
+      <a class="nav-single" href="about-en.html">About us</a>
+      <a class="nav-single nav-lang" href="blog.html" aria-label="切換至中文">中</a>
     </nav>
   </div>
 </header>
@@ -117,17 +111,17 @@
 
   <section class="blog-hero">
     <div class="wrap">
-      <p class="eyebrow">照顧誌</p>
-      <h1>由懂得的人，慢慢說給你聽</h1>
-      <p>由獸醫與善終顧問撰寫，陪你了解毛孩的每一段旅程。</p>
+      <p class="eyebrow">Care journal</p>
+      <h1>Told to you gently, by people who understand</h1>
+      <p>Written by vets and end-of-life consultants, to walk you through every stage of your pet's journey.</p>
     </div>
   </section>
 
   <div class="blog-wrap">
     <div id="blogList">
-      <div class="blog-state" id="blogLoading">正在載入文章…</div>
-      <div class="blog-state" id="blogEmpty" style="display:none">文章即將刊登，請稍後再來看看。</div>
-      <div class="blog-state err" id="blogError" style="display:none">暫時載入不到文章，請稍後再試。</div>
+      <div class="blog-state" id="blogLoading">Loading articles…</div>
+      <div class="blog-state" id="blogEmpty" style="display:none">Articles are coming soon — please check back later.</div>
+      <div class="blog-state err" id="blogError" style="display:none">Unable to load articles right now, please try again later.</div>
       <div class="blog-grid" id="blogGrid"></div>
     </div>
     <div id="blogArticle" style="display:none"></div>
@@ -136,46 +130,46 @@
   <footer class="footer">
     <img class="fbrand-img" src="images/resoul-wordmark.png" alt="Resoul">
     <div class="fslogan">Your last greatest love to show</div>
-    <div class="flinks"><a href="privacy.html">私隱政策</a> ·  <a href="terms.html">使用條款</a> ·  <a href="blog-en.html">EN</a></div>
+    <div class="flinks"><a href="privacy-en.html">Privacy Policy</a> ·  <a href="terms-en.html">Terms of Use</a> ·  <a href="blog.html">中文</a></div>
   </footer>
 </main>
 
-<button class="fab" id="fab" type="button" aria-label="開啟情緒傾聽對話">
+<button class="fab" id="fab" type="button" aria-label="Open the gentle listener chat">
   <span class="pw" aria-hidden="true">🐾</span>
-  <span>情緒傾聽</span>
+  <span>Gentle listener</span>
 </button>
 
-<div class="widget" id="widget" role="dialog" aria-modal="false" aria-label="情緒傾聽對話">
+<div class="widget" id="widget" role="dialog" aria-modal="false" aria-label="Gentle listener chat">
   <div class="chat-head">
     <div class="dot" aria-hidden="true">🐾</div>
     <div>
-      <div class="who">情緒傾聽</div>
-      <div class="st">溫柔陪你，慢慢說</div>
+      <div class="who">Gentle listener</div>
+      <div class="st">Here with you, take your time</div>
     </div>
-    <button class="w-close" id="wClose" type="button" aria-label="收起對話">×</button>
+    <button class="w-close" id="wClose" type="button" aria-label="Minimise chat">×</button>
   </div>
   <div class="chat-body" id="widgetBody" aria-live="polite"></div>
   <div class="chat-input">
-    <textarea id="widgetText" rows="1" placeholder="用匿名方式，說說最近和寵物有關的困擾…"></textarea>
-    <button class="send" id="widgetSend" aria-label="送出">➤</button>
+    <textarea id="widgetText" rows="1" placeholder="Anonymously, share what's been on your mind about your pet…"></textarea>
+    <button class="send" id="widgetSend" aria-label="Send">➤</button>
   </div>
-  <div class="chat-safety">如果情緒持續影響生活，請尋求專業支援。</div>
+  <div class="chat-safety">If your feelings keep affecting daily life, please seek professional support.</div>
 </div>
 
-<button id="toTop" class="to-top" type="button" aria-label="返回頁首">↑</button>
+<button id="toTop" class="to-top" type="button" aria-label="Back to top">↑</button>
 
 <div class="support-modal" id="supportModal" aria-hidden="true">
   <div class="sm-backdrop" data-sclose></div>
   <div class="sm-card" role="dialog" aria-modal="true" aria-labelledby="smTitle">
-    <button class="sm-close" data-sclose type="button" aria-label="關閉">×</button>
-    <h3 id="smTitle" class="sm-title">如果你覺得撐不住</h3>
-    <p class="sm-lead">你不必自己一個人扛。找人傾訴或尋求專業支援，都是好好照顧自己的方式。以下是一些你可以聯絡的地方：</p>
+    <button class="sm-close" data-sclose type="button" aria-label="Close">×</button>
+    <h3 id="smTitle" class="sm-title">If you feel you can't hold on</h3>
+    <p class="sm-lead">You don't have to carry it alone. Talking to someone or seeking professional support are both good ways to care for yourself. Here are some places you can reach out to:</p>
     <div class="sm-list">
-      <a href="tel:23892222"><b>撒瑪利亞防止自殺會（24 小時）</b><span>2389 2222</span></a>
-      <a href="tel:25280196"><b>香港心理衞生會</b><span>2528 0196</span></a>
-      <a href="tel:21776168"><b>全邁進心理服務</b><span>2177 6168</span></a>
-      <a href="tel:27111000"><b>SPCA 香港愛護動物協會</b><span>2711 1000</span></a>
-      <a href="tel:999" class="sm-emerg"><b>緊急情況</b><span>999</span></a>
+      <a href="tel:23892222"><b>The Samaritans (24 hours)</b><span>2389 2222</span></a>
+      <a href="tel:25280196"><b>The Mental Health Association of HK</b><span>2528 0196</span></a>
+      <a href="tel:21776168"><b>Evermind Psychological Services</b><span>2177 6168</span></a>
+      <a href="tel:27111000"><b>SPCA Hong Kong</b><span>2711 1000</span></a>
+      <a href="tel:999" class="sm-emerg"><b>Emergency</b><span>999</span></a>
     </div>
   </div>
 </div>

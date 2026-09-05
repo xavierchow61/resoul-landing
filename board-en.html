@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Community Wall｜Resoul</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Parisienne&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/resoul.css">
+</head>
+<body>
+
+<div class="uctrl">
+  <button id="supportBtn" class="uc-btn uc-support" type="button" aria-label="Immediate support line" title="Immediate support">♡</button>
+  <button id="quietBtn" class="uc-btn" type="button" aria-label="Quiet mode (reduce motion)" title="Quiet mode">Q</button>
+  <button id="themeBtn" class="uc-btn" type="button" aria-label="Toggle dark mode" title="Dark mode">☾</button>
+</div>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="index-en.html" aria-label="Resoul home">
+      <img src="images/resoul-wordmark.png" alt="Resoul brand mark">
+      <span class="brand-slogan">Your last greatest love to show</span>
+    </a>
+    <nav class="nav" aria-label="Primary navigation">
+      <div class="nav-group">
+        <button class="nav-top" type="button" aria-expanded="false" aria-haspopup="true">Support<span class="nav-caret" aria-hidden="true">▾</span></button>
+        <div class="nav-menu">
+          <a href="support-en.html">Emotional support</a>
+          <a href="#" data-open-chat>AI companion</a>
+          <a href="board-en.html">Community wall</a>
+          <a href="faq-en.html">Common feelings</a>
+          <a href="blog-en.html">Care journal</a>
+        </div>
+      </div>
+      <div class="nav-group">
+        <button class="nav-top" type="button" aria-expanded="false" aria-haspopup="true">Services<span class="nav-caret" aria-hidden="true">▾</span></button>
+        <div class="nav-menu">
+          <a href="cremation-en.html">Cremation</a>
+          <a href="euthanasia-en.html">Pet euthanasia</a>
+          <a href="shop-en.html">Keepsakes</a>
+        </div>
+      </div>
+      <a class="nav-single" href="about-en.html">About us</a>
+      <a class="nav-single nav-lang" href="board.html" aria-label="切換至中文">中</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="board" id="board">
+    <div class="wrap">
+      <p class="eyebrow reveal">Community wall</p>
+      <h2 class="reveal">Here, write down your longing.</h2>
+      <p class="lead reveal" style="margin-top:14px;">Leave a word of remembrance or a photo, or quietly read others' stories — on this path, you are not alone.</p>
+      <div class="board-form reveal">
+        <input id="boardName" maxlength="40" placeholder="Your name or your pet's name (optional)">
+        <textarea id="boardMsg" maxlength="1000" rows="3" placeholder="What you'd like to say…"></textarea>
+        <label class="board-upload" id="boardUploadLabel">＋ Add a photo (optional)<input type="file" id="boardPhoto" accept="image/*" hidden></label>
+        <img id="boardPreview" alt="Preview" style="display:none;max-width:180px;border-radius:10px;margin-top:8px;">
+        <button id="boardPost" class="soft-btn" type="button">🤍 Post message</button>
+        <p class="board-note" id="boardStatus" style="min-height:1em;"></p>
+      </div>
+      <div class="board-list" id="boardList"></div>
+      <p class="board-note reveal">＊ Messages are shown after review. To protect your privacy, please avoid entering real names, phone numbers or other personal information.</p>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <img class="fbrand-img" src="images/resoul-wordmark.png" alt="Resoul">
+    <div class="fslogan">Your last greatest love to show</div>
+    <div class="flinks"><a href="privacy-en.html">Privacy Policy</a> ·  <a href="terms-en.html">Terms of Use</a> ·  <a href="board.html">中文</a></div>
+  </footer>
+</main>
+
+<button class="fab" id="fab" type="button" aria-label="Open the gentle listener chat">
+  <span class="pw" aria-hidden="true">🐾</span>
+  <span>Gentle listener</span>
+</button>
+
+<div class="widget" id="widget" role="dialog" aria-modal="false" aria-label="Gentle listener chat">
+  <div class="chat-head">
+    <div class="dot" aria-hidden="true">🐾</div>
+    <div>
+      <div class="who">Gentle listener</div>
+      <div class="st">Here with you, take your time</div>
+    </div>
+    <button class="w-close" id="wClose" type="button" aria-label="Minimise chat">×</button>
+  </div>
+  <div class="chat-body" id="widgetBody" aria-live="polite"></div>
+  <div class="chat-input">
+    <textarea id="widgetText" rows="1" placeholder="Anonymously, share what's been on your mind about your pet…"></textarea>
+    <button class="send" id="widgetSend" aria-label="Send">➤</button>
+  </div>
+  <div class="chat-safety">If your feelings keep affecting daily life, please seek professional support.</div>
+</div>
+
+<button id="toTop" class="to-top" type="button" aria-label="Back to top">↑</button>
+
+<div class="support-modal" id="supportModal" aria-hidden="true">
+  <div class="sm-backdrop" data-sclose></div>
+  <div class="sm-card" role="dialog" aria-modal="true" aria-labelledby="smTitle">
+    <button class="sm-close" data-sclose type="button" aria-label="Close">×</button>
+    <h3 id="smTitle" class="sm-title">If you feel you can't hold on</h3>
+    <p class="sm-lead">You don't have to carry it alone. Talking to someone or seeking professional support are both good ways to care for yourself. Here are some places you can reach out to:</p>
+    <div class="sm-list">
+      <a href="tel:23892222"><b>The Samaritans (24 hours)</b><span>2389 2222</span></a>
+      <a href="tel:25280196"><b>The Mental Health Association of HK</b><span>2528 0196</span></a>
+      <a href="tel:21776168"><b>Evermind Psychological Services</b><span>2177 6168</span></a>
+      <a href="tel:27111000"><b>SPCA Hong Kong</b><span>2711 1000</span></a>
+      <a href="tel:999" class="sm-emerg"><b>Emergency</b><span>999</span></a>
+    </div>
+  </div>
+</div>
+
+<script src="js/resoul.js" defer></script>
+<script src="js/board.js" defer></script>
+</body>
+</html>

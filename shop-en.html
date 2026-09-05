@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>紀念產品｜Resoul</title>
+<title>Keepsakes｜Resoul</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Parisienne&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/resoul.css">
 <style>
-/* ===== 商店專用（沿用 resoul.css tokens，支援深色模式）===== */
+/* ===== Shop-specific (reuses resoul.css tokens, dark-mode aware) ===== */
 .shop-hero{background:var(--cream);text-align:center;padding:44px 0 8px;}
 .shop-hero .eyebrow{margin-bottom:8px;}
 .shop-hero h1{font-size:1.7rem;color:var(--ink);}
@@ -18,18 +18,12 @@
 .shop-buy-hd{text-align:center;margin-bottom:26px;}
 .shop-buy-hd h2{font-size:1.5rem;color:var(--ink);margin-top:4px;}
 .shop-buy-sub{color:var(--ink-soft);font-size:.92rem;margin-top:8px;}
-
-/* 狀態 */
 .shop-state{text-align:center;color:var(--ink-faint);padding:50px 10px;font-size:.95rem;}
 .shop-state.err{color:var(--gold-deep);}
-
-/* 類別篩選 */
 .shop-filters{display:flex;flex-wrap:wrap;gap:9px;margin:0 0 20px;}
 .shop-chip{appearance:none;cursor:pointer;font:inherit;font-size:.86rem;line-height:1;padding:9px 16px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink-faint);transition:background .18s,color .18s,border-color .18s;}
 .shop-chip:hover{border-color:var(--gold-deep);color:var(--ink);}
 .shop-chip.sel{background:var(--ink);border-color:var(--ink);color:var(--cream);}
-
-/* 產品格 */
 .shop-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;}
 @media(min-width:760px){.shop-grid{grid-template-columns:repeat(3,1fr);}}
 .pcard{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column;box-shadow:0 8px 26px -22px rgba(70,52,34,.5);transition:transform .2s,box-shadow .25s;cursor:pointer;}
@@ -48,8 +42,6 @@
 .btn.lg{padding:13px 26px;font-size:.96rem;}
 .btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--gold);}
 .btn.ghost:hover{background:rgba(184,154,110,.12);}
-
-/* 產品詳情 */
 .detail-back{background:none;border:none;color:var(--ink-soft);font-size:.9rem;cursor:pointer;padding:4px 0;margin-bottom:18px;font-family:var(--sans);}
 .detail-back:hover{color:var(--gold-deep);}
 .pdp{display:grid;grid-template-columns:1fr;gap:26px;}
@@ -75,12 +67,8 @@
 .trust{margin-top:18px;display:flex;flex-direction:column;gap:8px;}
 .trust div{font-size:.85rem;color:var(--ink-soft);}
 .trust b{color:var(--gold-deep);}
-
-/* 購物車按鈕（放喺 uctrl 旁）*/
 .cart-fab{position:fixed;top:14px;right:14px;z-index:60;background:var(--card);border:1px solid var(--line);border-radius:999px;width:44px;height:44px;cursor:pointer;font-size:1.2rem;color:var(--ink);box-shadow:var(--shadow);}
 .cart-count{position:absolute;top:-4px;right:-4px;background:var(--gold);color:#fff;font-size:.66rem;font-weight:700;min-width:18px;height:18px;border-radius:9px;display:flex;align-items:center;justify-content:center;padding:0 4px;}
-
-/* 購物車抽屜 */
 .shop-overlay{position:fixed;inset:0;background:rgba(45,34,25,.45);opacity:0;pointer-events:none;transition:opacity .25s;z-index:70;}
 .shop-overlay.open{opacity:1;pointer-events:auto;}
 .cart-drawer{position:fixed;top:0;right:0;height:100%;width:min(400px,100vw);background:var(--bg);z-index:71;transform:translateX(100%);transition:transform .3s ease;display:flex;flex-direction:column;box-shadow:-20px 0 60px -30px rgba(45,34,25,.5);}
@@ -108,52 +96,48 @@
 .cart-hint{color:var(--ink-faint);font-size:.76rem;margin-bottom:12px;}
 .checkout{width:100%;background:var(--ink);color:var(--bg);border:none;border-radius:999px;padding:14px;font-family:var(--sans);font-size:1rem;font-weight:500;cursor:pointer;}
 .checkout:hover{opacity:.92;}
-
-/* 提示 toast */
 .shop-toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--bg);padding:12px 22px;border-radius:999px;font-size:.88rem;opacity:0;pointer-events:none;transition:.3s;z-index:80;}
 .shop-toast.show{opacity:1;transform:translateX(-50%);}
-
-/* 購物車開啟時，收起情緒傾聽浮標與返頂掣，避免壓住結帳掣 */
 body.cart-open .fab,body.cart-open .to-top{display:none!important;}
 </style>
 </head>
 <body>
 
 <div class="uctrl">
-  <button id="supportBtn" class="uc-btn uc-support" type="button" aria-label="即時支援熱線" title="即時支援">♡</button>
-  <button id="quietBtn" class="uc-btn" type="button" aria-label="安靜模式（減少動畫）" title="安靜模式">靜</button>
-  <button id="themeBtn" class="uc-btn" type="button" aria-label="深色模式開關" title="深色模式">☾</button>
+  <button id="supportBtn" class="uc-btn uc-support" type="button" aria-label="Immediate support line" title="Immediate support">♡</button>
+  <button id="quietBtn" class="uc-btn" type="button" aria-label="Quiet mode (reduce motion)" title="Quiet mode">Q</button>
+  <button id="themeBtn" class="uc-btn" type="button" aria-label="Toggle dark mode" title="Dark mode">☾</button>
 </div>
 
-<button class="cart-fab" id="cartBtn" type="button" aria-label="購物車">🛒<span class="cart-count" id="cartCount" style="display:none">0</span></button>
+<button class="cart-fab" id="cartBtn" type="button" aria-label="Cart">🛒<span class="cart-count" id="cartCount" style="display:none">0</span></button>
 
 <header class="site-header">
   <div class="header-inner">
-    <a class="brand" href="index.html" aria-label="Resoul 首頁">
-      <img src="images/resoul-wordmark.png" alt="Resoul 品牌標誌，線條勾勒的腳印中藏著一顆心，配優雅手寫字體 Resoul">
+    <a class="brand" href="index-en.html" aria-label="Resoul home">
+      <img src="images/resoul-wordmark.png" alt="Resoul brand mark: a heart nestled within a line-drawn paw print, beside the elegant handwritten wordmark Resoul">
       <span class="brand-slogan">Your last greatest love to show</span>
     </a>
-    <nav class="nav" aria-label="主要導覽">
+    <nav class="nav" aria-label="Primary navigation">
       <div class="nav-group">
-        <button class="nav-top" type="button" aria-expanded="false" aria-haspopup="true">陪伴支持<span class="nav-caret" aria-hidden="true">▾</span></button>
+        <button class="nav-top" type="button" aria-expanded="false" aria-haspopup="true">Support<span class="nav-caret" aria-hidden="true">▾</span></button>
         <div class="nav-menu">
-          <a href="support.html">情緒支持</a>
-          <a href="#" data-open-chat>AI 對話</a>
-          <a href="board.html">同路人留言板</a>
-          <a href="faq.html">常見心情</a>
-          <a href="blog.html">照顧誌</a>
+          <a href="support-en.html">Emotional support</a>
+          <a href="#" data-open-chat>AI companion</a>
+          <a href="board-en.html">Community wall</a>
+          <a href="faq-en.html">Common feelings</a>
+          <a href="blog-en.html">Care journal</a>
         </div>
       </div>
       <div class="nav-group">
-        <button class="nav-top" type="button" aria-expanded="false" aria-haspopup="true">服務<span class="nav-caret" aria-hidden="true">▾</span></button>
+        <button class="nav-top" type="button" aria-expanded="false" aria-haspopup="true">Services<span class="nav-caret" aria-hidden="true">▾</span></button>
         <div class="nav-menu">
-          <a href="cremation.html">火化服務</a>
-          <a href="euthanasia.html">寵物安樂死</a>
-          <a href="shop.html">紀念產品</a>
+          <a href="cremation-en.html">Cremation</a>
+          <a href="euthanasia-en.html">Pet euthanasia</a>
+          <a href="shop-en.html">Keepsakes</a>
         </div>
       </div>
-      <a class="nav-single" href="about.html">關於我們</a>
-      <a class="nav-single nav-lang" href="shop-en.html" aria-label="Switch to English">EN</a>
+      <a class="nav-single" href="about-en.html">About us</a>
+      <a class="nav-single nav-lang" href="shop.html" aria-label="切換至中文">中</a>
     </nav>
   </div>
 </header>
@@ -162,37 +146,37 @@ body.cart-open .fab,body.cart-open .to-top{display:none!important;}
 
   <section class="products" id="products">
     <div class="wrap">
-      <p class="eyebrow reveal">紀念產品</p>
-      <h2 class="reveal">讓這份愛，<br>在日常裡有一個位置。</h2>
-      <p class="lead reveal" style="margin-top:14px;">當說再見很難，有些人會選擇用一件小物，把愛留在日常。</p>
-      <p class="lead reveal">在 Resoul，我們的寵物紀念品及骨灰飾物與眾不同。每一件作品均由創辦人親手挑選並由匠人手工製作，確保品質無可比擬。我們明白您的摯愛值得專屬訂製，因此致力於將您與毛孩獨一無二的動人故事，轉化為值得永遠珍藏的溫暖紀念。Resoul 已陪伴超過 100 個家庭，在寵物過身後的難熬時光中，為這份跨越時空的愛提供最優雅的守護。</p>
+      <p class="eyebrow reveal">Keepsakes</p>
+      <h2 class="reveal">Give this love<br>a place in daily life.</h2>
+      <p class="lead reveal" style="margin-top:14px;">When goodbye is hard, some choose a small object to keep the love close in everyday life.</p>
+      <p class="lead reveal">At Resoul, our pet keepsakes and ashes jewellery are truly one of a kind. Each piece is personally selected by our founder and handcrafted by artisans, ensuring unmatched quality. We understand your beloved deserves something bespoke, so we turn your unique story with them into a warm keepsake to treasure forever. Resoul has accompanied over 100 families, offering the most graceful care for a love that crosses time.</p>
 
       <div class="media reveal">
         <video src="images/resoul-memorial.mp4" poster="images/resoul-memorial-poster.jpg"
                muted loop playsinline controls preload="metadata"
-               aria-label="紀念寵物產品的製作與生活情境短片"></video>
+               aria-label="Short film on the making of memorial pet keepsakes and everyday scenes"></video>
       </div>
 
       <div class="pcards">
         <article class="pcard reveal">
-          <img src="images/resoul-jewelry.jpg" alt="以毛孩紋印製成的純銀心形與圓形頸鏈飾物">
+          <img src="images/resoul-jewelry.jpg" alt="Sterling silver heart and circular necklaces made from a pet's print">
           <div class="pc-body">
-            <h3>把想念留在身邊</h3>
-            <p>將牠的紋印或掌印化作可以隨身佩戴的飾物，在忙碌的日子裡，仍能輕輕碰到那份熟悉。</p>
+            <h3>Keep the longing close</h3>
+            <p>Turn their nose or paw print into jewellery you can wear, so even on busy days you can gently touch that familiar presence.</p>
           </div>
         </article>
         <article class="pcard reveal">
-          <img src="images/resoul-craft.png" alt="兩位工匠在燈下細心雕刻木牌與打磨銀飾">
+          <img src="images/resoul-craft.png" alt="Two artisans carefully carving a wooden plaque and polishing silver under a lamp">
           <div class="pc-body">
-            <h3>讓紀念被細心製作</h3>
-            <p>每一件都由人手慢慢雕琢，把牠的樣子與名字，用時間和心意好好地保存下來。</p>
+            <h3>Let the keepsake be made with care</h3>
+            <p>Each piece is slowly hand-carved, preserving their face and name with time and heart.</p>
           </div>
         </article>
         <article class="pcard reveal">
-          <img src="images/resoul-lifestyle.png" alt="陽光下的木製紀念盒與照片，旁邊放著鮮花與茶">
+          <img src="images/resoul-lifestyle.png" alt="A wooden memory box and photo in the sunlight, beside fresh flowers and tea">
           <div class="pc-body">
-            <h3>為家中留一個位置</h3>
-            <p>一個安放照片與飾物的角落，讓牠仍然是家的一部分，陪你度過每一個安靜的早晨。</p>
+            <h3>Keep a place at home</h3>
+            <p>A corner for photos and keepsakes, so they remain part of home, with you through every quiet morning.</p>
           </div>
         </article>
       </div>
@@ -203,79 +187,76 @@ body.cart-open .fab,body.cart-open .to-top{display:none!important;}
 
   <div class="shop-wrap">
     <div class="shop-buy-hd">
-      <p class="eyebrow">選購紀念品</p>
-      <h2>把心意，帶回家</h2>
-      <p class="shop-buy-sub">每一件都由人手細心製作。選好後，付款由 Shopify 安全托管。</p>
+      <p class="eyebrow">Shop keepsakes</p>
+      <h2>Bring the love home</h2>
+      <p class="shop-buy-sub">Each piece is handcrafted with care. Once chosen, checkout is securely handled by Shopify.</p>
     </div>
-    <!-- 產品列表 -->
     <div id="shopList">
-      <div class="shop-state" id="shopLoading">正在載入紀念品…</div>
-      <div class="shop-state" id="shopEmpty" style="display:none">商品即將上架，請稍後再來看看。</div>
-      <div class="shop-state err" id="shopError" style="display:none">暫時載入不到商品，請稍後再試。</div>
+      <div class="shop-state" id="shopLoading">Loading keepsakes…</div>
+      <div class="shop-state" id="shopEmpty" style="display:none">Products are coming soon — please check back later.</div>
+      <div class="shop-state err" id="shopError" style="display:none">Unable to load products right now, please try again later.</div>
       <div class="shop-filters" id="shopFilters" style="display:none"></div>
       <div class="shop-grid" id="shopGrid"></div>
     </div>
-    <!-- 產品詳情（動態填入）-->
     <div id="shopDetail" style="display:none"></div>
   </div>
 
   <footer class="footer">
     <img class="fbrand-img" src="images/resoul-wordmark.png" alt="Resoul">
     <div class="fslogan">Your last greatest love to show</div>
-    <div class="flinks"><a href="privacy.html">私隱政策</a> ·  <a href="terms.html">使用條款</a> ·  <a href="shop-en.html">EN</a></div>
+    <div class="flinks"><a href="privacy-en.html">Privacy Policy</a> ·  <a href="terms-en.html">Terms of Use</a> ·  <a href="shop.html">中文</a></div>
   </footer>
 </main>
 
-<button class="fab" id="fab" type="button" aria-label="開啟情緒傾聽對話">
+<button class="fab" id="fab" type="button" aria-label="Open the gentle listener chat">
   <span class="pw" aria-hidden="true">🐾</span>
-  <span>情緒傾聽</span>
+  <span>Gentle listener</span>
 </button>
 
-<div class="widget" id="widget" role="dialog" aria-modal="false" aria-label="情緒傾聽對話">
+<div class="widget" id="widget" role="dialog" aria-modal="false" aria-label="Gentle listener chat">
   <div class="chat-head">
     <div class="dot" aria-hidden="true">🐾</div>
     <div>
-      <div class="who">情緒傾聽</div>
-      <div class="st">溫柔陪你，慢慢說</div>
+      <div class="who">Gentle listener</div>
+      <div class="st">Here with you, take your time</div>
     </div>
-    <button class="w-close" id="wClose" type="button" aria-label="收起對話">×</button>
+    <button class="w-close" id="wClose" type="button" aria-label="Minimise chat">×</button>
   </div>
   <div class="chat-body" id="widgetBody" aria-live="polite"></div>
   <div class="chat-input">
-    <textarea id="widgetText" rows="1" placeholder="用匿名方式，說說最近和寵物有關的困擾…"></textarea>
-    <button class="send" id="widgetSend" aria-label="送出">➤</button>
+    <textarea id="widgetText" rows="1" placeholder="Anonymously, share what's been on your mind about your pet…"></textarea>
+    <button class="send" id="widgetSend" aria-label="Send">➤</button>
   </div>
-  <div class="chat-safety">如果情緒持續影響生活，請尋求專業支援。</div>
+  <div class="chat-safety">If your feelings keep affecting daily life, please seek professional support.</div>
 </div>
 
-<button id="toTop" class="to-top" type="button" aria-label="返回頁首">↑</button>
+<button id="toTop" class="to-top" type="button" aria-label="Back to top">↑</button>
 
-<!-- 購物車抽屜 -->
 <div class="shop-overlay" id="shopOverlay"></div>
-<aside class="cart-drawer" id="cart" aria-label="購物車">
-  <div class="cart-hd"><h3>你的購物車</h3><button class="cart-x" id="cartClose" type="button" aria-label="關閉">×</button></div>
+<aside class="cart-drawer" id="cart" aria-label="Cart">
+  <div class="cart-hd"><h3>Your cart</h3><button class="cart-x" id="cartClose" type="button" aria-label="Close">×</button></div>
   <div class="cart-body" id="cartBody"></div>
   <div class="cart-ft">
-    <div class="cart-sub"><span>小計</span><b id="cartSub">HK$0</b></div>
-    <p class="cart-hint">運費與稅項於結帳時計算。付款由 Shopify 安全托管。</p>
-    <button class="checkout" id="checkoutBtn" type="button">前往結帳 →</button>
+    <div class="cart-sub"><span>Subtotal</span><b id="cartSub">HK$0</b></div>
+    <p class="cart-hint">Shipping &amp; taxes calculated at checkout. Payment securely handled by Shopify.</p>
+    <button class="checkout" id="checkoutBtn" type="button">Checkout →</button>
   </div>
 </aside>
 
-<div class="shop-toast" id="shopToast">已加入購物車</div>
+<div class="shop-toast" id="shopToast">Added to cart</div>
 
 <div class="support-modal" id="supportModal" aria-hidden="true">
   <div class="sm-backdrop" data-sclose></div>
   <div class="sm-card" role="dialog" aria-modal="true" aria-labelledby="smTitle">
-    <button class="sm-close" data-sclose type="button" aria-label="關閉">×</button>
-    <h3 id="smTitle" class="sm-title">如果你覺得撐不住</h3>
-    <p class="sm-lead">你不必自己一個人扛。找人傾訴或尋求專業支援，都是好好照顧自己的方式。以下是一些你可以聯絡的地方：</p>
+    <button class="sm-close" data-sclose type="button" aria-label="Close">×</button>
+    <h3 id="smTitle" class="sm-title">If you feel you can't hold on</h3>
+    <p class="sm-lead">You don't have to carry it alone. Talking to someone or seeking professional support are both good ways to care for yourself. Here are some places you can reach out to:</p>
     <div class="sm-list">
-      <a href="tel:23892222"><b>撒瑪利亞防止自殺會（24 小時）</b><span>2389 2222</span></a>
-      <a href="tel:25280196"><b>香港心理衞生會</b><span>2528 0196</span></a>
-      <a href="tel:21776168"><b>全邁進心理服務</b><span>2177 6168</span></a>
-      <a href="tel:27111000"><b>SPCA 香港愛護動物協會</b><span>2711 1000</span></a>
-      <a href="tel:999" class="sm-emerg"><b>緊急情況</b><span>999</span></a>
+      <a href="tel:23892222"><b>The Samaritans (24 hours)</b><span>2389 2222</span></a>
+      <a href="tel:25280196"><b>The Mental Health Association of HK</b><span>2528 0196</span></a>
+      <a href="tel:21776168"><b>Evermind Psychological Services</b><span>2177 6168</span></a>
+      <a href="tel:27111000"><b>SPCA Hong Kong</b><span>2711 1000</span></a>
+      <a href="tel:999" class="sm-emerg"><b>Emergency</b><span>999</span></a>
     </div>
   </div>
 </div>
