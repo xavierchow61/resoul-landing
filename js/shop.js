@@ -40,7 +40,7 @@
   // 描述以段落分中英：<p>中文</p> … <p>English</p>
   function pickDesc(html) {
     if (!html) return "";
-    var paras = [], re = /<p[^>]*>([\s\S]*?)<\/p>/gi, mm;
+    var paras = [], re = /<(?:p|li)[^>]*>([\s\S]*?)<\/(?:p|li)>/gi, mm;
     while ((mm = re.exec(html))) {
       var t = mm[1].replace(/<[^>]+>/g, "")
         .replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">")
@@ -85,7 +85,16 @@
   var SB_KEY = "sb_publishable_bRZVm-air0obDK7QuRYaMw_b-mnVMA6";
   var UPLOAD_BUCKET = "custom-uploads";
   // 只有非「紙製品」（即訂製／紀念／服務類）先顯示訂製欄位
-  function isCustomizable(p) { return (p.productType || "").indexOf("紙製品") < 0; }
+  // 是否顯示「特別要求 + 上載相片」。可用 Shopify 標籤逐件控制：
+  //   加標籤「特別要求」／「custom」 → 強制開啟
+  //   加標籤「無特別要求」／「no-custom」 → 強制關閉
+  //   否則預設：非「紙製品」類別即開啟
+  function isCustomizable(p) {
+    var tags = (p.tags || []).map(function (t) { return String(t).trim().toLowerCase(); });
+    if (tags.indexOf("無特別要求") >= 0 || tags.indexOf("no-custom") >= 0) return false;
+    if (tags.indexOf("特別要求") >= 0 || tags.indexOf("custom") >= 0) return true;
+    return (p.productType || "").indexOf("紙製品") < 0;
+  }
   function uploadPhoto(file) {
     var ext = (file.name.split(".").pop() || "jpg").toLowerCase().replace(/[^a-z0-9]/g, "") || "jpg";
     var path = "orders/" + Date.now() + "-" + Math.random().toString(36).slice(2, 8) + "." + ext;
@@ -148,7 +157,7 @@
   /* ===== 產品查詢 ===== */
   var PRODUCTS_Q =
     "query($n:Int!){ products(first:$n, sortKey:CREATED_AT, reverse:true){ edges{ node{" +
-    " id title descriptionHtml handle productType" +
+    " id title descriptionHtml handle productType tags" +
     " featuredImage{ url altText }" +
     " images(first:6){ edges{ node{ url altText } } }" +
     " options{ name values }" +
