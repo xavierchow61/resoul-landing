@@ -79,6 +79,29 @@
   var ENDPOINT = "https://" + SHOP.domain + "/api/" + SHOP.version + "/graphql.json";
   var CART_KEY = "resoul-cart-id";
 
+  /* ===== 訂製：客戶特別要求 + 上載寵物相片（存 Supabase，訂單附連結）===== */
+  var SB_URL = "https://tkgxdzvsnmereaygddaz.supabase.co";
+  var SB_KEY = "sb_publishable_bRZVm-air0obDK7QuRYaMw_b-mnVMA6";
+  var UPLOAD_BUCKET = "custom-uploads";
+  // 只有非「紙製品」（即訂製／紀念／服務類）先顯示訂製欄位
+  function isCustomizable(p) { return (p.productType || "").indexOf("紙製品") < 0; }
+  function uploadPhoto(file) {
+    var ext = (file.name.split(".").pop() || "jpg").toLowerCase().replace(/[^a-z0-9]/g, "") || "jpg";
+    var path = "orders/" + Date.now() + "-" + Math.random().toString(36).slice(2, 8) + "." + ext;
+    return fetch(SB_URL + "/storage/v1/object/" + UPLOAD_BUCKET + "/" + path, {
+      method: "POST",
+      headers: {
+        apikey: SB_KEY,
+        Authorization: "Bearer " + SB_KEY,
+        "Content-Type": file.type || "application/octet-stream"
+      },
+      body: file
+    }).then(function (r) {
+      if (!r.ok) throw new Error("upload failed " + r.status);
+      return SB_URL + "/storage/v1/object/public/" + UPLOAD_BUCKET + "/" + path;
+    });
+  }
+
   /* ===== 小工具 ===== */
   function $(sel, root) { return (root || document).querySelector(sel); }
   function el(tag, cls, html) {
@@ -137,22 +160,27 @@
   var CART_FIELDS =
     " id checkoutUrl totalQuantity" +
     " cost{ subtotalAmount{ amount currencyCode } }" +
-    " lines(first:100){ edges{ node{ id quantity" +
+    " lines(first:100){ edges{ node{ id quantity attributes{ key value }" +
     " merchandise{ ... on ProductVariant { id title image{ url altText }" +
     " price{ amount currencyCode } product{ title } selectedOptions{ name value } } } } } }";
 
-  function cartCreate(merchandiseId, qty) {
+  function line(merchandiseId, qty, attrs) {
+    var l = { merchandiseId: merchandiseId, quantity: qty };
+    if (attrs && attrs.length) l.attributes = attrs;
+    return l;
+  }
+  function cartCreate(merchandiseId, qty, attrs) {
     var q = "mutation($lines:[CartLineInput!]){ cartCreate(input:{lines:$lines}){ cart{" + CART_FIELDS + "} userErrors{ message } } }";
-    return gql(q, { lines: [{ merchandiseId: merchandiseId, quantity: qty }] })
+    return gql(q, { lines: [line(merchandiseId, qty, attrs)] })
       .then(function (d) { return d.cartCreate.cart; });
   }
   function cartGet(id) {
     var q = "query($id:ID!){ cart(id:$id){" + CART_FIELDS + "} }";
     return gql(q, { id: id }).then(function (d) { return d.cart; });
   }
-  function cartAdd(id, merchandiseId, qty) {
+  function cartAdd(id, merchandiseId, qty, attrs) {
     var q = "mutation($id:ID!,$lines:[CartLineInput!]!){ cartLinesAdd(cartId:$id, lines:$lines){ cart{" + CART_FIELDS + "} userErrors{ message } } }";
-    return gql(q, { id: id, lines: [{ merchandiseId: merchandiseId, quantity: qty }] })
+    return gql(q, { id: id, lines: [line(merchandiseId, qty, attrs)] })
       .then(function (d) { return d.cartLinesAdd.cart; });
   }
   function cartUpdate(id, lineId, qty) {
@@ -166,19 +194,19 @@
   }
 
   /* ===== 狀態 ===== */
-  var state = { products: [], cart: null, current: null, qty: 1, sel: {}, filter: "all" };
+  var state = { products: [], cart: null, current: null, qty: 1, sel: {}, filter: "all", req: "", photo: null };
 
   /* ===== 購物車：確保存在 ===== */
-  function ensureCartThen(mid, qty) {
+  function ensureCartThen(mid, qty, attrs) {
     var id = null;
     try { id = localStorage.getItem(CART_KEY); } catch (e) {}
     if (id) {
-      return cartAdd(id, mid, qty).catch(function () {
+      return cartAdd(id, mid, qty, attrs).catch(function () {
         // 舊 cart 失效 → 重新建立
-        return cartCreate(mid, qty).then(function (c) { saveCartId(c); return c; });
+        return cartCreate(mid, qty, attrs).then(function (c) { saveCartId(c); return c; });
       });
     }
-    return cartCreate(mid, qty).then(function (c) { saveCartId(c); return c; });
+    return cartCreate(mid, qty, attrs).then(function (c) { saveCartId(c); return c; });
   }
   function saveCartId(cart) {
     try { if (cart && cart.id) localStorage.setItem(CART_KEY, cart.id); } catch (e) {}
@@ -255,7 +283,7 @@
     }) || p.variants[0];
   }
   function openDetail(p) {
-    state.current = p; state.qty = 1; state.sel = {};
+    state.current = p; state.qty = 1; state.sel = {}; state.req = ""; state.photo = null;
     p.options.forEach(function (o) { state.sel[o.name] = o.values[0]; });
 
     var v = variantMatch(p);
@@ -275,6 +303,19 @@
       optsHtml += "</div>";
     });
 
+    var custHtml = isCustomizable(p)
+      ? '<div class="pdp-custom">' +
+        '<div class="opt-label">' + L("特別要求（可選）", "Special requests (optional)") + "</div>" +
+        '<textarea id="custReq" class="cust-req" rows="2" placeholder="' +
+          esc(L("例如：刻字內容、顏色、尺寸或其他備註…", "e.g. engraving text, colour, size or other notes…")) + '"></textarea>' +
+        '<div class="opt-label">' + L("上載寵物相片（可選）", "Upload pet photo (optional)") + "</div>" +
+        '<label class="cust-file"><input type="file" id="custPhoto" accept="image/*" hidden>' +
+        '<span class="cust-file-btn">' + L("選擇相片", "Choose photo") + "</span>" +
+        '<span class="cust-file-name" id="custPhotoName">' + L("未選擇檔案", "No file chosen") + "</span></label>" +
+        '<div class="cust-hint">' + L("相片會連同訂單傳送給我們，方便訂製。", "Your photo is sent to us with the order to help with customization.") + "</div>" +
+        "</div>"
+      : "";
+
     d.innerHTML =
       '<button class="detail-back" type="button" id="detailBack">← ' + L("返回所有紀念品", "Back to all keepsakes") + "</button>" +
       '<div class="pdp">' +
@@ -292,6 +333,7 @@
       optsHtml +
       '<div class="opt-label">' + L("數量", "Quantity") + "</div>" +
       '<div class="qty"><button type="button" data-q="-1">−</button><span id="pdpQ">1</span><button type="button" data-q="1">+</button></div>' +
+      custHtml +
       '<div class="pdp-cta"><button class="btn lg" type="button" id="addBtn">' + L("加入購物車", "Add to cart") + "</button>" +
       '<button class="btn lg ghost" type="button" id="buyBtn">' + L("立即結帳", "Buy now") + "</button></div>" +
       (pickDesc(p.descriptionHtml) ? '<div class="pdp-desc">' + esc(pickDesc(p.descriptionHtml)) + "</div>" : "") +
@@ -321,6 +363,15 @@
         $("#pdpQ").textContent = state.qty;
       });
     });
+    var reqEl = $("#custReq");
+    if (reqEl) reqEl.addEventListener("input", function () { state.req = reqEl.value; });
+    var photoEl = $("#custPhoto");
+    if (photoEl) photoEl.addEventListener("change", function () {
+      state.photo = photoEl.files && photoEl.files[0] ? photoEl.files[0] : null;
+      var nm = $("#custPhotoName");
+      if (nm) nm.textContent = state.photo ? state.photo.name : L("未選擇檔案", "No file chosen");
+    });
+
     $("#addBtn").addEventListener("click", function () { addCurrent(false); });
     $("#buyBtn").addEventListener("click", function () { addCurrent(true); });
 
@@ -367,7 +418,17 @@
     if (!v || !v.availableForSale) { toast(L("此選項暫時缺貨", "This option is out of stock")); return; }
     var btns = [$("#addBtn"), $("#buyBtn")];
     btns.forEach(function (b) { if (b) b.disabled = true; });
-    ensureCartThen(v.id, state.qty).then(function (cart) {
+    var req = (state.req || "").trim();
+    var photo = state.photo;
+    var prep = photo
+      ? (toast(L("正在上載相片…", "Uploading photo…")), uploadPhoto(photo))
+      : Promise.resolve(null);
+    prep.then(function (photoUrl) {
+      var attrs = [];
+      if (req) attrs.push({ key: "特別要求 Special request", value: req });
+      if (photoUrl) attrs.push({ key: "寵物相片 Pet photo", value: photoUrl });
+      return ensureCartThen(v.id, state.qty, attrs);
+    }).then(function (cart) {
       state.cart = cart; saveCartId(cart); renderCart();
       if (checkout) {
         if (cart.checkoutUrl) window.location.href = cart.checkoutUrl;
@@ -375,7 +436,8 @@
         toast(L("已加入購物車", "Added to cart")); openCart();
       }
     }).catch(function (err) {
-      toast(L("加入失敗，請稍後再試", "Couldn't add, please try again"));
+      toast(photo ? L("相片上載失敗，請換張相或稍後再試", "Photo upload failed, try another photo or later")
+                  : L("加入失敗，請稍後再試", "Couldn't add, please try again"));
       console.error("cart add error:", err);
     }).then(function () {
       btns.forEach(function (b) { if (b) b.disabled = false; });
@@ -402,12 +464,19 @@
         return o.value !== "Default Title";
       }).map(function (o) { return pick(o.value); }).join(" · ");
       var img = m.image ? m.image.url : "";
+      var attrs = ln.attributes || [];
+      var reqA = attrs.filter(function (a) { return a.key.indexOf("特別要求") === 0; })[0];
+      var photoA = attrs.filter(function (a) { return a.key.indexOf("寵物相片") === 0; })[0];
+      var custHtml =
+        (reqA && reqA.value ? '<div class="line-cust">✎ ' + esc(reqA.value) + "</div>" : "") +
+        (photoA && photoA.value ? '<div class="line-cust"><a href="' + esc(photoA.value) + '" target="_blank" rel="noopener">🖼 ' + L("已附相片", "Photo attached") + "</a></div>" : "");
       var line = el("div", "line");
       line.innerHTML =
         (img ? '<img src="' + esc(img) + '" alt="">' : '<div class="line-noimg">🕊️</div>') +
         '<div class="line-info">' +
         '<div class="line-name">' + esc(pick(m.product.title)) + "</div>" +
         (opt ? '<div class="line-opt">' + esc(opt) + "</div>" : "") +
+        custHtml +
         '<div class="line-row"><span class="line-qty">' +
         '<button type="button" data-a="-1">−</button><span>' + ln.quantity + "</span>" +
         '<button type="button" data-a="1">+</button></span>' +
@@ -459,7 +528,7 @@
     $("#checkoutBtn").addEventListener("click", checkout);
 
     // 載入產品
-    gql(PRODUCTS_Q, { n: 30 }).then(function (data) {
+    gql(PRODUCTS_Q, { n: 250 }).then(function (data) {
       state.products = data.products.edges.map(function (e) {
         var n = e.node;
         n.images = n.images.edges.map(function (x) { return x.node; });
