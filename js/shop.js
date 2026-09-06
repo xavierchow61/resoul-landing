@@ -59,8 +59,8 @@
   // 類別 / 選項名稱：英文頁對照表（找不到就用原文）
   var LBL_EN = {
     "紙製品": "Paper Effigies", "骨灰甕": "Urns", "紀念品": "Keepsakes",
-    "升級加購": "Add-ons", "紀念儀式用品": "Memorial Items",
-    "尺寸": "Size", "顏色": "Colour", "款式": "Style", "材質": "Material"
+    "升級加購": "Add-ons", "紀念儀式用品": "Memorial Items", "火化服務": "Cremation Service",
+    "尺寸": "Size", "顏色": "Colour", "款式": "Style", "材質": "Material", "重量": "Weight"
   };
   function lbl(s) {
     var t = (s || "").trim();
