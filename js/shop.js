@@ -60,7 +60,9 @@
   var LBL_EN = {
     "紙製品": "Paper Effigies", "骨灰甕": "Urns", "紀念品": "Keepsakes",
     "升級加購": "Add-ons", "紀念儀式用品": "Memorial Items", "火化服務": "Cremation Service",
-    "尺寸": "Size", "顏色": "Colour", "款式": "Style", "材質": "Material", "重量": "Weight"
+    "紀念服務": "Memorial Service",
+    "尺寸": "Size", "顏色": "Colour", "款式": "Style", "材質": "Material", "重量": "Weight",
+    "排數": "Rows", "計費": "Billing"
   };
   function lbl(s) {
     var t = (s || "").trim();
