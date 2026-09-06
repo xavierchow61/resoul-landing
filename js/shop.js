@@ -15,7 +15,8 @@
    * 純前端處理，不改 Shopify 資料。
    */
   var CJK_RE = /[㐀-鿿豈-﫿぀-ヿ！-｠　-〿⺀-⻿]/g;
-  var UNIT_RE = /\b(HK|mm|cm|kg|g|K|m|pcs|SET|BOX|CAN)\b/gi;
+  // 單位／量詞字（唔當作英文名開始，令「7cm」「<18mm」「925」等跟返中文名，唔會拆到剩個孤零數字）
+  var UNIT_WORDS = { cm:1, mm:1, kg:1, ml:1, cl:1, mg:1, hk:1, pcs:1, oz:1, ft:1, "in":1, set:1, box:1, can:1 };
   function cleanEdges(s) {
     s = String(s == null ? "" : s).replace(/\s+/g, " ");
     s = s.replace(/（\s*）/g, "").replace(/\(\s*\)/g, "");   // 去掉空括號
@@ -24,16 +25,16 @@
   // 把「中文 English（規格）」拆成中／英兩個顯示名
   function splitLang(s) {
     s = String(s == null ? "" : s).trim();
-    var m = s.search(/[A-Za-z]/);
-    if (m < 0) return { zh: cleanEdges(s), en: cleanEdges(s) };
-    var enCand = cleanEdges(s.slice(m).replace(CJK_RE, " "));
-    // 只有單位／價錢（HK$、cm…）而無真正英文字 → 視為只有中文
-    if (!/[A-Za-z]{2,}/.test(enCand.replace(UNIT_RE, ""))) {
-      var whole = cleanEdges(s);
-      return { zh: whole, en: whole };
+    // 英文名開始 = 第一個「非單位」且長度≥2 嘅拉丁字（跳過 cm/mm/kg/HK… 等單位），
+    // 令數字＋單位（7cm、<18mm、925）跟返中文名，唔會拆到剩返個孤零數字。
+    var re = /[A-Za-z]{2,}/g, mm, idx = -1;
+    while ((mm = re.exec(s))) {
+      if (!UNIT_WORDS[mm[0].toLowerCase()]) { idx = mm.index; break; }
     }
-    var zh = cleanEdges(s.slice(0, m)) || cleanEdges(s);
-    return { zh: zh, en: enCand };
+    if (idx < 0) { var whole = cleanEdges(s); return { zh: whole, en: whole }; }
+    var zh = cleanEdges(s.slice(0, idx)) || cleanEdges(s);
+    var en = cleanEdges(s.slice(idx).replace(CJK_RE, " ")) || cleanEdges(s);
+    return { zh: zh, en: en };
   }
   function pick(s) { var o = splitLang(s); return EN ? o.en : o.zh; }
   // 描述以段落分中英：<p>中文</p> … <p>English</p>
