@@ -9,6 +9,65 @@
   var EN = (document.documentElement.lang || "").slice(0, 2).toLowerCase() === "en";
   function L(zh, en) { return EN ? en : zh; }
 
+  /* ===== 中英分離顯示 =====
+   * 產品在 Shopify 以「中文 English（規格）」單一欄位儲存，
+   * 這裡按頁面語言只顯示對應語言，令中文頁純中文、英文頁純英文。
+   * 純前端處理，不改 Shopify 資料。
+   */
+  var CJK_RE = /[㐀-鿿豈-﫿぀-ヿ！-｠　-〿⺀-⻿]/g;
+  var UNIT_RE = /\b(HK|mm|cm|kg|g|K|m|pcs|SET|BOX|CAN)\b/gi;
+  function cleanEdges(s) {
+    s = String(s == null ? "" : s).replace(/\s+/g, " ");
+    s = s.replace(/（\s*）/g, "").replace(/\(\s*\)/g, "");   // 去掉空括號
+    return s.replace(/^[\s·・／/,、:：+\-]+|[\s·・／/,、:：+\-]+$/g, "").trim();
+  }
+  // 把「中文 English（規格）」拆成中／英兩個顯示名
+  function splitLang(s) {
+    s = String(s == null ? "" : s).trim();
+    var m = s.search(/[A-Za-z]/);
+    if (m < 0) return { zh: cleanEdges(s), en: cleanEdges(s) };
+    var enCand = cleanEdges(s.slice(m).replace(CJK_RE, " "));
+    // 只有單位／價錢（HK$、cm…）而無真正英文字 → 視為只有中文
+    if (!/[A-Za-z]{2,}/.test(enCand.replace(UNIT_RE, ""))) {
+      var whole = cleanEdges(s);
+      return { zh: whole, en: whole };
+    }
+    var zh = cleanEdges(s.slice(0, m)) || cleanEdges(s);
+    return { zh: zh, en: enCand };
+  }
+  function pick(s) { var o = splitLang(s); return EN ? o.en : o.zh; }
+  // 描述以段落分中英：<p>中文</p> … <p>English</p>
+  function pickDesc(html) {
+    if (!html) return "";
+    var paras = [], re = /<p[^>]*>([\s\S]*?)<\/p>/gi, mm;
+    while ((mm = re.exec(html))) {
+      var t = mm[1].replace(/<[^>]+>/g, "")
+        .replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">")
+        .replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/\s+/g, " ").trim();
+      if (t) paras.push(t);
+    }
+    if (!paras.length) {
+      return html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+    }
+    var picked = paras.filter(function (t) {
+      var cjk = (t.match(CJK_RE) || []).length, lat = (t.match(/[A-Za-z]/g) || []).length;
+      return EN ? lat >= cjk : cjk >= lat;
+    });
+    if (!picked.length) picked = paras;
+    return picked.join(" ");
+  }
+  // 類別 / 選項名稱：英文頁對照表（找不到就用原文）
+  var LBL_EN = {
+    "紙製品": "Paper Effigies", "骨灰甕": "Urns", "紀念品": "Keepsakes",
+    "升級加購": "Add-ons", "紀念儀式用品": "Memorial Items",
+    "尺寸": "Size", "顏色": "Colour", "款式": "Style", "材質": "Material"
+  };
+  function lbl(s) {
+    var t = (s || "").trim();
+    if (!EN) return splitLang(t).zh;          // 中文頁：取中文部分（含雙語類型）
+    return LBL_EN[t] || splitLang(t).en;      // 英文頁：先查對照表，否則取英文部分
+  }
+
   /* ===== 設定（公開只讀，安全）===== */
   var SHOP = {
     domain: "qs1nmv-b3.myshopify.com",
@@ -63,7 +122,7 @@
   /* ===== 產品查詢 ===== */
   var PRODUCTS_Q =
     "query($n:Int!){ products(first:$n, sortKey:CREATED_AT, reverse:true){ edges{ node{" +
-    " id title description handle productType" +
+    " id title descriptionHtml handle productType" +
     " featuredImage{ url altText }" +
     " images(first:6){ edges{ node{ url altText } } }" +
     " options{ name values }" +
@@ -137,7 +196,7 @@
     if (cats.length < 2) { bar.style.display = "none"; return; }
     bar.style.display = "flex";
     bar.innerHTML = "";
-    var defs = [{ key: "all", label: L("全部", "All") }].concat(cats.map(function (c) { return { key: c, label: c }; }));
+    var defs = [{ key: "all", label: L("全部", "All") }].concat(cats.map(function (c) { return { key: c, label: lbl(c) }; }));
     defs.forEach(function (d) {
       var b = el("button", "shop-chip" + (state.filter === d.key ? " sel" : ""), esc(d.label));
       b.type = "button";
@@ -167,7 +226,8 @@
     empty.style.display = "none";
     list.forEach(function (p) {
       var img = p.featuredImage ? p.featuredImage.url : "";
-      var alt = p.featuredImage ? (p.featuredImage.altText || p.title) : p.title;
+      var name = pick(p.title);
+      var alt = p.featuredImage ? (p.featuredImage.altText || name) : name;
       var price = p.priceRange.minVariantPrice;
       var multi = p.variants.length > 1;
       var card = el("div", "pcard");
@@ -175,8 +235,8 @@
         (img ? '<img class="pcard-img" src="' + esc(img) + '" alt="' + esc(alt) + '" loading="lazy">'
              : '<div class="pcard-img pcard-noimg" aria-hidden="true">🕊️</div>') +
         '<div class="pcard-body">' +
-        '<div class="pcard-name">' + esc(p.title) + "</div>" +
-        '<div class="pcard-desc">' + esc((p.description || "").slice(0, 60)) + "</div>" +
+        '<div class="pcard-name">' + esc(name) + "</div>" +
+        '<div class="pcard-desc">' + esc(pickDesc(p.descriptionHtml).slice(0, 60)) + "</div>" +
         '<div class="pcard-foot"><div class="price">' + (multi ? L("", "from ") : "") + money(price.amount, price.currencyCode) +
         (multi ? L(" <small>起</small>", "") : "") + "</div>" +
         '<button class="btn" type="button">' + L("查看", "View") + "</button></div></div>";
@@ -205,10 +265,10 @@
       return !(o.values.length === 1 && (o.values[0] === "Default Title" || o.name === "Title"));
     });
     realOpts.forEach(function (o) {
-      optsHtml += '<div class="opt-label">' + esc(o.name) + "</div><div class=\"opts\" data-opt=\"" + esc(o.name) + "\">";
+      optsHtml += '<div class="opt-label">' + esc(lbl(o.name)) + "</div><div class=\"opts\" data-opt=\"" + esc(o.name) + "\">";
       o.values.forEach(function (val) {
         optsHtml += '<button type="button" class="opt' + (state.sel[o.name] === val ? " sel" : "") +
-          '" data-val="' + esc(val) + '">' + esc(val) + "</button>";
+          '" data-val="' + esc(val) + '">' + esc(pick(val)) + "</button>";
       });
       optsHtml += "</div>";
     });
@@ -217,14 +277,14 @@
       '<button class="detail-back" type="button" id="detailBack">← ' + L("返回所有紀念品", "Back to all keepsakes") + "</button>" +
       '<div class="pdp">' +
       '<div class="pdp-media">' +
-      (imgs.length ? '<img id="pdpImg" src="' + esc(imgs[0].url) + '" alt="' + esc(imgs[0].altText || p.title) + '">'
+      (imgs.length ? '<img id="pdpImg" src="' + esc(imgs[0].url) + '" alt="' + esc(imgs[0].altText || pick(p.title)) + '">'
                    : '<div class="pdp-noimg">🕊️</div>') +
       (imgs.length > 1 ? '<div class="pdp-thumbs">' + imgs.map(function (im) {
         return '<img src="' + esc(im.url) + '" alt="" data-src="' + esc(im.url) + '">';
       }).join("") + "</div>" : "") +
       "</div>" +
       '<div class="pdp-info">' +
-      '<h1 class="pdp-name">' + esc(p.title) + "</h1>" +
+      '<h1 class="pdp-name">' + esc(pick(p.title)) + "</h1>" +
       '<div class="pdp-price" id="pdpPrice">' + money(v.price.amount, v.price.currencyCode) + "</div>" +
       '<div class="pdp-avail" id="pdpAvail"></div>' +
       optsHtml +
@@ -232,7 +292,7 @@
       '<div class="qty"><button type="button" data-q="-1">−</button><span id="pdpQ">1</span><button type="button" data-q="1">+</button></div>' +
       '<div class="pdp-cta"><button class="btn lg" type="button" id="addBtn">' + L("加入購物車", "Add to cart") + "</button>" +
       '<button class="btn lg ghost" type="button" id="buyBtn">' + L("立即結帳", "Buy now") + "</button></div>" +
-      (p.description ? '<div class="pdp-desc">' + esc(p.description) + "</div>" : "") +
+      (pickDesc(p.descriptionHtml) ? '<div class="pdp-desc">' + esc(pickDesc(p.descriptionHtml)) + "</div>" : "") +
       '<div class="trust">' +
       "<div><b>🕊️ " + L("專人跟進</b>　由具善終經驗的團隊，全程溫柔處理", "Personal care</b>　handled gently throughout by an experienced farewell team") + "</div>" +
       "<div><b>🔒 " + L("安全結帳</b>　付款由 Shopify 托管，資料受保護", "Secure checkout</b>　payment handled by Shopify, your data protected") + "</div>" +
@@ -338,13 +398,13 @@
       var m = ln.merchandise;
       var opt = (m.selectedOptions || []).filter(function (o) {
         return o.value !== "Default Title";
-      }).map(function (o) { return o.value; }).join(" · ");
+      }).map(function (o) { return pick(o.value); }).join(" · ");
       var img = m.image ? m.image.url : "";
       var line = el("div", "line");
       line.innerHTML =
         (img ? '<img src="' + esc(img) + '" alt="">' : '<div class="line-noimg">🕊️</div>') +
         '<div class="line-info">' +
-        '<div class="line-name">' + esc(m.product.title) + "</div>" +
+        '<div class="line-name">' + esc(pick(m.product.title)) + "</div>" +
         (opt ? '<div class="line-opt">' + esc(opt) + "</div>" : "") +
         '<div class="line-row"><span class="line-qty">' +
         '<button type="button" data-a="-1">−</button><span>' + ln.quantity + "</span>" +
