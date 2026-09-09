@@ -100,12 +100,12 @@ module.exports = async (req, res) => {
     if (!gr.ok) {
       const t = await gr.text();
       console.error("[Resoul] calendar insert failed HTTP " + gr.status + ": " + t);
-      res.status(200).json({ ok: false, detail: "calendar_error" });
+      res.status(200).json({ ok: false, detail: "calendar_error", debug: (gr.status + " " + t).slice(0, 300) });
       return;
     }
     res.status(200).json({ ok: true });
   } catch (err) {
     console.error("[Resoul] booking-calendar error:", err && err.message);
-    res.status(200).json({ ok: false, detail: "exception" });
+    res.status(200).json({ ok: false, detail: "exception", debug: String(err && err.message).slice(0, 300) });
   }
 };
