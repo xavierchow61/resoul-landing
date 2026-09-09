@@ -47,6 +47,15 @@ function ymd(d) {
   return d.toISOString().slice(0, 10);
 }
 
+// 穩健處理 private key：去除前後引號、還原 \n / \r，令 OpenSSL 讀得到 PEM
+function normalizeKey(k) {
+  k = (k || "").trim();
+  if ((k.startsWith('"') && k.endsWith('"')) || (k.startsWith("'") && k.endsWith("'"))) {
+    k = k.slice(1, -1);
+  }
+  return k.replace(/\\r/g, "").replace(/\\n/g, "\n").trim();
+}
+
 module.exports = async (req, res) => {
   if (req.method === "OPTIONS") { res.status(204).end(); return; }
   if (req.method !== "POST") { res.status(405).json({ error: "method_not_allowed" }); return; }
@@ -82,7 +91,7 @@ module.exports = async (req, res) => {
   endDate.setUTCDate(endDate.getUTCDate() + 1);
 
   try {
-    const token = await getAccessToken(email, rawKey.replace(/\\n/g, "\n"));
+    const token = await getAccessToken(email, normalizeKey(rawKey));
     const url =
       "https://www.googleapis.com/calendar/v3/calendars/" +
       encodeURIComponent(calId) +
