@@ -724,6 +724,8 @@ section{padding:64px 0;}
 .book-msg.err{background:rgba(178,90,70,.10);border:1px solid rgba(178,90,70,.4);color:var(--ink);}
 .book-msg b{color:var(--gold-deep);}
 .book-msg a{color:var(--gold-deep);border-bottom:1px solid var(--gold);}
+.book-msg a.gcal-add{display:inline-block;margin-top:10px;padding:8px 16px;border:1px solid var(--gold);border-radius:999px;background:rgba(122,150,110,.10);color:var(--gold-deep);text-decoration:none;font-weight:600;}
+.book-msg a.gcal-add:hover{background:rgba(122,150,110,.20);}
 .book-submit[disabled]{opacity:.6;cursor:progress;}
 
 /* 情緒支持頁：關於哀傷 / 照顧自己 */

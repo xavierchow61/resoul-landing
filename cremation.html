@@ -231,8 +231,17 @@
           </select>
         </div>
         <div class="bf-field">
-          <label for="bkTime">方便聯絡的時間</label>
-          <input id="bkTime" name="time" placeholder="例如 今晚 / 明早（可留空）">
+          <label for="bkDate">希望日期</label>
+          <input id="bkDate" name="date" type="date">
+        </div>
+        <div class="bf-field">
+          <label for="bkTime">希望時段</label>
+          <select id="bkTime" name="time">
+            <option value="">未定 / 待聯絡</option>
+            <option value="上午（09:00–12:00）">上午（09:00–12:00）</option>
+            <option value="下午（12:00–17:00）">下午（12:00–17:00）</option>
+            <option value="傍晚至晚上（17:00–21:00）">傍晚至晚上（17:00–21:00）</option>
+          </select>
         </div>
         <div class="bf-field">
           <label for="bkNote">想我們知道的事</label>

@@ -525,11 +525,36 @@ function RL(zh, en){ return RESOUL_EN ? en : zh; }
         body: JSON.stringify({
           name: val('bkName'), phone: val('bkPhone'), plan: val('bkPlan'),
           pet: val('bkPet'), weight: val('bkWeight'), place: val('bkPlace'),
-          situation: val('bkSituation'), time: val('bkTime'), note: val('bkNote'),
+          situation: val('bkSituation'), date: val('bkDate'), time: val('bkTime'), note: val('bkNote'),
           source: 'cremation-booking'
         })
       }).catch(function(err){ console.error('[Resoul] 火化預約寫入 Google Sheet 失敗：', err); });
     }catch(err){ console.error('[Resoul] 火化預約寫入 Google Sheet 失敗：', err); }
+  }
+  // 商戶 Google Calendar（Vercel function，best-effort，唔阻塞預約）
+  function bizCalWrite(){
+    try{
+      fetch('/api/booking-calendar', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'cremation', name: val('bkName'), phone: val('bkPhone'),
+          plan: val('bkPlan'), pet: val('bkPet'), place: val('bkPlace'),
+          date: val('bkDate'), time: val('bkTime'), note: val('bkNote')
+        })
+      }).catch(function(){});
+    }catch(e){}
+  }
+  // 客戶「加入 Google 日曆」預填連結（全日事件 end 為翌日）
+  function gcalLink(title, details, ymd){
+    var u = 'https://calendar.google.com/calendar/render?action=TEMPLATE'
+          + '&text=' + encodeURIComponent(title)
+          + '&details=' + encodeURIComponent(details);
+    if(ymd && /^\d{4}-\d{2}-\d{2}$/.test(ymd)){
+      var s = ymd.replace(/-/g, '');
+      var d = new Date(ymd + 'T00:00:00Z'); d.setUTCDate(d.getUTCDate() + 1);
+      u += '&dates=' + s + '/' + d.toISOString().slice(0,10).replace(/-/g,'');
+    }
+    return u;
   }
   form.addEventListener('submit', function(e){
     e.preventDefault();
@@ -541,8 +566,12 @@ function RL(zh, en){ return RESOUL_EN ? en : zh; }
     if(btn){ btn.disabled = true; btn.innerHTML = RL('提交中…', 'Submitting…'); }
     if(msg){ msg.hidden = true; }
 
-    // Google Sheet 同步（best-effort）
+    // 預先擷取值（form.reset 後仍可用於客戶日曆連結）
+    var gcName = val('bkName'), gcPlan = val('bkPlan'), gcTime = val('bkTime'), gcDate = val('bkDate');
+
+    // Google Sheet + 商戶日曆同步（best-effort）
     sheetWrite();
+    bizCalWrite();
 
     // Supabase 為正式預約記錄，以此判斷成功／失敗
     fetch('https://tkgxdzvsnmereaygddaz.supabase.co/rest/v1/cremation_bookings', {
@@ -558,14 +587,17 @@ function RL(zh, en){ return RESOUL_EN ? en : zh; }
         contact: val('bkPhone'),
         plan: val('bkPlan'),
         pet_type: val('bkPet'),
+        service_date: val('bkDate') || null,
         pickup_address: val('bkPlace') || null,
-        notes: '體重：' + (val('bkWeight')||'—') + '｜情況：' + val('bkSituation') + '｜方便時間：' + (val('bkTime')||'—') + '｜備註：' + (val('bkNote')||'—'),
+        notes: '希望日期：' + (val('bkDate')||'—') + '｜希望時段：' + (val('bkTime')||'—') + '｜體重：' + (val('bkWeight')||'—') + '｜情況：' + val('bkSituation') + '｜備註：' + (val('bkNote')||'—'),
         source: 'web:cremation'
       })
     }).then(function(res){
       if(res.ok){
         form.reset();
-        showMsg('ok', RL('✅ <b>預約已收到</b>，我們會盡快與你聯絡確認接送與火化安排。<br>如屬緊急個案，歡迎即致電／<a href="https://wa.me/' + WA_NUMBER + '" target="_blank" rel="noopener">WhatsApp 我們（24 小時）</a>。', '✅ <b>Booking received.</b> We\'ll contact you shortly to confirm pickup and cremation arrangements.<br>For urgent cases, feel free to call / <a href="https://wa.me/' + WA_NUMBER + '" target="_blank" rel="noopener">WhatsApp us (24 h)</a>.'));
+        var gl = gcalLink(RL('Resoul 火化預約', 'Resoul cremation booking') + (gcName ? ' — ' + gcName : ''), RL('方案：', 'Plan: ') + (gcPlan || '—') + ' / ' + RL('時段：', 'Time: ') + (gcTime || '—'), gcDate);
+        var gcalBtn = '<br><a class="gcal-add" href="' + gl + '" target="_blank" rel="noopener">📅 ' + RL('加入 Google 日曆', 'Add to Google Calendar') + '</a>';
+        showMsg('ok', RL('✅ <b>預約已收到</b>，我們會盡快與你聯絡確認接送與火化安排。<br>如屬緊急個案，歡迎即致電／<a href="https://wa.me/' + WA_NUMBER + '" target="_blank" rel="noopener">WhatsApp 我們（24 小時）</a>。', '✅ <b>Booking received.</b> We\'ll contact you shortly to confirm pickup and cremation arrangements.<br>For urgent cases, feel free to call / <a href="https://wa.me/' + WA_NUMBER + '" target="_blank" rel="noopener">WhatsApp us (24 h)</a>.') + gcalBtn);
       }else{
         res.text().then(function(t){ console.error('[Resoul] 火化預約寫入後台失敗 HTTP ' + res.status + '：' + t); });
         showMsg('err', RL('很抱歉，提交時發生問題，請稍後再試，或直接 <a href="https://wa.me/' + WA_NUMBER + '" target="_blank" rel="noopener">WhatsApp 我們</a>。', 'Sorry, something went wrong. Please try again, or <a href="https://wa.me/' + WA_NUMBER + '" target="_blank" rel="noopener">WhatsApp us</a>.'));

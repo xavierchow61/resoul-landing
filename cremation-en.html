@@ -231,8 +231,17 @@
           </select>
         </div>
         <div class="bf-field">
-          <label for="bkTime">Best time to reach you</label>
-          <input id="bkTime" name="time" placeholder="e.g. tonight / tomorrow morning (optional)">
+          <label for="bkDate">Preferred date</label>
+          <input id="bkDate" name="date" type="date">
+        </div>
+        <div class="bf-field">
+          <label for="bkTime">Preferred time</label>
+          <select id="bkTime" name="time">
+            <option value="">To be confirmed</option>
+            <option value="上午（09:00–12:00）">Morning (09:00–12:00)</option>
+            <option value="下午（12:00–17:00）">Afternoon (12:00–17:00)</option>
+            <option value="傍晚至晚上（17:00–21:00）">Evening (17:00–21:00)</option>
+          </select>
         </div>
         <div class="bf-field">
           <label for="bkNote">Anything you'd like us to know</label>

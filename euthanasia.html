@@ -156,7 +156,12 @@
         </div>
         <div class="bf-field">
           <label for="euTime">希望時段</label>
-          <input id="euTime" name="time" placeholder="例如 明日下午 / 傍晚（可留空）">
+          <select id="euTime" name="time">
+            <option value="">未定 / 待聯絡</option>
+            <option value="上午（09:00–12:00）">上午（09:00–12:00）</option>
+            <option value="下午（12:00–17:00）">下午（12:00–17:00）</option>
+            <option value="傍晚至晚上（17:00–21:00）">傍晚至晚上（17:00–21:00）</option>
+          </select>
         </div>
         <div class="bf-field">
           <label for="euAddr">地址（如上門）</label>
@@ -255,6 +260,30 @@
       }).catch(function (err) { console.error('[Resoul] 安樂死預約寫入 Google Sheet 失敗：', err); });
     } catch (err) { console.error('[Resoul] 安樂死預約寫入 Google Sheet 失敗：', err); }
   }
+  // 商戶 Google Calendar（Vercel function，best-effort）
+  function bizCalWrite() {
+    try {
+      fetch('/api/booking-calendar', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'euthanasia', name: v('euName'), phone: v('euPhone'),
+          pet: v('euPet'), place: v('euPlace'), date: v('euDate'),
+          time: v('euTime'), cond: v('euCond')
+        })
+      }).catch(function () {});
+    } catch (e) {}
+  }
+  // 客戶「加入 Google 日曆」預填連結
+  function gcalLink(title, details, ymd) {
+    var u = 'https://calendar.google.com/calendar/render?action=TEMPLATE'
+      + '&text=' + encodeURIComponent(title) + '&details=' + encodeURIComponent(details);
+    if (ymd && /^\d{4}-\d{2}-\d{2}$/.test(ymd)) {
+      var s = ymd.replace(/-/g, '');
+      var d = new Date(ymd + 'T00:00:00Z'); d.setUTCDate(d.getUTCDate() + 1);
+      u += '&dates=' + s + '/' + d.toISOString().slice(0, 10).replace(/-/g, '');
+    }
+    return u;
+  }
   f.addEventListener('submit', function (e) {
     e.preventDefault();
     if (!v('euName') || !v('euPhone')) { showMsg('err', '請填寫主人稱呼與聯絡電話。'); return; }
@@ -262,8 +291,12 @@
     if (btn) { btn.disabled = true; btn.innerHTML = '提交中…'; }
     if (msg) { msg.hidden = true; }
 
-    // Google Sheet 同步（best-effort）
+    // 預先擷取值（reset 後用於客戶日曆連結）
+    var gcName = v('euName'), gcDate = v('euDate'), gcTime = v('euTime');
+
+    // Google Sheet + 商戶日曆同步（best-effort）
     sheetWrite();
+    bizCalWrite();
 
     // Supabase 為正式預約記錄，以此判斷成功／失敗
     fetch('https://tkgxdzvsnmereaygddaz.supabase.co/rest/v1/cremation_bookings', {
@@ -278,14 +311,17 @@
         owner_name: v('euName'),
         contact: v('euPhone'),
         pet_type: v('euPet'),
+        service_date: v('euDate') || null,
         pickup_address: v('euAddr') || null,
-        notes: '安樂死｜地點：' + v('euPlace') + '｜希望日期：' + (v('euDate') || '—') + '｜時段：' + (v('euTime') || '—') + '｜狀況：' + (v('euCond') || '—'),
+        notes: '安樂死｜地點：' + v('euPlace') + '｜希望日期：' + (v('euDate') || '—') + '｜希望時段：' + (v('euTime') || '—') + '｜狀況：' + (v('euCond') || '—'),
         source: 'web:euthanasia'
       })
     }).then(function (res) {
       if (res.ok) {
         f.reset();
-        showMsg('ok', '✅ <b>預約已收到</b>，我們會盡快與你聯絡，溫柔安排每一步。<br>如需即時支援，歡迎致電／<a href="https://wa.me/' + WA_NUMBER + '" target="_blank" rel="noopener">WhatsApp 我們（24 小時）</a>。');
+        var gl = gcalLink('Resoul 安樂死預約' + (gcName ? ' — ' + gcName : ''), '希望時段：' + (gcTime || '—'), gcDate);
+        var gcalBtn = '<br><a class="gcal-add" href="' + gl + '" target="_blank" rel="noopener">📅 加入 Google 日曆</a>';
+        showMsg('ok', '✅ <b>預約已收到</b>，我們會盡快與你聯絡，溫柔安排每一步。<br>如需即時支援，歡迎致電／<a href="https://wa.me/' + WA_NUMBER + '" target="_blank" rel="noopener">WhatsApp 我們（24 小時）</a>。' + gcalBtn);
       } else {
         res.text().then(function (t) { console.error('[Resoul] 安樂死預約寫入後台失敗 HTTP ' + res.status + '：' + t); });
         showMsg('err', '很抱歉，提交時發生問題，請稍後再試，或直接 <a href="https://wa.me/' + WA_NUMBER + '" target="_blank" rel="noopener">WhatsApp 我們</a>。');

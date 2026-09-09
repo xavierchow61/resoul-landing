@@ -156,7 +156,12 @@
         </div>
         <div class="bf-field">
           <label for="euTime">Preferred time</label>
-          <input id="euTime" name="time" placeholder="e.g. tomorrow afternoon / evening (optional)">
+          <select id="euTime" name="time">
+            <option value="">To be confirmed</option>
+            <option value="上午（09:00–12:00）">Morning (09:00–12:00)</option>
+            <option value="下午（12:00–17:00）">Afternoon (12:00–17:00)</option>
+            <option value="傍晚至晚上（17:00–21:00）">Evening (17:00–21:00)</option>
+          </select>
         </div>
         <div class="bf-field">
           <label for="euAddr">Address (for home visit)</label>
@@ -253,6 +258,30 @@
       }).catch(function (err) { console.error('[Resoul] euthanasia Google Sheet write failed:', err); });
     } catch (err) { console.error('[Resoul] euthanasia Google Sheet write failed:', err); }
   }
+  // Business Google Calendar (Vercel function, best-effort)
+  function bizCalWrite() {
+    try {
+      fetch('/api/booking-calendar', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'euthanasia', name: v('euName'), phone: v('euPhone'),
+          pet: v('euPet'), place: v('euPlace'), date: v('euDate'),
+          time: v('euTime'), cond: v('euCond')
+        })
+      }).catch(function () {});
+    } catch (e) {}
+  }
+  // Customer "Add to Google Calendar" prefilled link
+  function gcalLink(title, details, ymd) {
+    var u = 'https://calendar.google.com/calendar/render?action=TEMPLATE'
+      + '&text=' + encodeURIComponent(title) + '&details=' + encodeURIComponent(details);
+    if (ymd && /^\d{4}-\d{2}-\d{2}$/.test(ymd)) {
+      var s = ymd.replace(/-/g, '');
+      var d = new Date(ymd + 'T00:00:00Z'); d.setUTCDate(d.getUTCDate() + 1);
+      u += '&dates=' + s + '/' + d.toISOString().slice(0, 10).replace(/-/g, '');
+    }
+    return u;
+  }
   f.addEventListener('submit', function (e) {
     e.preventDefault();
     if (!v('euName') || !v('euPhone')) { showMsg('err', 'Please fill in your name and contact number.'); return; }
@@ -260,7 +289,9 @@
     if (btn) { btn.disabled = true; btn.innerHTML = 'Submitting…'; }
     if (msg) { msg.hidden = true; }
 
+    var gcName = v('euName'), gcDate = v('euDate'), gcTime = v('euTime');
     sheetWrite();
+    bizCalWrite();
 
     fetch('https://tkgxdzvsnmereaygddaz.supabase.co/rest/v1/cremation_bookings', {
       method: 'POST',
@@ -274,6 +305,7 @@
         owner_name: v('euName'),
         contact: v('euPhone'),
         pet_type: v('euPet'),
+        service_date: v('euDate') || null,
         pickup_address: v('euAddr') || null,
         notes: 'Euthanasia｜location: ' + v('euPlace') + '｜date: ' + (v('euDate') || '—') + '｜time: ' + (v('euTime') || '—') + '｜condition: ' + (v('euCond') || '—'),
         source: 'web:euthanasia'
@@ -281,7 +313,9 @@
     }).then(function (res) {
       if (res.ok) {
         f.reset();
-        showMsg('ok', '✅ <b>Booking received.</b> We\'ll be in touch soon and gently arrange each step.<br>For immediate support, feel free to call / <a href="https://wa.me/' + WA_NUMBER + '" target="_blank" rel="noopener">WhatsApp us (24 hours)</a>.');
+        var gl = gcalLink('Resoul euthanasia booking' + (gcName ? ' — ' + gcName : ''), 'Preferred time: ' + (gcTime || '—'), gcDate);
+        var gcalBtn = '<br><a class="gcal-add" href="' + gl + '" target="_blank" rel="noopener">📅 Add to Google Calendar</a>';
+        showMsg('ok', '✅ <b>Booking received.</b> We\'ll be in touch soon and gently arrange each step.<br>For immediate support, feel free to call / <a href="https://wa.me/' + WA_NUMBER + '" target="_blank" rel="noopener">WhatsApp us (24 hours)</a>.' + gcalBtn);
       } else {
         res.text().then(function (t) { console.error('[Resoul] euthanasia backend write failed HTTP ' + res.status + ': ' + t); });
         showMsg('err', 'Sorry, something went wrong. Please try again, or <a href="https://wa.me/' + WA_NUMBER + '" target="_blank" rel="noopener">WhatsApp us</a>.');
