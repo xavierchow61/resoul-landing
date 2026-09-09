@@ -60,7 +60,6 @@ module.exports = async (req, res) => {
   if (req.method === "OPTIONS") { res.status(204).end(); return; }
   if (req.method !== "POST") { res.status(405).json({ error: "method_not_allowed" }); return; }
 
-  const VER = "v4-sajson";
   let email = process.env.GCAL_CLIENT_EMAIL;
   let rawKey = process.env.GCAL_PRIVATE_KEY;
   let calId = process.env.GCAL_CALENDAR_ID;
@@ -74,12 +73,12 @@ module.exports = async (req, res) => {
       rawKey = sa.private_key || rawKey;
       calId = calId || sa.calendar_id;
     } catch (e) {
-      res.status(200).json({ ok: false, detail: "bad_sa_json", ver: VER, debug: String(e && e.message).slice(0, 200) });
+      res.status(200).json({ ok: false, detail: "bad_sa_json" });
       return;
     }
   }
   // 未配置 → best-effort 略過，唔阻塞預約
-  if (!email || !rawKey || !calId) { res.status(200).json({ skipped: true, ver: VER }); return; }
+  if (!email || !rawKey || !calId) { res.status(200).json({ skipped: true }); return; }
 
   let b = req.body;
   if (typeof b === "string") { try { b = JSON.parse(b); } catch (e) { b = {}; } }
@@ -124,12 +123,12 @@ module.exports = async (req, res) => {
     if (!gr.ok) {
       const t = await gr.text();
       console.error("[Resoul] calendar insert failed HTTP " + gr.status + ": " + t);
-      res.status(200).json({ ok: false, detail: "calendar_error", ver: VER, debug: (gr.status + " " + t).slice(0, 300) });
+      res.status(200).json({ ok: false, detail: "calendar_error" });
       return;
     }
-    res.status(200).json({ ok: true, ver: VER });
+    res.status(200).json({ ok: true });
   } catch (err) {
     console.error("[Resoul] booking-calendar error:", err && err.message);
-    res.status(200).json({ ok: false, detail: "exception", ver: VER, debug: String(err && err.message).slice(0, 300) });
+    res.status(200).json({ ok: false, detail: "exception" });
   }
 };
