@@ -1,28 +1,42 @@
 /**
  * Resoul 預約 → 商戶 Google Calendar（Vercel Serverless Function）
  *
- * 用 OAuth refresh token（非 service account key，避開組織政策
- * iam.disableServiceAccountKeyCreation 限制）。
- *
+ * 前端 POST /api/booking-calendar，這裡用 Google service account 建立日曆事件。
  * 需要 Vercel Environment Variables：
- *   GCAL_CLIENT_ID      — OAuth 用戶端 ID
- *   GCAL_CLIENT_SECRET  — OAuth 用戶端密鑰
- *   GCAL_REFRESH_TOKEN  — 一次性授權取得的 refresh token
- *   GCAL_CALENDAR_ID    — 目標日曆 ID（可用 "primary" 表示授權帳戶的主日曆）
+ *   GCAL_CLIENT_EMAIL  — service account 的 client_email
+ *   GCAL_PRIVATE_KEY   — service account 的 private_key（\n 可用字面 \\n）
+ *   GCAL_CALENDAR_ID   — 目標日曆 ID（將該日曆分享俾上面 email，權限「變更活動」）
  * 未設定時直接回 { skipped:true }，屬 best-effort，不會阻塞預約流程。
  */
 
-async function getAccessToken() {
-  const params = new URLSearchParams({
-    client_id: process.env.GCAL_CLIENT_ID,
-    client_secret: process.env.GCAL_CLIENT_SECRET,
-    refresh_token: process.env.GCAL_REFRESH_TOKEN,
-    grant_type: "refresh_token",
-  });
+const crypto = require("crypto");
+
+function b64url(input) {
+  return Buffer.from(input).toString("base64url");
+}
+
+async function getAccessToken(clientEmail, privateKey) {
+  const now = Math.floor(Date.now() / 1000);
+  const header = { alg: "RS256", typ: "JWT" };
+  const claim = {
+    iss: clientEmail,
+    scope: "https://www.googleapis.com/auth/calendar.events",
+    aud: "https://oauth2.googleapis.com/token",
+    iat: now,
+    exp: now + 3600,
+  };
+  const unsigned = b64url(JSON.stringify(header)) + "." + b64url(JSON.stringify(claim));
+  const signature = crypto
+    .sign("RSA-SHA256", Buffer.from(unsigned), privateKey)
+    .toString("base64url");
+  const jwt = unsigned + "." + signature;
+
   const r = await fetch("https://oauth2.googleapis.com/token", {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: params.toString(),
+    body:
+      "grant_type=urn:ietf:params:oauth:grant-type:jwt-bearer&assertion=" +
+      encodeURIComponent(jwt),
   });
   const data = await r.json();
   if (!data.access_token) throw new Error("token_failed: " + JSON.stringify(data));
@@ -37,12 +51,11 @@ module.exports = async (req, res) => {
   if (req.method === "OPTIONS") { res.status(204).end(); return; }
   if (req.method !== "POST") { res.status(405).json({ error: "method_not_allowed" }); return; }
 
-  const clientId = process.env.GCAL_CLIENT_ID;
-  const clientSecret = process.env.GCAL_CLIENT_SECRET;
-  const refreshToken = process.env.GCAL_REFRESH_TOKEN;
-  const calId = process.env.GCAL_CALENDAR_ID || "primary";
+  const email = process.env.GCAL_CLIENT_EMAIL;
+  const rawKey = process.env.GCAL_PRIVATE_KEY;
+  const calId = process.env.GCAL_CALENDAR_ID;
   // 未配置 → best-effort 略過，唔阻塞預約
-  if (!clientId || !clientSecret || !refreshToken) { res.status(200).json({ skipped: true }); return; }
+  if (!email || !rawKey || !calId) { res.status(200).json({ skipped: true }); return; }
 
   let b = req.body;
   if (typeof b === "string") { try { b = JSON.parse(b); } catch (e) { b = {}; } }
@@ -69,7 +82,7 @@ module.exports = async (req, res) => {
   endDate.setUTCDate(endDate.getUTCDate() + 1);
 
   try {
-    const token = await getAccessToken();
+    const token = await getAccessToken(email, rawKey.replace(/\\n/g, "\n"));
     const url =
       "https://www.googleapis.com/calendar/v3/calendars/" +
       encodeURIComponent(calId) +
