@@ -610,6 +610,10 @@ section{padding:64px 0;}
 .services-grid{margin-top:28px;display:grid;grid-template-columns:1fr;gap:15px;text-align:left;}
 @media(min-width:560px){.services-grid{grid-template-columns:1fr 1fr;}}
 @media(min-width:880px){.services-grid{grid-template-columns:1fr 1fr 1fr;}}
+/* 加闊區塊（首頁情緒入口、流程等） */
+.wide .wrap{max-width:1040px;}
+@media(min-width:560px){.services-grid.grid4{grid-template-columns:1fr 1fr;}}
+@media(min-width:1000px){.services-grid.grid4{grid-template-columns:repeat(4,1fr);}}
 .scard{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px 20px;box-shadow:0 8px 26px -22px rgba(70,52,34,.5);}
 .sc-ic{display:inline-flex;width:44px;height:44px;border-radius:50%;background:#f1e7d7;align-items:center;justify-content:center;font-size:1.2rem;margin-bottom:12px;}
 :root[data-theme="dark"] .sc-ic{background:#33291f;}
@@ -749,3 +753,40 @@ section{padding:64px 0;}
 .plans-table tfoot .price-row td{font-family:var(--serif);font-weight:600;color:var(--ink);border-top:2px solid var(--gold);border-bottom:none;padding-top:14px;font-size:.92rem;}
 .plans-table tfoot .price-row td:first-child{color:var(--ink-soft);font-size:.8rem;font-family:var(--sans);}
 .plans-note{margin-top:16px;color:var(--ink-faint);font-size:.8rem;line-height:1.7;}
+
+/* ============================================================
+   暫時停用（保留程式碼，日後可刪此區塊還原）
+   - 捲動淡入動畫 → 內容一律直接顯示
+   - 深色模式切換 + 安靜模式按鈕
+   - AI 對話（浮動情緒傾聽掣 + 對話視窗 + 導覽連結）
+   ============================================================ */
+.reveal{opacity:1 !important;transform:none !important;transition:none !important;}
+#quietBtn,#themeBtn{display:none !important;}
+.fab,.widget{display:none !important;}
+.nav-menu a[data-open-chat],.nav-single[data-open-chat]{display:none !important;}
+
+/* ============================================================
+   信紙 / AI 寫信（情緒支援頁）
+   ============================================================ */
+.letter-form{max-width:520px;margin:26px auto 0;}
+.letter-sheet{background:#fbf7ef;border:1px solid var(--line);border-radius:8px;box-shadow:var(--shadow);
+  max-width:640px;margin:30px auto 0;padding:46px 44px 0;position:relative;overflow:hidden;}
+.letter-sheet .ls-head{text-align:center;margin-bottom:18px;}
+.letter-sheet .ls-brand{font-family:var(--serif);letter-spacing:.42em;font-size:1.3rem;color:var(--ink);padding-left:.42em;}
+.letter-sheet .ls-tag{font-family:var(--slogan);font-style:italic;letter-spacing:.12em;color:var(--ink-soft);font-size:.98rem;margin-top:6px;}
+.letter-sheet .ls-body{font-family:var(--serif);color:var(--ink);line-height:2.15;font-size:1rem;
+  white-space:pre-wrap;margin:26px 4px 14px;letter-spacing:.02em;min-height:120px;}
+.letter-sheet .ls-illust{display:block;width:66%;max-width:320px;margin:6px auto 0;}
+.letter-sheet.empty .ls-body{color:var(--ink-faint);font-style:italic;text-align:center;}
+.letter-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:20px;}
+.letter-hint{margin-top:14px;text-align:center;color:var(--ink-faint);font-size:.78rem;line-height:1.7;}
+
+/* 列印：只印信紙 */
+@media print{
+  body{background:#fbf7ef !important;}
+  body *{visibility:hidden !important;}
+  .letter-sheet,.letter-sheet *{visibility:visible !important;}
+  .letter-sheet{position:absolute;left:0;top:0;width:100%;max-width:none;margin:0;
+    border:none;box-shadow:none;border-radius:0;background:#fbf7ef;padding:64px 68px;}
+  .uctrl,.site-header,.fab,.widget,.to-top,.letter-actions,.letter-hint{display:none !important;}
+}
