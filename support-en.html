@@ -106,11 +106,28 @@
       </div>
       <div class="care-cta reveal">
         <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;">
-          <a class="cta" href="#letter">Write them a letter <span class="arw">→</span></a>
+          <button class="cta" type="button" data-open-letter>Write them a letter <span class="arw">→</span></button>
           <a class="cta light" href="https://wa.me/85264762951" target="_blank" rel="noopener">Talk to us first</a>
         </div>
         <p class="cta-note">Want someone to talk to, or immediate support? Tap the ♡ at the lower left to see where you can reach out.</p>
       </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <section class="farewell" id="farewell">
+    <div class="wrap">
+      <p class="eyebrow reveal">A gentle farewell guide</p>
+      <h2 class="reveal">The Four Farewells</h2>
+      <p class="lead reveal" style="margin-top:14px;">RESOUL has prepared a gentle farewell guide, so we can be beside you as you send your beloved on their final journey.</p>
+      <div class="farewell-steps reveal">
+        <div class="fw"><span class="fw-n" aria-hidden="true">1</span><div><h3>To thank</h3><p>Thank them for every day together, and every bit of warmth they brought.</p></div></div>
+        <div class="fw"><span class="fw-n" aria-hidden="true">2</span><div><h3>To love</h3><p>Say the love in your heart to them, clearly and fully.</p></div></div>
+        <div class="fw"><span class="fw-n" aria-hidden="true">3</span><div><h3>To apologise</h3><p>Let go of regret, and forgive the self who already did their best.</p></div></div>
+        <div class="fw"><span class="fw-n" aria-hidden="true">4</span><div><h3>To say goodbye</h3><p>Gently say farewell, letting love continue in another form.</p></div></div>
+      </div>
+      <p class="farewell-note reveal">Take your time to gently sort through your emotions, and complete this final journey in your own way. You don't have to carry everything on your own.<br>Slowly, one sentence at a time, write it down or say it out loud. Let love find its outlet, and let your heart soften.<br>They were loved deeply by you; because of you, they lived a life full of happiness.<br><b>You're not alone. We're here with you.</b></p>
     </div>
   </section>
 
@@ -186,34 +203,13 @@
   <hr class="divider">
 
   <section class="cremation" id="letter">
-    <div class="wrap">
+    <div class="wrap" style="text-align:center;">
       <p class="eyebrow reveal">Write them a letter</p>
       <h2 class="reveal">Not sure how to begin?<br>Start from a memory.</h2>
-      <p class="lead reveal" style="margin-top:14px;">Tell us your pet's name, character, a treasured memory and what you most want to say. Our writing helper will shape it into a letter of your own — it's only a draft you can freely edit, and print out when it's ready.</p>
-      <form class="book-form letter-form reveal" id="letterForm">
-        <div class="bf-field"><label for="lfName">Pet's name</label><input id="lfName" placeholder="Nicknames welcome"></div>
-        <div class="bf-field"><label for="lfYears">How long you lived together</label><input id="lfYears" placeholder="A rough span is fine"></div>
-        <div class="bf-field"><label for="lfTrait">Their most special trait or habit</label><input id="lfTrait" placeholder="e.g. waited for you every day"></div>
-        <div class="bf-field"><label for="lfMemory">A memory you most want to keep</label><textarea id="lfMemory" rows="2" placeholder="One small story is enough"></textarea></div>
-        <div class="bf-field"><label for="lfThanks">Something to thank them for</label><input id="lfThanks" placeholder="Company, change or joy they brought"></div>
-        <div class="bf-field"><label for="lfSorry">Something to say sorry for (optional)</label><input id="lfSorry" placeholder="You may leave this blank"></div>
-        <div class="bf-field"><label for="lfTone">Tone</label><select id="lfTone"><option value="gentle">Gentle</option><option value="calm">Calm</option><option value="everyday">Like everyday talk</option></select></div>
-        <div class="bf-field"><label for="lfLang">Language</label><select id="lfLang"><option value="en">English</option><option value="zh">繁體中文</option><option value="bi">Bilingual</option></select></div>
-        <button type="submit" class="cta book-submit" id="lfBtn">Help me start this letter <span class="arw">→</span></button>
-        <p class="book-note">It's only a draft — edit, delete or add your own words freely. Nothing is saved before you submit.</p>
-        <div class="book-msg" id="lfMsg" role="status" aria-live="polite" hidden></div>
-      </form>
-
-      <div class="letter-sheet empty reveal" id="letterSheet">
-        <div class="ls-head"><div class="ls-brand">RESOUL</div><div class="ls-tag">remember the story of our love</div></div>
-        <div class="ls-body" id="lsBody">Fill in the fields above and press "Help me start this letter" — a draft will appear here.</div>
-        <img class="ls-illust" src="images/letter-illust.png" alt="" onerror="this.style.display='none'">
+      <p class="lead reveal" style="margin-top:14px;">Tell us your pet's name, character, a treasured memory and what you most want to say. Our writing helper will shape it into a letter of your own — freely edit, and print it out when it's ready.</p>
+      <div class="reveal" style="margin-top:22px;">
+        <button class="cta" type="button" data-open-letter>Write them a letter <span class="arw">→</span></button>
       </div>
-      <div class="letter-actions" id="letterActions" hidden>
-        <button class="cta" type="button" onclick="window.print()">Print this letter 🖨️</button>
-        <button class="cta light" type="button" id="lfRegen">Regenerate</button>
-      </div>
-      <p class="letter-hint">*This is AI-assisted writing, not psychological therapy. If your feelings persist and affect daily life, please seek professional help.</p>
     </div>
   </section>
 
@@ -278,6 +274,40 @@
   </div>
 </div>
 
+<div class="letter-modal" id="letterModal" aria-hidden="true">
+  <div class="lm-backdrop" data-lclose></div>
+  <div class="lm-card" role="dialog" aria-modal="true" aria-label="Write them a letter">
+    <button class="lm-close" data-lclose type="button" aria-label="Close">×</button>
+    <div class="lm-scroll">
+      <p class="eyebrow" style="text-align:center;">Write them a letter</p>
+      <h3 style="text-align:center;font-size:1.24rem;margin-bottom:6px;">Not sure how to begin? Start from a memory.</h3>
+      <form class="book-form letter-form" id="letterForm">
+        <div class="bf-field"><label for="lfName">Pet's name</label><input id="lfName" placeholder="Nicknames welcome"></div>
+        <div class="bf-field"><label for="lfYears">How long you lived together</label><input id="lfYears" placeholder="A rough span is fine"></div>
+        <div class="bf-field"><label for="lfTrait">Their most special trait or habit</label><input id="lfTrait" placeholder="e.g. waited for you every day"></div>
+        <div class="bf-field"><label for="lfMemory">A memory you most want to keep</label><textarea id="lfMemory" rows="2" placeholder="One small story is enough"></textarea></div>
+        <div class="bf-field"><label for="lfThanks">Something to thank them for</label><input id="lfThanks" placeholder="Company, change or joy they brought"></div>
+        <div class="bf-field"><label for="lfSorry">Something to say sorry for (optional)</label><input id="lfSorry" placeholder="You may leave this blank"></div>
+        <div class="bf-field"><label for="lfTone">Tone</label><select id="lfTone"><option value="gentle">Gentle</option><option value="calm">Calm</option><option value="everyday">Like everyday talk</option></select></div>
+        <div class="bf-field"><label for="lfLang">Language</label><select id="lfLang"><option value="en">English</option><option value="zh">繁體中文</option><option value="bi">Bilingual</option></select></div>
+        <button type="submit" class="cta book-submit" id="lfBtn">Help me start this letter <span class="arw">→</span></button>
+        <p class="book-note">It's only a draft — edit, delete or add your own words freely. Nothing is saved before you submit.</p>
+        <div class="book-msg" id="lfMsg" role="status" aria-live="polite" hidden></div>
+      </form>
+      <div class="letter-sheet empty" id="letterSheet">
+        <div class="ls-head"><div class="ls-brand">RESOUL</div><div class="ls-tag">remember the story of our love</div></div>
+        <div class="ls-body" id="lsBody">Fill in the fields above and press "Help me start this letter" — a draft will appear here.</div>
+        <img class="ls-illust" src="images/letter-illust.png" alt="" onerror="this.style.display='none'">
+      </div>
+      <div class="letter-actions" id="letterActions" hidden>
+        <button class="cta" type="button" onclick="window.print()">Print this letter 🖨️</button>
+        <button class="cta light" type="button" id="lfRegen">Regenerate</button>
+      </div>
+      <p class="letter-hint">*This is AI-assisted writing, not psychological therapy. If your feelings persist and affect daily life, please seek professional help.</p>
+    </div>
+  </div>
+</div>
+
 <script>
 // AI letter: submit → /api/write-letter → show on the letter sheet → print
 (function(){
@@ -294,12 +324,19 @@
       body:JSON.stringify({petName:v('lfName'),years:v('lfYears'),trait:v('lfTrait'),memory:v('lfMemory'),thanks:v('lfThanks'),sorry:v('lfSorry'),tone:v('lfTone'),lang:v('lfLang')})
     }).then(function(r){return r.json().then(function(d){return {ok:r.ok,d:d};});})
     .then(function(x){
-      if(x.ok && x.d && x.d.letter){ sheet.classList.remove('empty'); body.textContent=x.d.letter; actions.hidden=false; try{sheet.scrollIntoView({behavior:'smooth',block:'center'});}catch(e){} }
+      if(x.ok && x.d && x.d.letter){ var L=String(x.d.letter).replace(/^\s*[（(]?\s*(約|approx\.?)?\s*\d+\s*(字|個字|characters?|words?)\s*[）)]?\s*/i,'').trim(); sheet.classList.remove('empty'); body.textContent=L; actions.hidden=false; try{sheet.scrollIntoView({behavior:'smooth',block:'center'});}catch(e){} }
       else { show('err','Sorry, we couldn’t generate it just now. Please try again, or write what you’d like to say.'); }
     }).catch(function(){ show('err','Network seems unstable. Please try again.'); })
     .then(function(){ btn.disabled=false; btn.innerHTML=old; });
   });
   var re=document.getElementById('lfRegen'); if(re) re.addEventListener('click',function(){ if(f.requestSubmit)f.requestSubmit(); else f.dispatchEvent(new Event('submit',{cancelable:true})); });
+
+  var modal=document.getElementById('letterModal');
+  function openM(){ modal.classList.add('open'); modal.setAttribute('aria-hidden','false'); document.body.classList.add('lm-lock'); }
+  function closeM(){ modal.classList.remove('open'); modal.setAttribute('aria-hidden','true'); document.body.classList.remove('lm-lock'); }
+  document.querySelectorAll('[data-open-letter]').forEach(function(b){ b.addEventListener('click',function(e){ e.preventDefault(); openM(); }); });
+  modal && modal.querySelectorAll('[data-lclose]').forEach(function(b){ b.addEventListener('click',closeM); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape' && modal.classList.contains('open')) closeM(); });
 })();
 </script>
 <script src="js/resoul.js" defer></script>

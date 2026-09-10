@@ -106,11 +106,28 @@
       </div>
       <div class="care-cta reveal">
         <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;">
-          <a class="cta" href="#letter">寫一封信給牠 <span class="arw">→</span></a>
+          <button class="cta" type="button" data-open-letter>寫一封信給牠 <span class="arw">→</span></button>
           <a class="cta light" href="https://wa.me/85264762951" target="_blank" rel="noopener">先與我們傾談</a>
         </div>
         <p class="cta-note">想找人傾訴或即時支援？按左下角的 ♡ ，看看可以聯絡的地方。</p>
       </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <section class="farewell" id="farewell">
+    <div class="wrap">
+      <p class="eyebrow reveal">愛寵道別指南</p>
+      <h2 class="reveal">四道人生</h2>
+      <p class="lead reveal" style="margin-top:14px;">RESOUL 為你準備了一份溫柔的告別指南，讓我們陪在你身邊，好好送愛寵，走最後一程。</p>
+      <div class="farewell-steps reveal">
+        <div class="fw"><span class="fw-n" aria-hidden="true">一</span><div><h3>道謝</h3><p>謝謝牠陪你走過的每一天，帶來的每一份溫暖。</p></div></div>
+        <div class="fw"><span class="fw-n" aria-hidden="true">二</span><div><h3>道愛</h3><p>把心裡的愛，好好、清楚地說給牠聽。</p></div></div>
+        <div class="fw"><span class="fw-n" aria-hidden="true">三</span><div><h3>道歉</h3><p>放下遺憾，也原諒當時已經盡力的自己。</p></div></div>
+        <div class="fw"><span class="fw-n" aria-hidden="true">四</span><div><h3>道別</h3><p>溫柔地，說一聲再見，讓愛以另一種方式延續。</p></div></div>
+      </div>
+      <p class="farewell-note reveal">慢慢整理心情，好好完成最後的告別。你不必一個人承受所有。<br>慢慢地，一句一句地寫下來、說出來，讓愛有出口，讓心有機會鬆開。<br>牠曾被你好好愛過；這輩子，因為有你，牠很幸福。<br><b>你並不孤單，讓我們與你同行。</b></p>
     </div>
   </section>
 
@@ -186,34 +203,13 @@
   <hr class="divider">
 
   <section class="cremation" id="letter">
-    <div class="wrap">
+    <div class="wrap" style="text-align:center;">
       <p class="eyebrow reveal">寫一封信給牠</p>
       <h2 class="reveal">不知道如何開始，<br>也可以先從一段回憶說起。</h2>
-      <p class="lead reveal" style="margin-top:14px;">告訴我們毛孩的名字、性格、一段最難忘的回憶，以及你最想對牠說的話。寫信助手會協助整理成一封屬於你們的信——內容只是初稿，你可以自由修改，寫好後更可列印出來。</p>
-      <form class="book-form letter-form reveal" id="letterForm">
-        <div class="bf-field"><label for="lfName">毛孩名字</label><input id="lfName" placeholder="可包括暱稱"></div>
-        <div class="bf-field"><label for="lfYears">一起生活了多久</label><input id="lfYears" placeholder="大概年期即可"></div>
-        <div class="bf-field"><label for="lfTrait">最特別的性格或習慣</label><input id="lfTrait" placeholder="例如每天等你回家"></div>
-        <div class="bf-field"><label for="lfMemory">最想保留的回憶</label><textarea id="lfMemory" rows="2" placeholder="一個小故事已足夠"></textarea></div>
-        <div class="bf-field"><label for="lfThanks">想感謝牠的</label><input id="lfThanks" placeholder="陪伴、改變或帶來的快樂"></div>
-        <div class="bf-field"><label for="lfSorry">想道歉或放不下的（可選）</label><input id="lfSorry" placeholder="可選擇不回答"></div>
-        <div class="bf-field"><label for="lfTone">語氣</label><select id="lfTone"><option value="溫柔">溫柔</option><option value="平靜">平靜</option><option value="像日常對話">像日常對話</option></select></div>
-        <div class="bf-field"><label for="lfLang">語言</label><select id="lfLang"><option value="zh">繁體中文</option><option value="en">English</option><option value="bi">中英雙語</option></select></div>
-        <button type="submit" class="cta book-submit" id="lfBtn">幫我開始寫這封信 <span class="arw">→</span></button>
-        <p class="book-note">內容只是初稿，你可以自由修改、刪除或加入自己的語句。提交前不會儲存內容。</p>
-        <div class="book-msg" id="lfMsg" role="status" aria-live="polite" hidden></div>
-      </form>
-
-      <div class="letter-sheet empty reveal" id="letterSheet">
-        <div class="ls-head"><div class="ls-brand">RESOUL</div><div class="ls-tag">remember the story of our love</div></div>
-        <div class="ls-body" id="lsBody">填好上面資料，按「幫我開始寫這封信」，這裡就會出現一封信的初稿。</div>
-        <img class="ls-illust" src="images/letter-illust.png" alt="" onerror="this.style.display='none'">
+      <p class="lead reveal" style="margin-top:14px;">告訴我們毛孩的名字、性格、一段最難忘的回憶，以及你最想對牠說的話。寫信助手會協助整理成一封屬於你們的信——寫好後更可列印出來。</p>
+      <div class="reveal" style="margin-top:22px;">
+        <button class="cta" type="button" data-open-letter>寫一封信給牠 <span class="arw">→</span></button>
       </div>
-      <div class="letter-actions" id="letterActions" hidden>
-        <button class="cta" type="button" onclick="window.print()">列印這封信 🖨️</button>
-        <button class="cta light" type="button" id="lfRegen">重新生成</button>
-      </div>
-      <p class="letter-hint">＊本功能為 AI 協助整理文字，並非心理治療。如情緒持續影響生活，請尋求專業協助。</p>
     </div>
   </section>
 
@@ -278,6 +274,40 @@
   </div>
 </div>
 
+<div class="letter-modal" id="letterModal" aria-hidden="true">
+  <div class="lm-backdrop" data-lclose></div>
+  <div class="lm-card" role="dialog" aria-modal="true" aria-label="寫一封信給牠">
+    <button class="lm-close" data-lclose type="button" aria-label="關閉">×</button>
+    <div class="lm-scroll">
+      <p class="eyebrow" style="text-align:center;">寫一封信給牠</p>
+      <h3 style="text-align:center;font-size:1.24rem;margin-bottom:6px;">不知道如何開始，也可以先從一段回憶說起。</h3>
+      <form class="book-form letter-form" id="letterForm">
+        <div class="bf-field"><label for="lfName">毛孩名字</label><input id="lfName" placeholder="可包括暱稱"></div>
+        <div class="bf-field"><label for="lfYears">一起生活了多久</label><input id="lfYears" placeholder="大概年期即可"></div>
+        <div class="bf-field"><label for="lfTrait">最特別的性格或習慣</label><input id="lfTrait" placeholder="例如每天等你回家"></div>
+        <div class="bf-field"><label for="lfMemory">最想保留的回憶</label><textarea id="lfMemory" rows="2" placeholder="一個小故事已足夠"></textarea></div>
+        <div class="bf-field"><label for="lfThanks">想感謝牠的</label><input id="lfThanks" placeholder="陪伴、改變或帶來的快樂"></div>
+        <div class="bf-field"><label for="lfSorry">想道歉或放不下的（可選）</label><input id="lfSorry" placeholder="可選擇不回答"></div>
+        <div class="bf-field"><label for="lfTone">語氣</label><select id="lfTone"><option value="溫柔">溫柔</option><option value="平靜">平靜</option><option value="像日常對話">像日常對話</option></select></div>
+        <div class="bf-field"><label for="lfLang">語言</label><select id="lfLang"><option value="zh">繁體中文</option><option value="en">English</option><option value="bi">中英雙語</option></select></div>
+        <button type="submit" class="cta book-submit" id="lfBtn">幫我開始寫這封信 <span class="arw">→</span></button>
+        <p class="book-note">內容只是初稿，你可以自由修改、刪除或加入自己的語句。提交前不會儲存內容。</p>
+        <div class="book-msg" id="lfMsg" role="status" aria-live="polite" hidden></div>
+      </form>
+      <div class="letter-sheet empty" id="letterSheet">
+        <div class="ls-head"><div class="ls-brand">RESOUL</div><div class="ls-tag">remember the story of our love</div></div>
+        <div class="ls-body" id="lsBody">填好上面資料，按「幫我開始寫這封信」，這裡就會出現一封信的初稿。</div>
+        <img class="ls-illust" src="images/letter-illust.png" alt="" onerror="this.style.display='none'">
+      </div>
+      <div class="letter-actions" id="letterActions" hidden>
+        <button class="cta" type="button" onclick="window.print()">列印這封信 🖨️</button>
+        <button class="cta light" type="button" id="lfRegen">重新生成</button>
+      </div>
+      <p class="letter-hint">＊本功能為 AI 協助整理文字，並非心理治療。如情緒持續影響生活，請尋求專業協助。</p>
+    </div>
+  </div>
+</div>
+
 <script>
 // AI 寫信：提交 → /api/write-letter → 顯示喺信紙 → 可列印
 (function(){
@@ -294,12 +324,20 @@
       body:JSON.stringify({petName:v('lfName'),years:v('lfYears'),trait:v('lfTrait'),memory:v('lfMemory'),thanks:v('lfThanks'),sorry:v('lfSorry'),tone:v('lfTone'),lang:v('lfLang')})
     }).then(function(r){return r.json().then(function(d){return {ok:r.ok,d:d};});})
     .then(function(x){
-      if(x.ok && x.d && x.d.letter){ sheet.classList.remove('empty'); body.textContent=x.d.letter; actions.hidden=false; try{sheet.scrollIntoView({behavior:'smooth',block:'center'});}catch(e){} }
+      if(x.ok && x.d && x.d.letter){ var L=String(x.d.letter).replace(/^\s*[（(]?\s*(約|approx\.?)?\s*\d+\s*(字|個字|characters?|words?)\s*[）)]?\s*/i,'').trim(); sheet.classList.remove('empty'); body.textContent=L; actions.hidden=false; try{sheet.scrollIntoView({behavior:'smooth',block:'center'});}catch(e){} }
       else { show('err','暫時未能生成，請稍後再試，或直接寫下你想對牠說的話。'); }
     }).catch(function(){ show('err','網絡不穩定，請稍後再試。'); })
     .then(function(){ btn.disabled=false; btn.innerHTML=old; });
   });
   var re=document.getElementById('lfRegen'); if(re) re.addEventListener('click',function(){ if(f.requestSubmit)f.requestSubmit(); else f.dispatchEvent(new Event('submit',{cancelable:true})); });
+
+  // 彈窗開／關
+  var modal=document.getElementById('letterModal');
+  function openM(){ modal.classList.add('open'); modal.setAttribute('aria-hidden','false'); document.body.classList.add('lm-lock'); }
+  function closeM(){ modal.classList.remove('open'); modal.setAttribute('aria-hidden','true'); document.body.classList.remove('lm-lock'); }
+  document.querySelectorAll('[data-open-letter]').forEach(function(b){ b.addEventListener('click',function(e){ e.preventDefault(); openM(); }); });
+  modal && modal.querySelectorAll('[data-lclose]').forEach(function(b){ b.addEventListener('click',closeM); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape' && modal.classList.contains('open')) closeM(); });
 })();
 </script>
 <script src="js/resoul.js" defer></script>

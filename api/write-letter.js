@@ -45,6 +45,7 @@ module.exports = async (req, res) => {
     "你是一位溫柔的寫作助手，協助一位剛失去寵物的主人，寫一封『給毛孩的告別信』。" +
     "請以主人第一人稱、向毛孩傾訴的口吻書寫，真誠、具體、不濫情，長度約 200–320 字。" +
     "只輸出信件內容本身（可用 1–3 個自然段），不要標題、不要解釋、不要加引號。" +
+    "絕對不要輸出任何字數、統計、括號註解或標籤（例如「120 characters」「約 200 字」「(120字)」）。" +
     "結尾可以有一句溫柔的道別，但不要用『敬上』這類公文式結尾。\n\n" +
     "語氣：" + tone + "。\n" + langLine + "\n\n" +
     "資料（可能不完整，缺的請自然略過，不要杜撰事實）：\n" +
@@ -76,7 +77,15 @@ module.exports = async (req, res) => {
   let data;
   try { data = await r.json(); } catch (e) { res.status(502).json({ error: "bad_response" }); return; }
   const letter = (((data.candidates || [])[0] || {}).content || {}).parts;
-  const text = Array.isArray(letter) ? letter.map((p) => p.text || "").join("").trim() : "";
+  let text = Array.isArray(letter) ? letter.map((p) => p.text || "").join("").trim() : "";
+  if (!text) { res.status(502).json({ error: "empty" }); return; }
+
+  // 保險：清走 AI 偶然加喺開頭嘅字數／統計標籤（例如「120 characters）」「約200字」「(120字)」）
+  text = text
+    .replace(/^﻿/, "")
+    .replace(/^\s*[（(]?\s*(約|approx\.?)?\s*\d+\s*(字|個字|characters?|words?)\s*[）)]?\s*[\r\n]*/i, "")
+    .replace(/^\s*[（(][^）)\n]{0,40}(字|characters?|words?)[^）)\n]{0,10}[）)]\s*[\r\n]*/i, "")
+    .trim();
   if (!text) { res.status(502).json({ error: "empty" }); return; }
 
   res.status(200).json({ letter: text });
