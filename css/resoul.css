@@ -754,6 +754,24 @@ section{padding:64px 0;}
 .plans-table tfoot .price-row td{font-family:var(--serif);font-weight:600;color:var(--ink);border-top:2px solid var(--gold);border-bottom:none;padding-top:14px;font-size:.92rem;}
 .plans-table tfoot .price-row td:first-child{color:var(--ink-soft);font-size:.8rem;font-family:var(--sans);}
 .plans-note{margin-top:16px;color:var(--ink-faint);font-size:.8rem;line-height:1.7;}
+.price-flyers{margin:22px auto 0;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;text-align:left;}
+.price-flyer{
+  flex:1 1 148px;max-width:210px;
+  display:flex;flex-direction:column;
+  background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;
+  box-shadow:0 8px 26px -22px rgba(70,52,34,.5);color:inherit;
+  transition:border-color .2s ease,transform .2s ease;
+}
+.price-flyer:hover,.price-flyer:focus{border-color:var(--gold);transform:translateY(-1px);}
+.price-flyer:focus-visible{outline:2px solid var(--gold);outline-offset:3px;}
+.price-flyer img{width:100%;height:210px;object-fit:cover;object-position:top center;background:#fff;}
+.price-flyer span{
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+  min-height:48px;padding:12px 14px;
+  font-size:.9rem;font-weight:500;letter-spacing:.02em;color:var(--ink);
+}
+.price-flyer .arw{color:var(--gold-deep);}
+:root[data-quiet="on"] .price-flyer:hover{transform:none;}
 
 /* ============================================================
    暫時停用（保留程式碼，日後可刪此區塊還原）
